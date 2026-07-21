@@ -1,6 +1,6 @@
 /* Offline PWA Service Worker */
 
-const CACHE_NAME = 'dbt-companion-v3';
+const CACHE_NAME = 'dbt-companion-v4';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
