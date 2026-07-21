@@ -1,4 +1,4 @@
-/* Comprehensive References & Custom Handouts Module (Fully populated with your program handouts) */
+/* Comprehensive References & Custom Handouts Module (Fully populated with Handouts 6, 8A, 11, 13, 20B, X) */
 
 export const ReferencesModule = {
   render(container) {
@@ -16,6 +16,7 @@ export const ReferencesModule = {
 
         <div class="nav-tabs" style="background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem;">
           <button class="tab-btn active" data-reftab="ref-emotions">📖 Ways to Describe & Fit Emotions</button>
+          <button class="tab-btn" data-reftab="ref-opposite-action">⚡ Reviewing Opposite Action (Handout 13)</button>
           <button class="tab-btn" data-reftab="ref-sleep">🌙 Sleep Hygiene Protocol (20B)</button>
           <button class="tab-btn" data-reftab="ref-sorry">🤝 Apologizing Effectively (I'M SORRY)</button>
         </div>
@@ -40,6 +41,79 @@ export const ReferencesModule = {
 
           <div id="ref-emotion-content">
             <!-- Dynamically populated based on selection -->
+          </div>
+        </div>
+
+        <!-- Opposite Action Master Matrix (Handout 13) -->
+        <div class="reftab-content" id="ref-opposite-action" style="display: none;">
+          <div style="background: var(--bg-secondary); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); overflow-x: auto;">
+            <h3 style="color: var(--accent-purple); font-size: 1.1rem; margin-bottom: 0.75rem;">Opposite Action Deciding Matrix (Handout 13)</h3>
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem; color: var(--text-secondary); text-align: left;">
+              <thead>
+                <tr style="border-bottom: 2px solid var(--border-color); color: var(--text-primary);">
+                  <th style="padding: 0.5rem; width: 15%;">Emotion</th>
+                  <th style="padding: 0.5rem; width: 30%;">Justifying Events (Fits the Facts)</th>
+                  <th style="padding: 0.5rem; width: 27%;">Act Opposite (Unjustified/Not Effective)</th>
+                  <th style="padding: 0.5rem; width: 28%;">Act on Urge / Problem-Solve (Justified)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                  <td style="padding: 0.5rem; font-weight: bold; color: var(--accent-rose);">Fear</td>
+                  <td style="padding: 0.5rem;">Threat to life, health, or well-being.</td>
+                  <td style="padding: 0.5rem;">Do what you are afraid of doing over and over. Approach. Build mastery.</td>
+                  <td style="padding: 0.5rem;">Freeze/run. Remove threat. Act to gain control/mastery.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                  <td style="padding: 0.5rem; font-weight: bold; color: var(--accent-rose);">Anger</td>
+                  <td style="padding: 0.5rem;">Important goal blocked; attacked, hurt, or insulted.</td>
+                  <td style="padding: 0.5rem;">Gently avoid. Take a time out. Be kind (rather than mean). Imagine understanding.</td>
+                  <td style="padding: 0.5rem;">Fight back if nothing to lose. Overcome obstacles. Walk out.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                  <td style="padding: 0.5rem; font-weight: bold; color: var(--accent-rose);">Disgust</td>
+                  <td style="padding: 0.5rem;">Contact with poison/contamination; touched by deeply disliked person.</td>
+                  <td style="padding: 0.5rem;">Move close. Embrace. Be kind. Take in what feels repulsive.</td>
+                  <td style="padding: 0.5rem;">Remove/clean. Influence others to stop contamination. Avoid/push away.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                  <td style="padding: 0.5rem; font-weight: bold; color: var(--accent-rose);">Envy</td>
+                  <td style="padding: 0.5rem;">Another person gets or has things you don't have that you want/need.</td>
+                  <td style="padding: 0.5rem;">Inhibit destroying. Count your blessings. Stop exaggerating.</td>
+                  <td style="padding: 0.5rem;">Improve yourself. Get others to be fair. Devalue what others have.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                  <td style="padding: 0.5rem; font-weight: bold; color: var(--accent-rose);">Jealousy</td>
+                  <td style="padding: 0.5rem;">Important relationship/object in danger of being damaged or lost.</td>
+                  <td style="padding: 0.5rem;">Let go of trying to control. Share. Stop spying/snooping. No avoiding.</td>
+                  <td style="padding: 0.5rem;">Protect what you have. Work at being more desirable. Leave relationship.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                  <td style="padding: 0.5rem; font-weight: bold; color: var(--accent-rose);">Love</td>
+                  <td style="padding: 0.5rem;">Loving enhances quality of life or increases goal attainment.</td>
+                  <td style="padding: 0.5rem;">Avoid person/object. Distract from thoughts. Avoid contact. Stop expressing.</td>
+                  <td style="padding: 0.5rem;">Be with person. Touch, hold, cuddle. Avoid separations.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                  <td style="padding: 0.5rem; font-weight: bold; color: var(--accent-rose);">Sadness</td>
+                  <td style="padding: 0.5rem;">Lost something or someone permanently; things not as expected.</td>
+                  <td style="padding: 0.5rem;">Activate your behavior. Avoid avoiding. Build mastery. Increase pleasant events.</td>
+                  <td style="padding: 0.5rem;">Grieve. Retrieve/replace. Plan how to rebuild life. Accumulate positives.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                  <td style="padding: 0.5rem; font-weight: bold; color: var(--accent-rose);">Shame</td>
+                  <td style="padding: 0.5rem;">Rejected if personal characteristics/behavior are made public.</td>
+                  <td style="padding: 0.5rem;">Make public your characteristics/behavior (with non-rejecting people). Repeat without hiding.</td>
+                  <td style="padding: 0.5rem;">Hide what will get you rejected. Appease. Change behavior. Avoid.</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                  <td style="padding: 0.5rem; font-weight: bold; color: var(--accent-rose);">Guilt</td>
+                  <td style="padding: 0.5rem;">Own behavior violates personal moral code.</td>
+                  <td style="padding: 0.5rem;">Do what makes you feel guilty over and over. Make public. Hide behavior.</td>
+                  <td style="padding: 0.5rem;">Seek forgiveness. Repair harm. Accept consequences. Commit to avoiding mistake.</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
@@ -188,6 +262,15 @@ export const ReferencesModule = {
       ],
       urge: "Avoid / Flee",
       oppositeAction: "Approach / do what is prompting the emotion",
+      oppositeActionList: [
+        "1. Do what you are afraid of doing... OVER AND OVER.",
+        "2. APPROACH events, places, tasks, activities, and people you are afraid of.",
+        "3. Do things to give yourself a sense of CONTROL and MASTERY over your fears.",
+        "4. Keep your EYES AND EARS OPEN and focused on the feared event. Look around slowly; explore.",
+        "5. Take in the information from the situation (i.e., notice that you are safe).",
+        "6. Change POSTURE and keep a CONFIDENT VOICE TONE. Keep your head and eyes up, and your shoulders back but relaxed. Adopt an assertive body posture (e.g., knees apart, hands on hips, heels a bit out).",
+        "7. Change your BODY CHEMISTRY. For example, do paced breathing by breathing in deeply and breathing out slowly."
+      ],
       prompts: [
         "Having your life, your health, or your well-being threatened.",
         "Being in the same situation (or a similar one) where you have been threatened or gotten hurt in the past, or where painful things have happened.",
@@ -255,6 +338,14 @@ export const ReferencesModule = {
       ],
       urge: "Attack / Confront",
       oppositeAction: "Gently avoid / be a little nice",
+      oppositeActionList: [
+        "1. GENTLY AVOID the person you are angry with (rather than attacking).",
+        "2. TAKE A TIME OUT, and breathe in and out deeply and slowly.",
+        "3. BE KIND (rather than mean or insulting).",
+        "4. IMAGINE UNDERSTANDING and empathy for the other person. Try to see the situation from the other person's point of view. Imagine really good reasons for what has happened.",
+        "5. CHANGE YOUR POSTURE. Unclench hands, with palms up and fingers relaxed (WILLING HANDS). Relax chest and stomach muscles. Unclench teeth. Relax facial muscles. Half-smile.",
+        "6. CHANGE YOUR BODY CHEMISTRY. For example, do paced breathing by breathing in deeply and breathing out slowly. Or, run or engage in another physically energetic, nonviolent activity."
+      ],
       prompts: [
         "Having an important goal blocked.",
         "You or someone you care about being attacked or threatened by others.",
@@ -309,6 +400,15 @@ export const ReferencesModule = {
       ],
       urge: "Withdraw / Isolate",
       oppositeAction: "Get active / do not isolate",
+      oppositeActionList: [
+        "1. Get ACTIVE; approach.",
+        "2. AVOID AVOIDING.",
+        "3. BUILD MASTERY: Do things that make you feel competent and self-confident.",
+        "4. Increase PLEASANT EVENTS.",
+        "5. Pay attention to the PRESENT MOMENT! Be mindful of your environment—each detail as it unfolds. Experience new or positive activities you are engaging in.",
+        "6. CHANGE YOUR POSTURE (adopt a 'bright' body posture, with head up, eyes open, and shoulders back). Keep an upbeat voice tone.",
+        "7. CHANGE YOUR BODY CHEMISTRY. For example, increase physical movement (run, jog, walk, or do other active exercise)."
+      ],
       prompts: [
         "Losing something or someone irretrievably.",
         "The death of someone you love.",
@@ -359,6 +459,22 @@ export const ReferencesModule = {
       ],
       urge: "Hide / Avoid",
       oppositeAction: "Disclose what you are hiding / stand tall",
+      oppositeActionList: [
+        "When shame is NOT JUSTIFIED:",
+        "1. MAKE PUBLIC your personal characteristics or behavior (with people who won't reject you).",
+        "2. REPEAT the behavior that sets off shame over and over (without hiding the behavior from those who won't reject you).",
+        "3. NO APOLOGIZING or trying to make up for a perceived transgression.",
+        "4. TAKE IN all the information from the situation.",
+        "5. CHANGE YOUR BODY POSTURE. Look innocent and proud. Lift your head; 'puff up' your chest; maintain eye contact. Keep your voice tone steady and clear.",
+        "When shame IS JUSTIFIED (your behavior violates moral values):",
+        "1. MAKE PUBLIC your behavior (with people who won't reject you).",
+        "2. APOLOGIZE for your behavior.",
+        "3. REPAIR the transgressions, or work to prevent or repair similar harm for others.",
+        "4. COMMIT to avoiding that mistake in the future.",
+        "5. ACCEPT the consequences gracefully.",
+        "6. FORGIVE yourself. Acknowledge the causes of your behavior.",
+        "7. LET IT GO."
+      ],
       prompts: [
         "Being rejected by people you care about.",
         "Having others find out that you have done something wrong.",
@@ -397,6 +513,19 @@ export const ReferencesModule = {
       ],
       urge: "Apologize / Repair",
       oppositeAction: "Don't apologize if not justified; engage in values repeatedly",
+      oppositeActionList: [
+        "When guilt is NOT JUSTIFIED:",
+        "1. MAKE PUBLIC your personal characteristics or behavior (with people who won't reject you).",
+        "2. REPEAT the behavior that sets off guilt over and over (without hiding the behavior from those who won't reject you).",
+        "3. NO APOLOGIZING or trying to make up for a perceived transgression.",
+        "4. TAKE IN all the information from the situation.",
+        "5. CHANGE YOUR BODY POSTURE. Look innocent and proud. Lift your head; 'puff up' your chest; maintain eye contact. Keep your voice tone steady and clear.",
+        "When guilt IS JUSTIFIED (your behavior violates moral values):",
+        "1. SEEK forgiveness.",
+        "2. REPAIR the harm; make things better (or, if not possible, work to prevent or repair similar harm for others).",
+        "3. ACCEPT the consequences gracefully.",
+        "4. COMMIT to avoiding behaviors that violate your moral values in the future."
+      ],
       prompts: [
         "Doing or thinking something you believe is wrong.",
         "Doing or thinking something that violates your personal values.",
@@ -433,6 +562,14 @@ export const ReferencesModule = {
       ],
       urge: "Avoid / Clean",
       oppositeAction: "Approach / make contact with cue",
+      oppositeActionList: [
+        "1. MOVE CLOSE. Eat, drink, stand near, or embrace what you found disgusting.",
+        "2. BE KIND to those you feel contempt for; step into the other person's shoes.",
+        "3. IMAGINE UNDERSTANDING and empathy for the person you feel disgust or contempt for. Try to see the situation from the other person's point of view. Imagine really good reasons for how the other person is behaving or looking.",
+        "4. TAKE IN what feels repulsive. Be sensual (inhaling, looking at, touching, listening, tasting).",
+        "5. CHANGE YOUR POSTURE. Unclench hands with palms up and fingers relaxed (willing hands). Relax chest and stomach muscles. Unclench teeth. Relax facial muscles. Half-smile.",
+        "6. CHANGE YOUR BODY CHEMISTRY. For example, do paced breathing by breathing in deeply and breathing out slowly."
+      ],
       prompts: [
         "Seeing/smelling human or animal waste products.",
         "Having a person or an animal that is dirty, slimy, or unclean come close to you.",
@@ -472,6 +609,14 @@ export const ReferencesModule = {
       ],
       urge: "One-up / Put down others",
       oppositeAction: "Count your blessings",
+      oppositeActionList: [
+        "1. INHIBIT DESTROYING what the other person has.",
+        "2. COUNT YOUR BLESSINGS. Make a list of the things you are thankful for.",
+        "3. COUNT ALL your blessings. Avoid discounting some blessings. Avoid exaggerating your deprivations.",
+        "4. STOP EXAGGERATING others' net worth or value; check the facts.",
+        "5. CHANGE YOUR POSTURE. Unclench hands with palms up and fingers relaxed (WILLING HANDS). Relax chest and stomach muscles. Unclench teeth. Relax facial muscles. Half-smile.",
+        "6. CHANGE YOUR BODY CHEMISTRY. For example, do paced breathing by breathing in deeply and breathing out slowly."
+      ],
       prompts: [
         "Someone has something you really want or need but don't or can't have.",
         "You are not part of the 'in' crowd.",
@@ -511,6 +656,14 @@ export const ReferencesModule = {
       ],
       urge: "Control / Protect",
       oppositeAction: "Wish the best to others / release grip",
+      oppositeActionList: [
+        "1. LET GO of trying to control others' actions.",
+        "2. SHARE the things and people you have in your life.",
+        "3. STOP SPYING or snooping. Suppress probing questions ('Where were you? Who were you with?'). Fire your 'private detective.'",
+        "4. NO AVOIDING. Listen to all the details. Focus on sensations. Keep your eyes open; look around. Take in all the information about the situation.",
+        "5. CHANGE YOUR POSTURE. Unclench hands with palms up and fingers relaxed (WILLING HANDS). Relax chest and stomach muscles. Unclench teeth. Relax facial muscles. Half-smile.",
+        "6. CHANGE YOUR BODY CHEMISTRY. For example, do paced breathing by breathing in deeply and breathing out slowly."
+      ],
       prompts: [
         "An important relationship is threatened or in danger of being lost.",
         "A potential competitor pays attention to someone you love.",
@@ -549,6 +702,14 @@ export const ReferencesModule = {
       ],
       urge: "Increase contact",
       oppositeAction: "Decrease / stop communication (if love is not justified)",
+      oppositeActionList: [
+        "1. AVOID the person, animal, or object you love.",
+        "2. DISTRACT yourself from thoughts of the person, animal, or object.",
+        "3. REMIND yourself of why love is not justified (rehearse the 'cons' of loving) when loving thoughts do arise.",
+        "4. AVOID CONTACT with everything that reminds you of a person you love: pictures, letters/messages/e-mails, belongings, mementos, places you were together, places you planned to or wanted to go together, places where you know the person has been or will be. No following, waiting for, or looking for the person.",
+        "5. STOP EXPRESSING LOVE for the person, even to friends. Be unfriendly toward the person (e.g., 'unfriend' the person on Facebook, Twitter, etc.).",
+        "6. ADJUST YOUR POSTURE AND EXPRESSIONS if you are around the person you love. No leaning toward him or her. No getting close enough to touch. No sighing/gazing at the person."
+      ],
       prompts: [
         "A person: Offers or gives you something you want, need, or desire.",
         "Does things you want or need.",
@@ -586,6 +747,9 @@ export const ReferencesModule = {
       ],
       urge: "Keep doing what is associated with happiness",
       oppositeAction: "Feel peace (no opposite action needed, embrace it!)",
+      oppositeActionList: [
+        "No opposite action needed. Embrace and enjoy your positive emotions!"
+      ],
       prompts: [
         "Receiving a wonderful surprise.",
         "Reality exceeding your expectations.",
@@ -639,6 +803,14 @@ export const ReferencesModule = {
             <strong style="color: var(--accent-teal); font-size: 0.8rem; text-transform: uppercase; display: block; margin-bottom: 0.2rem;">DBT Opposite Action</strong>
             <span style="font-size: 0.95rem; font-weight: 600;">${data.oppositeAction}</span>
           </div>
+        </div>
+
+        <!-- Handout 11 Action Steps list -->
+        <div style="background: var(--accent-purple-light); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--accent-purple); margin-bottom: 1rem;">
+          <strong style="color: var(--accent-purple); font-size: 0.85rem; text-transform: uppercase; display: block; margin-bottom: 0.4rem;">How to Act Opposite All-the-Way (Handout 11)</strong>
+          <ul style="padding-left: 1.2rem; font-size: 0.85rem; color: var(--text-primary); line-height: 1.6; list-style-type: none;">
+            ${data.oppositeActionList.map(item => `<li style="margin-bottom: 0.3rem;">${item}</li>`).join('')}
+          </ul>
         </div>
 
         <!-- Facts List -->
