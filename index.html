@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#a855f7">
+  <meta name="description" content="Privacy-first, offline interactive DBT workbook, homework logger, and skills reference companion.">
+  <title>DBT Companion & Interactive Workbook</title>
+
+  <!-- PWA Web Manifest -->
+  <link rel="manifest" href="./manifest.json">
+
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="./styles/main.css">
+  <link rel="stylesheet" href="./styles/print.css" media="print">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="brand-container">
+      <div class="brand-icon">DBT</div>
+      <div>
+        <div class="brand-title">DBT Skills Companion</div>
+        <div class="brand-subtitle">Privacy-First • Local Storage • Homework Companion</div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn-icon" id="btn-open-backup" title="Backup & Restore Data">💾</button>
+      <button class="btn-icon" id="btn-toggle-theme" title="Toggle Dark/Light Mode">☀️</button>
+    </div>
+  </header>
+
+  <!-- Navigation Bar (Desktop & Tablet) -->
+  <nav class="nav-tabs">
+    <button class="tab-btn active" data-view="model-of-emotions">Model of Emotions</button>
+    <button class="tab-btn" data-view="chain-analysis">Chain Analysis</button>
+    <button class="tab-btn" data-view="wise-mind">Wise Mind</button>
+    <button class="tab-btn" data-view="dear-man">DEAR MAN & Validation</button>
+    <button class="tab-btn" data-view="dime-game">The Dime Game</button>
+    <button class="tab-btn" data-view="abc-please">ABC PLEASE</button>
+    <button class="tab-btn" data-view="emergency-distress">🚨 Emergency TIPP</button>
+    <button class="tab-btn" data-view="diary-card">Diary Card</button>
+    <button class="tab-btn" data-view="references">📖 Skill References</button>
+  </nav>
+
+  <!-- Main View Container -->
+  <main class="main-container">
+    <section class="view-section active" id="view-model-of-emotions"></section>
+    <section class="view-section" id="view-chain-analysis"></section>
+    <section class="view-section" id="view-wise-mind"></section>
+    <section class="view-section" id="view-dear-man"></section>
+    <section class="view-section" id="view-dime-game"></section>
+    <section class="view-section" id="view-abc-please"></section>
+    <section class="view-section" id="view-emergency-distress"></section>
+    <section class="view-section" id="view-diary-card"></section>
+    <section class="view-section" id="view-references"></section>
+  </main>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="mobile-nav">
+    <button class="mobile-nav-btn active" data-view="model-of-emotions">
+      <span>📝</span>
+      <span>Emotions</span>
+    </button>
+    <button class="mobile-nav-btn" data-view="chain-analysis">
+      <span>⛓️</span>
+      <span>Chain</span>
+    </button>
+    <button class="mobile-nav-btn" data-view="dear-man">
+      <span>🗣️</span>
+      <span>DEAR MAN</span>
+    </button>
+    <button class="mobile-nav-btn" data-view="dime-game">
+      <span>🪙</span>
+      <span>Dime</span>
+    </button>
+    <button class="mobile-nav-btn" data-view="emergency-distress">
+      <span>🚨</span>
+      <span>TIPP</span>
+    </button>
+    <button class="mobile-nav-btn" data-view="references">
+      <span>📖</span>
+      <span>Ref</span>
+    </button>
+  </nav>
+
+  <!-- Backup & Restore Data Modal -->
+  <div class="modal-overlay" id="backup-modal">
+    <div class="modal-card">
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--accent-purple);">🔒 Data Privacy, Backup & Restore</h3>
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+        All of your therapy worksheets and diary cards stay <strong>100% locally inside your device browser</strong> (`IndexedDB`). No data is ever sent to any remote server or cloud database.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <button class="btn btn-primary" id="btn-export-backup">📥 Export Data Backup (JSON File)</button>
+        <button class="btn btn-secondary" id="btn-import-backup">📤 Import Data Backup (Restore JSON)</button>
+        <input type="file" id="import-file-input" accept=".json" style="display: none;">
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; margin-top: 1.25rem;">
+        <button class="btn btn-secondary" id="btn-close-backup">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Register Service Worker for Offline PWA -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW registration failed:', err));
+      });
+    }
+  </script>
+
+  <!-- Application Entry Script -->
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
