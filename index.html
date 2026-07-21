@@ -23,71 +23,245 @@
 
   <!-- Header -->
   <header class="app-header">
-    <div class="brand-container">
+    <div class="brand-container" id="brand-home" style="cursor: pointer;">
       <div class="brand-icon">DBT</div>
       <div>
         <div class="brand-title">DBT Skills Companion</div>
-        <div class="brand-subtitle">Privacy-First • Local Storage • Homework Companion</div>
+        <div class="brand-subtitle">Privacy-First • Local Storage • Dashboard</div>
       </div>
     </div>
 
     <div class="header-actions">
+      <button class="btn btn-secondary" id="btn-dashboard-nav" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">🏠 Dashboard</button>
       <button class="btn-icon" id="btn-open-backup" title="Backup & Restore Data">💾</button>
       <button class="btn-icon" id="btn-toggle-theme" title="Toggle Dark/Light Mode">☀️</button>
     </div>
   </header>
 
-  <!-- Navigation Bar (Desktop & Tablet) -->
-  <nav class="nav-tabs">
-    <button class="tab-btn active" data-view="model-of-emotions">Model of Emotions</button>
-    <button class="tab-btn" data-view="chain-analysis">Chain Analysis</button>
-    <button class="tab-btn" data-view="wise-mind">Wise Mind</button>
-    <button class="tab-btn" data-view="dear-man">DEAR MAN & Validation</button>
-    <button class="tab-btn" data-view="dime-game">The Dime Game</button>
-    <button class="tab-btn" data-view="abc-please">ABC PLEASE</button>
-    <button class="tab-btn" data-view="emergency-distress">🚨 Emergency TIPP</button>
-    <button class="tab-btn" data-view="diary-card">Diary Card</button>
-    <button class="tab-btn" data-view="references">📖 Skill References</button>
-  </nav>
-
   <!-- Main View Container -->
   <main class="main-container">
-    <section class="view-section active" id="view-model-of-emotions"></section>
-    <section class="view-section" id="view-chain-analysis"></section>
-    <section class="view-section" id="view-wise-mind"></section>
-    <section class="view-section" id="view-dear-man"></section>
-    <section class="view-section" id="view-dime-game"></section>
-    <section class="view-section" id="view-abc-please"></section>
-    <section class="view-section" id="view-emergency-distress"></section>
+    
+    <!-- 1. LANDING PAGE / DASHBOARD -->
+    <section class="view-section active" id="view-dashboard">
+      <div style="text-align: center; margin-bottom: 2rem; margin-top: 1rem;">
+        <h1 style="font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+          Welcome to Your DBT Workspace
+        </h1>
+        <p style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 0.25rem;">Select a core module below to access interactive homework worksheets and reference guides.</p>
+      </div>
+
+      <!-- Quick Actions / Emergency row -->
+      <div class="grid-2" style="margin-bottom: 1.5rem;">
+        <div class="card" style="border-color: var(--accent-rose); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem;">
+          <div>
+            <strong style="color: var(--accent-rose); display: block; font-size: 1rem;">🚨 High Distress / Panic Reset</strong>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Access TIPP cold temperature & paced breathing timer.</span>
+          </div>
+          <button class="btn btn-danger btn-dashboard-shortcut" data-target="distress-tolerance" data-sub="ref">Reset Now</button>
+        </div>
+        <div class="card" style="border-color: var(--accent-teal); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem;">
+          <div>
+            <strong style="color: var(--accent-teal); display: block; font-size: 1rem;">📝 Daily Diary Card</strong>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Track daily target behaviors, urges, and skills used.</span>
+          </div>
+          <button class="btn btn-primary btn-dashboard-shortcut" data-target="diary-card">Log Today</button>
+        </div>
+      </div>
+
+      <!-- 4 Core DBT Modules Grid -->
+      <div class="grid-2">
+        <!-- Module 1: Mindfulness -->
+        <div class="card" style="border-top: 4px solid var(--accent-teal);">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 0.75rem;">
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--accent-teal);">1. Core Mindfulness</h3>
+            <span style="font-size: 1.2rem;">✨</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; min-height: 40px;">
+            Cultivate presence, observe emotions like waves, and synthesize Reasonable and Emotional minds into Wise Mind.
+          </p>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn btn-secondary btn-dashboard-shortcut" style="flex:1; font-size:0.8rem;" data-target="mindfulness" data-sub="ws">Worksheets</button>
+            <button class="btn btn-secondary btn-dashboard-shortcut" style="flex:1; font-size:0.8rem;" data-target="mindfulness" data-sub="ref">References</button>
+          </div>
+        </div>
+
+        <!-- Module 2: Interpersonal Effectiveness -->
+        <div class="card" style="border-top: 4px solid var(--accent-blue);">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 0.75rem;">
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--accent-blue);">2. Interpersonal Effectiveness</h3>
+            <span style="font-size: 1.2rem;">🗣️</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; min-height: 40px;">
+            Build script boundaries (DEAR MAN), calculate assertiveness (Dime Game), validate others, and apologize effectively.
+          </p>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn btn-secondary btn-dashboard-shortcut" style="flex:1; font-size:0.8rem;" data-target="interpersonal" data-sub="ws">Worksheets</button>
+            <button class="btn btn-secondary btn-dashboard-shortcut" style="flex:1; font-size:0.8rem;" data-target="interpersonal" data-sub="ref">References</button>
+          </div>
+        </div>
+
+        <!-- Module 3: Emotion Regulation -->
+        <div class="card" style="border-top: 4px solid var(--accent-purple);">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 0.75rem;">
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--accent-purple);">3. Emotion Regulation</h3>
+            <span style="font-size: 1.2rem;">🧠</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; min-height: 40px;">
+            Deconstruct reactions (Model of Emotions), align values to action steps, solve problems, and practice opposite actions.
+          </p>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn btn-secondary btn-dashboard-shortcut" style="flex:1; font-size:0.8rem;" data-target="emotion-regulation" data-sub="ws">Worksheets</button>
+            <button class="btn btn-secondary btn-dashboard-shortcut" style="flex:1; font-size:0.8rem;" data-target="emotion-regulation" data-sub="ref">References</button>
+          </div>
+        </div>
+
+        <!-- Module 4: Distress Tolerance -->
+        <div class="card" style="border-top: 4px solid var(--accent-rose);">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 0.75rem;">
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--accent-rose);">4. Distress Tolerance</h3>
+            <span style="font-size: 1.2rem;">🛡️</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; min-height: 40px;">
+            Map chains of behaviors (Chain Analysis), distract mind (ACCEPTS), self-soothe five senses, and improve the moment.
+          </p>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn btn-secondary btn-dashboard-shortcut" style="flex:1; font-size:0.8rem;" data-target="distress-tolerance" data-sub="ws">Worksheets</button>
+            <button class="btn btn-secondary btn-dashboard-shortcut" style="flex:1; font-size:0.8rem;" data-target="distress-tolerance" data-sub="ref">References</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. CORE MINDFULNESS VIEW -->
+    <section class="view-section" id="view-mindfulness">
+      <div class="card">
+        <h2 style="color: var(--accent-teal); margin-bottom: 0.25rem;">✨ Core Mindfulness Module</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Develop active awareness, find Wise Mind, and observe sensations without judgment.</p>
+
+        <div class="nav-tabs" style="background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem;">
+          <button class="tab-btn active" data-subview="mindfulness-ws">Worksheets</button>
+          <button class="tab-btn" data-subview="mindfulness-ref">References</button>
+        </div>
+
+        <div class="subview-panel active" id="panel-mindfulness-ws">
+          <div id="mindfulness-worksheets-container"></div>
+        </div>
+
+        <div class="subview-panel" id="panel-mindfulness-ref" style="display: none;">
+          <div style="background: var(--bg-secondary); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); line-height: 1.6;">
+            <h3 style="color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">The States of Mind</h3>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">
+              Our minds operate in three distinct states:
+            </p>
+            <ul style="padding-left: 1.2rem; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+              <li><strong>Reasonable Mind:</strong> Cool, rational, factual, and task-focused. It ignores emotional factors and operates on logic.</li>
+              <li><strong>Emotion Mind:</strong> Hot, mood-driven, impulsive, and urgent. It distorts facts to match current feelings and drives reactiveness.</li>
+              <li><strong>Wise Mind:</strong> The intuitive synthesis of both. It honors your emotions while checking the facts, identifying the middle path of wisdom.</li>
+            </ul>
+            <h3 style="color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">Mindfulness 'What' Skills</h3>
+            <p style="font-size: 0.85rem; color: var(--text-secondary);">
+              <strong>Observe:</strong> Just notice physical sensations, thoughts, and emotions without label.<br>
+              <strong>Describe:</strong> Put words on your experience. Label facts only (e.g. 'I feel my heart racing', not 'I'm dying').<br>
+              <strong>Participate:</strong> Throw yourself fully into the current activity. Focus 100% on the now.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. INTERPERSONAL EFFECTIVENESS VIEW -->
+    <section class="view-section" id="view-interpersonal">
+      <div class="card">
+        <h2 style="color: var(--accent-blue); margin-bottom: 0.25rem;">🗣️ Interpersonal Effectiveness Module</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Navigate relationships, assert boundaries, validate others, and protect self-respect.</p>
+
+        <div class="nav-tabs" style="background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem;">
+          <button class="tab-btn active" data-subview="interpersonal-ws">Worksheets</button>
+          <button class="tab-btn" data-subview="interpersonal-ref">References</button>
+        </div>
+
+        <div class="subview-panel active" id="panel-interpersonal-ws">
+          <div id="interpersonal-worksheets-container"></div>
+        </div>
+
+        <div class="subview-panel" id="panel-interpersonal-ref" style="display: none;">
+          <div id="interpersonal-references-container"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. EMOTION REGULATION VIEW -->
+    <section class="view-section" id="view-emotion-regulation">
+      <div class="card">
+        <h2 style="color: var(--accent-purple); margin-bottom: 0.25rem;">🧠 Emotion Regulation Module</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Understand emotional reactions, fit feelings to facts, practice opposite action, and reduce vulnerability.</p>
+
+        <div class="nav-tabs" style="background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem;">
+          <button class="tab-btn active" data-subview="emotion-regulation-ws">Worksheets</button>
+          <button class="tab-btn" data-subview="emotion-regulation-ref">References</button>
+        </div>
+
+        <div class="subview-panel active" id="panel-emotion-regulation-ws">
+          <div id="emotion-regulation-worksheets-container"></div>
+        </div>
+
+        <div class="subview-panel" id="panel-emotion-regulation-ref" style="display: none;">
+          <div id="emotion-regulation-references-container"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. DISTRESS TOLERANCE VIEW -->
+    <section class="view-section" id="view-distress-tolerance">
+      <div class="card">
+        <h2 style="color: var(--accent-rose); margin-bottom: 0.25rem;">🛡️ Distress Tolerance Module</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Crisis survival guidelines, distraction tools, sensory self-soothing, and behavior chain analysis.</p>
+
+        <div class="nav-tabs" style="background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem;">
+          <button class="tab-btn active" data-subview="distress-tolerance-ws">Worksheets</button>
+          <button class="tab-btn" data-subview="distress-tolerance-ref">References / Decks</button>
+        </div>
+
+        <div class="subview-panel active" id="panel-distress-tolerance-ws">
+          <div id="distress-tolerance-worksheets-container"></div>
+        </div>
+
+        <div class="subview-panel" id="panel-distress-tolerance-ref" style="display: none;">
+          <div id="distress-tolerance-references-container"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. GLOBAL DIARY CARD VIEW -->
     <section class="view-section" id="view-diary-card"></section>
-    <section class="view-section" id="view-references"></section>
+
   </main>
 
-  <!-- Mobile Bottom Navigation Bar -->
+  <!-- Mobile Bottom Navigation Bar (Now with Dashboard Home) -->
   <nav class="mobile-nav">
-    <button class="mobile-nav-btn active" data-view="model-of-emotions">
-      <span>📝</span>
-      <span>Emotions</span>
+    <button class="mobile-nav-btn active" data-view="dashboard">
+      <span>🏠</span>
+      <span>Dashboard</span>
     </button>
-    <button class="mobile-nav-btn" data-view="chain-analysis">
-      <span>⛓️</span>
-      <span>Chain</span>
+    <button class="mobile-nav-btn" data-view="mindfulness">
+      <span>✨</span>
+      <span>Mindful</span>
     </button>
-    <button class="mobile-nav-btn" data-view="dear-man">
+    <button class="mobile-nav-btn" data-view="interpersonal">
       <span>🗣️</span>
-      <span>DEAR MAN</span>
+      <span>Relation</span>
     </button>
-    <button class="mobile-nav-btn" data-view="dime-game">
-      <span>🪙</span>
-      <span>Dime</span>
+    <button class="mobile-nav-btn" data-view="emotion-regulation">
+      <span>🧠</span>
+      <span>Emotion</span>
     </button>
-    <button class="mobile-nav-btn" data-view="emergency-distress">
-      <span>🚨</span>
-      <span>TIPP</span>
+    <button class="mobile-nav-btn" data-view="distress-tolerance">
+      <span>🛡️</span>
+      <span>Distress</span>
     </button>
-    <button class="mobile-nav-btn" data-view="references">
-      <span>📖</span>
-      <span>Ref</span>
+    <button class="mobile-nav-btn" data-view="diary-card">
+      <span>📝</span>
+      <span>Diary</span>
     </button>
   </nav>
 

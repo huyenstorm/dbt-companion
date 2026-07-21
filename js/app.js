@@ -1,4 +1,4 @@
-/* Main Application Router & Controller */
+/* Main Application Router & Controller (Reorganized for 4 Core DBT Modules) */
 import { db } from './db.js';
 import { ModelOfEmotionsModule } from './modules/modelOfEmotions.js';
 import { ChainAnalysisModule } from './modules/chainAnalysis.js';
@@ -20,6 +20,7 @@ class App {
     this.setupTheme();
     this.setupNavigation();
     this.setupBackupModal();
+    this.setupDashboardShortcuts();
     this.renderAllViews();
   }
 
@@ -41,24 +42,77 @@ class App {
   }
 
   setupNavigation() {
-    const tabs = document.querySelectorAll('.nav-tabs .tab-btn, .mobile-nav-btn');
-    const sections = document.querySelectorAll('.view-section');
+    // Header brand home nav
+    document.getElementById('brand-home').addEventListener('click', () => {
+      this.switchView('dashboard');
+    });
 
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        const targetView = tab.dataset.view;
-        if (!targetView) return;
+    document.getElementById('btn-dashboard-nav').addEventListener('click', () => {
+      this.switchView('dashboard');
+    });
 
-        tabs.forEach(t => t.classList.remove('active'));
-        sections.forEach(s => s.classList.remove('active'));
-
-        document.querySelectorAll(`[data-view="${targetView}"]`).forEach(t => t.classList.add('active'));
-        const activeSection = document.getElementById(`view-${targetView}`);
-        if (activeSection) activeSection.classList.add('active');
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Mobile navigation bar
+    const mobileBtns = document.querySelectorAll('.mobile-nav-btn');
+    mobileBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const view = btn.dataset.view;
+        this.switchView(view);
       });
     });
+
+    // Sub-view panel switching (Worksheets vs References tabs)
+    const subtabs = document.querySelectorAll('.view-section .nav-tabs .tab-btn');
+    subtabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const parentSection = tab.closest('.view-section');
+        const targetPanelId = 'panel-' + tab.dataset.subview;
+
+        // Deactivate siblings
+        parentSection.querySelectorAll('.nav-tabs .tab-btn').forEach(t => t.classList.remove('active'));
+        parentSection.querySelectorAll('.subview-panel').forEach(p => p.style.display = 'none');
+
+        // Activate selected
+        tab.classList.add('active');
+        const targetPanel = document.getElementById(targetPanelId);
+        if (targetPanel) targetPanel.style.display = 'block';
+      });
+    });
+  }
+
+  setupDashboardShortcuts() {
+    const shortcuts = document.querySelectorAll('.btn-dashboard-shortcut');
+    shortcuts.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetView = btn.dataset.target;
+        const subType = btn.dataset.sub; // 'ws' or 'ref'
+
+        this.switchView(targetView);
+
+        if (subType) {
+          const targetSection = document.getElementById(`view-${targetView}`);
+          const tabBtn = targetSection.querySelector(`.nav-tabs .tab-btn[data-subview^="${targetView}-${subType}"]`);
+          if (tabBtn) tabBtn.click();
+        }
+      });
+    });
+  }
+
+  switchView(viewName) {
+    const sections = document.querySelectorAll('.view-section');
+    const mobileBtns = document.querySelectorAll('.mobile-nav-btn');
+
+    // Deactivate all sections & mobile nav highlights
+    sections.forEach(s => s.classList.remove('active'));
+    mobileBtns.forEach(b => b.classList.remove('active'));
+
+    // Activate selected
+    const activeSection = document.getElementById(`view-${viewName}`);
+    if (activeSection) activeSection.classList.add('active');
+
+    const activeMobileBtn = document.querySelector(`.mobile-nav-btn[data-view="${viewName}"]`);
+    if (activeMobileBtn) activeMobileBtn.classList.add('active');
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   setupBackupModal() {
@@ -107,15 +161,46 @@ class App {
   }
 
   renderAllViews() {
-    ModelOfEmotionsModule.render(document.getElementById('view-model-of-emotions'));
-    ChainAnalysisModule.render(document.getElementById('view-chain-analysis'));
-    WiseMindModule.render(document.getElementById('view-wise-mind'));
-    DearManModule.render(document.getElementById('view-dear-man'));
-    DimeGameModule.render(document.getElementById('view-dime-game'));
-    AbcPleaseModule.render(document.getElementById('view-abc-please'));
-    DistressToleranceModule.render(document.getElementById('view-emergency-distress'));
+    // 1. Core Mindfulness (Wise Mind Alignment, Mindfulness of Emotion, Problem Solving)
+    WiseMindModule.render(document.getElementById('mindfulness-worksheets-container'));
+
+    // 2. Interpersonal Effectiveness (DEAR MAN, Validation WS 12/13, Dime Game)
+    DearManModule.render(document.getElementById('interpersonal-worksheets-container'));
+    
+    const dimeGameCard = document.createElement('div');
+    document.getElementById('interpersonal-worksheets-container').appendChild(dimeGameCard);
+    DimeGameModule.render(dimeGameCard);
+
+    // 2a. Interpersonal References (I'M SORRY)
+    const ipRefContainer = document.getElementById('interpersonal-references-container');
+    ReferencesModule.render(ipRefContainer);
+    // Hide ER-specific tabs in the IP view
+    ipRefContainer.querySelectorAll('.nav-tabs .tab-btn[data-reftab^="ref-emotions"]').forEach(x => x.style.display = 'none');
+    ipRefContainer.querySelectorAll('.nav-tabs .tab-btn[data-reftab^="ref-opposite-action"]').forEach(x => x.style.display = 'none');
+    ipRefContainer.querySelectorAll('.nav-tabs .tab-btn[data-reftab^="ref-sleep"]').forEach(x => x.style.display = 'none');
+    const sorryTab = ipRefContainer.querySelector('.nav-tabs .tab-btn[data-reftab="ref-sorry"]');
+    if (sorryTab) sorryTab.click();
+
+    // 3. Emotion Regulation Worksheets (Model of Emotions, ABC PLEASE, WS 11)
+    ModelOfEmotionsModule.render(document.getElementById('emotion-regulation-worksheets-container'));
+    
+    const abcPleaseCard = document.createElement('div');
+    document.getElementById('emotion-regulation-worksheets-container').appendChild(abcPleaseCard);
+    AbcPleaseModule.render(abcPleaseCard);
+
+    // 3a. Emotion Regulation References (Emotion Dictionary, Sleep Hygiene)
+    const erRefContainer = document.getElementById('emotion-regulation-references-container');
+    ReferencesModule.render(erRefContainer);
+    erRefContainer.querySelectorAll('.nav-tabs .tab-btn[data-reftab="ref-sorry"]').forEach(x => x.style.display = 'none');
+
+    // 4. Distress Tolerance Worksheets (Chain Analysis)
+    ChainAnalysisModule.render(document.getElementById('distress-tolerance-worksheets-container'));
+
+    // 4a. Distress Tolerance References (TIPP, STOP, ACCEPTS, Self-Soothe, IMPROVE)
+    DistressToleranceModule.render(document.getElementById('distress-tolerance-references-container'));
+
+    // 5. Diary Card (Global View)
     DiaryCardModule.render(document.getElementById('view-diary-card'));
-    ReferencesModule.render(document.getElementById('view-references'));
   }
 }
 
