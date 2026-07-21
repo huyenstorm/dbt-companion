@@ -19,6 +19,9 @@ export const DearManModule = {
         <div class="nav-tabs" style="background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem;">
           <button class="tab-btn active" data-ietab="ie-dearman">🗣️ DEAR MAN & GIVE FAST Builder (WS 4)</button>
           <button class="tab-btn" data-ietab="ie-priorities">🎯 Clarifying Priorities (Worksheet 3)</button>
+          <button class="tab-btn" data-ietab="ie-tracking">📝 Tracking Skills Use (WS 5)</button>
+          <button class="tab-btn" data-ietab="ie-mindfulness">👁️ Mindfulness of Others (WS 9)</button>
+          <button class="tab-btn" data-ietab="ie-dialectics">⚖️ Practicing Dialectics (WS 11)</button>
           <button class="tab-btn" data-ietab="ie-val-others">👥 Validating Others (Worksheet 12)</button>
           <button class="tab-btn" data-ietab="ie-self-val">🛡️ Self-Validation (Worksheet 13)</button>
         </div>
@@ -166,6 +169,178 @@ export const DearManModule = {
           </form>
         </div>
 
+        <!-- Tracking Skills Use (Worksheet 5) -->
+        <div class="ietab-content" id="ie-tracking" style="display: none;">
+          <form id="tracking-ws5-form">
+            <div class="form-group">
+              <label class="form-label">Prompting Event</label>
+              <textarea class="form-control" id="track-prompting" placeholder="Describe the situation..." required></textarea>
+            </div>
+            <div class="grid-3">
+              <div class="form-group">
+                <label class="form-label">Objectives</label>
+                <textarea class="form-control" id="track-obj"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Relationship Issue</label>
+                <textarea class="form-control" id="track-rel"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Self-Respect Issue</label>
+                <textarea class="form-control" id="track-self"></textarea>
+              </div>
+            </div>
+            <div class="grid-3">
+              <div class="form-group">
+                <label class="form-label">Rate Priorities (1-3)</label>
+                <input type="text" class="form-control" id="track-priorities" placeholder="e.g. Obj: 1, Rel: 2, Self: 3">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Imbalances/Conflicts</label>
+                <input type="text" class="form-control" id="track-imbalances">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Effectiveness Rating</label>
+                <input type="number" class="form-control" id="track-effectiveness" min="1" max="5" placeholder="1 (low) - 5 (high)">
+              </div>
+            </div>
+            
+            <h4 style="color: var(--accent-blue); margin-bottom: 0.5rem; font-size: 0.95rem;">Skills Used:</h4>
+            <div class="grid-3" style="margin-bottom: 1rem; background: var(--bg-secondary); padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+              <div>
+                <strong>DEAR MAN</strong>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="Describe"> Describe</label>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="Express"> Express</label>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="Assert"> Assert</label>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="Reinforce"> Reinforce</label>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="Mindful"> Mindful</label>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="Broken record"> Broken record</label>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="Ignored attacks"> Ignored attacks</label>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="Appeared confident"> Appeared confident</label>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="Negotiated"> Negotiated</label>
+              </div>
+              <div>
+                <strong>GIVE</strong>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="Gentle"> Gentle</label>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="No threats"> No threats</label>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="No attacks"> No attacks</label>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="No judgments"> No judgments</label>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="Interested"> Interested</label>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="Validated"> Validated</label>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="Easy manner"> Easy manner</label>
+              </div>
+              <div>
+                <strong>FAST</strong>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="Fair"> Fair</label>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="No apologies"> No apologies</label>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="Stuck to values"> Stuck to values</label>
+                <label style="display:block; font-size: 0.8rem;"><input type="checkbox" class="track-check" value="Truthful"> Truthful</label>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+              <button type="button" class="btn btn-secondary" id="btn-copy-track">📋 Copy Worksheet</button>
+              <button type="submit" class="btn btn-primary">💾 Save Worksheet 5</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Mindfulness of Others (Worksheet 9) -->
+        <div class="ietab-content" id="ie-mindfulness" style="display: none;">
+          <form id="mindfulness-ws9-form">
+            <h4 style="color: var(--accent-blue); margin-bottom: 0.5rem; font-size: 0.95rem;">Practices Used:</h4>
+            <div class="grid-3" style="margin-bottom: 1rem; background: var(--bg-secondary); padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+              <label style="font-size: 0.8rem;"><input type="checkbox" class="mind-check" value="Observe"> Observe</label>
+              <label style="font-size: 0.8rem;"><input type="checkbox" class="mind-check" value="Describe"> Describe</label>
+              <label style="font-size: 0.8rem;"><input type="checkbox" class="mind-check" value="Participate"> Participate</label>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Who was the person?</label>
+              <input type="text" class="form-control" id="mind-who" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Describe situation</label>
+              <textarea class="form-control" id="mind-situation"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">How did you practice mindfulness?</label>
+              <textarea class="form-control" id="mind-how"></textarea>
+            </div>
+            <div class="grid-3">
+              <div class="form-group">
+                <label class="form-label">What was the outcome?</label>
+                <textarea class="form-control" id="mind-outcome"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">How did you feel?</label>
+                <textarea class="form-control" id="mind-feel"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Did being mindful make a difference?</label>
+                <textarea class="form-control" id="mind-diff"></textarea>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+              <button type="button" class="btn btn-secondary" id="btn-copy-mind">📋 Copy Worksheet</button>
+              <button type="submit" class="btn btn-primary">💾 Save Worksheet 9</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Practicing Dialectics (Worksheet 11) -->
+        <div class="ietab-content" id="ie-dialectics" style="display: none;">
+          <form id="dialectics-ws11-form">
+            <h4 style="color: var(--accent-purple); margin-bottom: 0.5rem; font-size: 0.95rem;">Situation 1:</h4>
+            <div class="form-group">
+              <label class="form-label">What happened?</label>
+              <textarea class="form-control" id="dial-sit1" required></textarea>
+            </div>
+            <div class="grid-2" style="margin-bottom: 1rem; background: var(--bg-secondary); padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+              <label style="font-size: 0.8rem;"><input type="checkbox" class="dial-check1" value="Looked at both sides"> Looked at both sides</label>
+              <label style="font-size: 0.8rem;"><input type="checkbox" class="dial-check1" value="Stayed aware"> Stayed aware</label>
+              <label style="font-size: 0.8rem;"><input type="checkbox" class="dial-check1" value="Embraced change"> Embraced change</label>
+              <label style="font-size: 0.8rem;"><input type="checkbox" class="dial-check1" value="Remembered influence"> Remembered influence</label>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Describe skills used:</label>
+              <textarea class="form-control" id="dial-skills1"></textarea>
+            </div>
+            <div class="grid-2" style="margin-bottom: 1rem; background: var(--bg-secondary); padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+              <strong>Outcomes:</strong>
+              <label style="font-size: 0.8rem;"><input type="checkbox" class="dial-out1" value="Reduced suffering"> Reduced suffering</label>
+              <label style="font-size: 0.8rem;"><input type="checkbox" class="dial-out1" value="Increased connection"> Increased connection</label>
+            </div>
+
+            <h4 style="color: var(--accent-purple); margin-bottom: 0.5rem; font-size: 0.95rem;">Situation 2:</h4>
+            <div class="form-group">
+              <label class="form-label">What happened?</label>
+              <textarea class="form-control" id="dial-sit2"></textarea>
+            </div>
+            <div class="grid-2" style="margin-bottom: 1rem; background: var(--bg-secondary); padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+              <label style="font-size: 0.8rem;"><input type="checkbox" class="dial-check2" value="Looked at both sides"> Looked at both sides</label>
+              <label style="font-size: 0.8rem;"><input type="checkbox" class="dial-check2" value="Stayed aware"> Stayed aware</label>
+              <label style="font-size: 0.8rem;"><input type="checkbox" class="dial-check2" value="Embraced change"> Embraced change</label>
+              <label style="font-size: 0.8rem;"><input type="checkbox" class="dial-check2" value="Remembered influence"> Remembered influence</label>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Describe skills used:</label>
+              <textarea class="form-control" id="dial-skills2"></textarea>
+            </div>
+            <div class="grid-2" style="margin-bottom: 1rem; background: var(--bg-secondary); padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+              <strong>Outcomes:</strong>
+              <label style="font-size: 0.8rem;"><input type="checkbox" class="dial-out2" value="Reduced suffering"> Reduced suffering</label>
+              <label style="font-size: 0.8rem;"><input type="checkbox" class="dial-out2" value="Increased connection"> Increased connection</label>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+              <button type="button" class="btn btn-secondary" id="btn-copy-dial">📋 Copy Worksheet</button>
+              <button type="submit" class="btn btn-primary">💾 Save Worksheet 11</button>
+            </div>
+          </form>
+        </div>
+
         <!-- Validating Others (Worksheet 12) -->
         <div class="ietab-content" id="ie-val-others" style="display: none;">
           <form id="val-others-form">
@@ -207,6 +382,17 @@ export const DearManModule = {
               <div class="form-group">
                 <label class="form-label">How did you feel afterward?</label>
                 <textarea class="form-control" id="val-feelings" placeholder="Your own feelings."></textarea>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Describe a Nonjudgmental situation:</label>
+                <textarea class="form-control" id="val-nonjudgmental" placeholder="Describe a time you were nonjudgmental."></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">What would you do differently?</label>
+                <textarea class="form-control" id="val-differently" placeholder="Next time, I would..."></textarea>
               </div>
             </div>
 
@@ -252,6 +438,21 @@ export const DearManModule = {
               <div class="form-group">
                 <label class="form-label">What was the outcome of practicing self-validation?</label>
                 <textarea class="form-control" id="sval-outcome" placeholder="How did your emotional state or self-respect shift?"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Felt invalidated in the past week:</label>
+              <textarea class="form-control" id="sval-pastweek" placeholder="Describe a situation from this past week..."></textarea>
+            </div>
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Grieved traumatic invalidation:</label>
+                <textarea class="form-control" id="sval-grieve" placeholder="How have you grieved..."></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Radical acceptance of invalidator:</label>
+                <textarea class="form-control" id="sval-radical" placeholder="Practicing radical acceptance..."></textarea>
               </div>
             </div>
 
@@ -337,6 +538,57 @@ export const DearManModule = {
       const data = this.getSelfValFormData(container);
       Exports.copyForPortal('Self-Validation Homework', new Date(), data);
     });
+
+    // Tracking Skills (WS 5)
+    const trackForm = container.querySelector('#tracking-ws5-form');
+    if(trackForm) {
+      trackForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = this.getTrackFormData(container);
+        await db.saveWorksheet({ type: 'tracking_ws5', title: `Tracking WS5: ${new Date().toLocaleDateString()}`, data });
+        alert('Tracking Skills Use Worksheet 5 saved!');
+        trackForm.reset();
+      });
+
+      container.querySelector('#btn-copy-track').addEventListener('click', () => {
+        const data = this.getTrackFormData(container);
+        Exports.copyForPortal('Tracking Skills Use Homework', new Date(), data);
+      });
+    }
+
+    // Mindfulness of Others (WS 9)
+    const mindForm = container.querySelector('#mindfulness-ws9-form');
+    if(mindForm) {
+      mindForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = this.getMindFormData(container);
+        await db.saveWorksheet({ type: 'mindfulness_ws9', title: `Mindfulness WS9: ${data['Person']}`, data });
+        alert('Mindfulness of Others Worksheet 9 saved!');
+        mindForm.reset();
+      });
+
+      container.querySelector('#btn-copy-mind').addEventListener('click', () => {
+        const data = this.getMindFormData(container);
+        Exports.copyForPortal('Mindfulness of Others Homework', new Date(), data);
+      });
+    }
+
+    // Practicing Dialectics (WS 11)
+    const dialForm = container.querySelector('#dialectics-ws11-form');
+    if(dialForm) {
+      dialForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = this.getDialFormData(container);
+        await db.saveWorksheet({ type: 'dialectics_ws11', title: `Dialectics WS11: ${new Date().toLocaleDateString()}`, data });
+        alert('Practicing Dialectics Worksheet 11 saved!');
+        dialForm.reset();
+      });
+
+      container.querySelector('#btn-copy-dial').addEventListener('click', () => {
+        const data = this.getDialFormData(container);
+        Exports.copyForPortal('Practicing Dialectics Homework', new Date(), data);
+      });
+    }
   },
 
   getDMFormData(container) {
@@ -378,7 +630,9 @@ export const DearManModule = {
       'Situation': container.querySelector('#val-situation').value,
       'Action Taken': container.querySelector('#val-action').value,
       'Outcome': container.querySelector('#val-outcome').value,
-      'Feelings': container.querySelector('#val-feelings').value
+      'Feelings': container.querySelector('#val-feelings').value,
+      'Nonjudgmental Situation': container.querySelector('#val-nonjudgmental').value,
+      'Do Differently': container.querySelector('#val-differently').value
     };
   },
 
@@ -388,7 +642,54 @@ export const DearManModule = {
       'Strategies Used': checks.join(', ') || 'None selected',
       'Statements Made': container.querySelector('#sval-statements').value,
       'Situation': container.querySelector('#sval-situation').value,
-      'Outcome': container.querySelector('#sval-outcome').value
+      'Outcome': container.querySelector('#sval-outcome').value,
+      'Felt Invalidated Past Week': container.querySelector('#sval-pastweek').value,
+      'Grieved Traumatic Invalidation': container.querySelector('#sval-grieve').value,
+      'Radical Acceptance': container.querySelector('#sval-radical').value
+    };
+  },
+
+  getTrackFormData(container) {
+    const checks = Array.from(container.querySelectorAll('.track-check:checked')).map(c => c.value);
+    return {
+      'Prompting Event': container.querySelector('#track-prompting').value,
+      'Objectives': container.querySelector('#track-obj').value,
+      'Relationship Issue': container.querySelector('#track-rel').value,
+      'Self-Respect Issue': container.querySelector('#track-self').value,
+      'Priorities': container.querySelector('#track-priorities').value,
+      'Imbalances': container.querySelector('#track-imbalances').value,
+      'Effectiveness': container.querySelector('#track-effectiveness').value,
+      'Skills Used': checks.join(', ') || 'None selected'
+    };
+  },
+
+  getMindFormData(container) {
+    const checks = Array.from(container.querySelectorAll('.mind-check:checked')).map(c => c.value);
+    return {
+      'Practices Used': checks.join(', ') || 'None selected',
+      'Person': container.querySelector('#mind-who').value,
+      'Situation': container.querySelector('#mind-situation').value,
+      'How Practiced': container.querySelector('#mind-how').value,
+      'Outcome': container.querySelector('#mind-outcome').value,
+      'Feelings': container.querySelector('#mind-feel').value,
+      'Difference Made': container.querySelector('#mind-diff').value
+    };
+  },
+
+  getDialFormData(container) {
+    const check1 = Array.from(container.querySelectorAll('.dial-check1:checked')).map(c => c.value);
+    const out1 = Array.from(container.querySelectorAll('.dial-out1:checked')).map(c => c.value);
+    const check2 = Array.from(container.querySelectorAll('.dial-check2:checked')).map(c => c.value);
+    const out2 = Array.from(container.querySelectorAll('.dial-out2:checked')).map(c => c.value);
+    return {
+      'Situation 1': container.querySelector('#dial-sit1').value,
+      'Sit1 Practices': check1.join(', ') || 'None',
+      'Sit1 Skills': container.querySelector('#dial-skills1').value,
+      'Sit1 Outcomes': out1.join(', ') || 'None',
+      'Situation 2': container.querySelector('#dial-sit2').value,
+      'Sit2 Practices': check2.join(', ') || 'None',
+      'Sit2 Skills': container.querySelector('#dial-skills2').value,
+      'Sit2 Outcomes': out2.join(', ') || 'None'
     };
   }
 };
