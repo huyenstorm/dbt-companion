@@ -61,26 +61,12 @@
         </div>
       </div>
 
-      <!-- Search Directory Widget -->
-      <div class="card" style="margin-bottom: 1.5rem; border-color: var(--accent-purple); position: relative; z-index: 10;">
-        <h3 style="font-size: 0.95rem; color: var(--accent-purple); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
-          <span>🔍</span> Worksheet & Skill Finder Directory
-        </h3>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">Type any skill or worksheet name to open it instantly:</p>
-        <div style="position: relative;">
-          <input type="text" class="form-control" id="search-worksheets" placeholder="Search: e.g. DEAR MAN, Chain Analysis, Wise Mind, Dime Game, Sleep Hygiene..." autocomplete="off">
-          <div id="search-results" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-secondary); border: 2px solid var(--accent-purple); border-radius: var(--radius-md); max-height: 250px; overflow-y: auto; z-index: 1000 !important; box-shadow: var(--shadow-lg); padding: 0.5rem 0;">
-            <!-- Populated dynamically via JS -->
-          </div>
-        </div>
-      </div>
-
-      <!-- Wise Mind Skill Finder Wizard -->
+      <!-- Wise Mind Skill Selector -->
       <div class="card" style="margin-bottom: 1.5rem; border: 2px solid var(--accent-blue); padding: 1.25rem;">
-        <h3 style="font-size: 1.05rem; color: var(--accent-blue); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
-          <span>🔮</span> Wise Mind Skill Finder Wizard
+        <h3 style="font-size: 1.05rem; color: var(--accent-blue); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
+          <span>🔮</span> Wise Mind Skill Selector
         </h3>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Not sure which skill to use? Answer two quick questions to find your path forward:</p>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; font-style: italic;">Not sure which skill to use? Start here.</p>
         
         <div id="skill-finder-wizard-body">
           <!-- Step 1: Distress Level -->
@@ -112,6 +98,20 @@
               <button type="button" class="btn btn-secondary" id="btn-sf-reset" style="padding: 0.35rem 0.65rem; font-size: 0.75rem;">🔄 Start Over</button>
               <button type="button" class="btn btn-primary" id="btn-sf-go" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; font-weight: 700;">🚀 Open Recommended Tool</button>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Directory Widget -->
+      <div class="card" style="margin-bottom: 1.5rem; border-color: var(--accent-purple); position: relative; z-index: 10;">
+        <h3 style="font-size: 0.95rem; color: var(--accent-purple); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
+          <span>🔍</span> Search Directory
+        </h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem; font-style: italic;">Know what you're looking for? Find it here.</p>
+        <div style="position: relative;">
+          <input type="text" class="form-control" id="search-worksheets" placeholder="Search: e.g. DEAR MAN, Chain Analysis, Wise Mind, Dime Game, Sleep Hygiene..." autocomplete="off">
+          <div id="search-results" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-secondary); border: 2px solid var(--accent-purple); border-radius: var(--radius-md); max-height: 250px; overflow-y: auto; z-index: 1000 !important; box-shadow: var(--shadow-lg); padding: 0.5rem 0;">
+            <!-- Populated dynamically via JS -->
           </div>
         </div>
       </div>
