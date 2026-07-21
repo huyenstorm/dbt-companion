@@ -67,7 +67,7 @@ export const AbcPleaseModule = {
             <div class="grid-2">
               <div class="form-group">
                 <label class="form-label">Step 4: Goals Related to This Value</label>
-                <textarea class="form-control" id="v2a-goals" placeholder="Goal 1: Complete long run on Saturday.\nGoal 2: Eat meals with kids without devices..."></textarea>
+                <textarea class="form-control" id="v2a-goals" placeholder="Goal 1: Complete long run on Saturday.nGoal 2: Eat meals with kids without devices..."></textarea>
               </div>
               <div class="form-group">
                 <label class="form-label">Step 5: Choose ONE Goal to Work on Now</label>
@@ -485,19 +485,19 @@ export const AbcPleaseModule = {
   getV2AFormData(container) {
     const reasons = Array.from(container.querySelectorAll('.avoid-reason:checked')).map(c => c.value);
     return {
-      'Avoidance Rating': \`Past: \${container.querySelector('#v2a-avoid-past').value || 0}/100 | Now: \${container.querySelector('#v2a-avoid-now').value || 0}/100\`,
+      'Avoidance Rating': `Past: ${container.querySelector('#v2a-avoid-past').value || 0}/100 | Now: ${container.querySelector('#v2a-avoid-now').value || 0}/100`,
       'Avoidance Reasons': reasons.join(', ') || 'None checked',
       'Cope Ahead Avoidance Plan': container.querySelector('#v2a-avoid-plan').value,
       'Value': container.querySelector('#v2a-value').value,
-      'Importance/Priority': \`Importance: \${container.querySelector('#v2a-importance').value || 0}/5 | Priority: \${container.querySelector('#v2a-priority').value || 0}/5\`,
+      'Importance/Priority': `Importance: ${container.querySelector('#v2a-importance').value || 0}/5 | Priority: ${container.querySelector('#v2a-priority').value || 0}/5`,
       'Goals list': container.querySelector('#v2a-goals').value,
       'Active Goal': container.querySelector('#v2a-goal-active').value,
-      'Action Steps': \`Step 1: \${container.querySelector('#v2a-step1').value}\\nStep 2: \${container.querySelector('#v2a-step2').value}\\nStep 3: \${container.querySelector('#v2a-step3').value}\\nStep 4: \${container.querySelector('#v2a-step4').value}\`,
+      'Action Steps': `Step 1: ${container.querySelector('#v2a-step1').value}nStep 2: ${container.querySelector('#v2a-step2').value}nStep 3: ${container.querySelector('#v2a-step3').value}nStep 4: ${container.querySelector('#v2a-step4').value}`,
       'Step Taken': container.querySelector('#v2a-taken').value,
       'Result/Outcome': container.querySelector('#v2a-outcome').value,
       'Relation Problem': container.querySelector('#v2a-rel-prob').value,
       'Relation Goal': container.querySelector('#v2a-rel-goal').value,
-      'Relation Steps': \`Step 1: \${container.querySelector('#v2a-rel-step1').value}\\nStep 2: \${container.querySelector('#v2a-rel-step2').value}\\nStep 3: \${container.querySelector('#v2a-rel-step3').value}\\nStep 4: \${container.querySelector('#v2a-rel-step4').value}\`,
+      'Relation Steps': `Step 1: ${container.querySelector('#v2a-rel-step1').value}nStep 2: ${container.querySelector('#v2a-rel-step2').value}nStep 3: ${container.querySelector('#v2a-rel-step3').value}nStep 4: ${container.querySelector('#v2a-rel-step4').value}`,
       'Relation Action': container.querySelector('#v2a-rel-action').value,
       'Relation Outcome': container.querySelector('#v2a-rel-outcome').value
     };
@@ -507,7 +507,7 @@ export const AbcPleaseModule = {
     const getDays = (selector) => Array.from(container.querySelectorAll(selector + ':checked')).map(c => c.value).join(', ');
     const pleaseLog = {};
     ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].forEach(day => {
-      pleaseLog[day] = \`PL: \${container.querySelector(\`.rv-pl[data-day="\${day}"]\`).value}, E: \${container.querySelector(\`.rv-e1[data-day="\${day}"]\`).value}, A: \${container.querySelector(\`.rv-a[data-day="\${day}"]\`).value}, S: \${container.querySelector(\`.rv-s[data-day="\${day}"]\`).value}, E: \${container.querySelector(\`.rv-e2[data-day="\${day}"]\`).value}\`;
+      pleaseLog[day] = `PL: ${container.querySelector(`.rv-pl[data-day="${day}"]`).value}, E: ${container.querySelector(`.rv-e1[data-day="${day}"]`).value}, A: ${container.querySelector(`.rv-a[data-day="${day}"]`).value}, S: ${container.querySelector(`.rv-s[data-day="${day}"]`).value}, E: ${container.querySelector(`.rv-e2[data-day="${day}"]`).value}`;
     });
     
     return {
@@ -529,12 +529,12 @@ export const AbcPleaseModule = {
     const log = {};
     ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].forEach(day => {
       log[day] = {
-        'Plan': container.querySelector(\`.pe-plan[data-day="\${day}"]\`).value,
-        'Done': container.querySelector(\`.pe-done[data-day="\${day}"]\`).value,
-        'Mind': container.querySelector(\`.pe-mind[data-day="\${day}"]\`).value,
-        'Worry': container.querySelector(\`.pe-worry[data-day="\${day}"]\`).value,
-        'Intensity': container.querySelector(\`.pe-int[data-day="\${day}"]\`).value,
-        'Comments': container.querySelector(\`.pe-comm[data-day="\${day}"]\`).value
+        'Plan': container.querySelector(`.pe-plan[data-day="${day}"]`).value,
+        'Done': container.querySelector(`.pe-done[data-day="${day}"]`).value,
+        'Mind': container.querySelector(`.pe-mind[data-day="${day}"]`).value,
+        'Worry': container.querySelector(`.pe-worry[data-day="${day}"]`).value,
+        'Intensity': container.querySelector(`.pe-int[data-day="${day}"]`).value,
+        'Comments': container.querySelector(`.pe-comm[data-day="${day}"]`).value
       };
     });
     return { 'Diary': JSON.stringify(log) };
@@ -544,12 +544,12 @@ export const AbcPleaseModule = {
     const dayPlans = {};
     const dayDones = {};
     ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].forEach(day => {
-      dayPlans[day] = container.querySelector(\`.mas-plan[data-day="\${day}"]\`).value;
-      dayDones[day] = container.querySelector(\`.mas-done[data-day="\${day}"]\`).value;
+      dayPlans[day] = container.querySelector(`.mas-plan[data-day="${day}"]`).value;
+      dayDones[day] = container.querySelector(`.mas-done[data-day="${day}"]`).value;
     });
 
     return {
-      'Weekly Mastery Plan': Object.keys(dayPlans).map(d => \`\${d} Plan: \${dayPlans[d]} | Done: \${dayDones[d]}\`).join('\\n'),
+      'Weekly Mastery Plan': Object.keys(dayPlans).map(d => `${d} Plan: ${dayPlans[d]} | Done: ${dayDones[d]}`).join('n'),
       'Situation 1': container.querySelector('#cope-sit1').value,
       'Coping Rehearsal 1': container.querySelector('#cope-desc1').value,
       'Rehearsal 1 Helpful': container.querySelector('#cope-help1').checked ? 'YES' : 'NO',
@@ -563,27 +563,27 @@ export const AbcPleaseModule = {
     const log = {};
     ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].forEach(day => {
       log[day] = {
-        'Illness': container.querySelector(\`.pl-ill[data-day="\${day}"]\`).value,
-        'Illness_Helpful': container.querySelector(\`.pl-ill-h[data-day="\${day}"]\`).checked ? 'YES' : 'NO',
-        'Eating': container.querySelector(\`.pl-eat[data-day="\${day}"]\`).value,
-        'Eating_Helpful': container.querySelector(\`.pl-eat-h[data-day="\${day}"]\`).checked ? 'YES' : 'NO',
-        'Substances': container.querySelector(\`.pl-sub[data-day="\${day}"]\`).value,
-        'Substances_Helpful': container.querySelector(\`.pl-sub-h[data-day="\${day}"]\`).checked ? 'YES' : 'NO',
-        'Sleep': container.querySelector(\`.pl-slp[data-day="\${day}"]\`).value,
-        'Sleep_Helpful': container.querySelector(\`.pl-slp-h[data-day="\${day}"]\`).checked ? 'YES' : 'NO',
-        'Exercise': container.querySelector(\`.pl-exe[data-day="\${day}"]\`).value,
-        'Exercise_Helpful': container.querySelector(\`.pl-exe-h[data-day="\${day}"]\`).checked ? 'YES' : 'NO'
+        'Illness': container.querySelector(`.pl-ill[data-day="${day}"]`).value,
+        'Illness_Helpful': container.querySelector(`.pl-ill-h[data-day="${day}"]`).checked ? 'YES' : 'NO',
+        'Eating': container.querySelector(`.pl-eat[data-day="${day}"]`).value,
+        'Eating_Helpful': container.querySelector(`.pl-eat-h[data-day="${day}"]`).checked ? 'YES' : 'NO',
+        'Substances': container.querySelector(`.pl-sub[data-day="${day}"]`).value,
+        'Substances_Helpful': container.querySelector(`.pl-sub-h[data-day="${day}"]`).checked ? 'YES' : 'NO',
+        'Sleep': container.querySelector(`.pl-slp[data-day="${day}"]`).value,
+        'Sleep_Helpful': container.querySelector(`.pl-slp-h[data-day="${day}"]`).checked ? 'YES' : 'NO',
+        'Exercise': container.querySelector(`.pl-exe[data-day="${day}"]`).value,
+        'Exercise_Helpful': container.querySelector(`.pl-exe-h[data-day="${day}"]`).checked ? 'YES' : 'NO'
       };
     });
 
     const lines = [];
     Object.keys(log).forEach(day => {
       const item = log[day];
-      lines.push(\`\${day}: PL: \${item.Illness} (H: \${item.Illness_Helpful}) | E: \${item.Eating} (H: \${item.Eating_Helpful}) | A: \${item.Substances} (H: \${item.Substances_Helpful}) | S: \${item.Sleep} (H: \${item.Sleep_Helpful}) | Ex: \${item.Exercise} (H: \${item.Exercise_Helpful})\`);
+      lines.push(`${day}: PL: ${item.Illness} (H: ${item.Illness_Helpful}) | E: ${item.Eating} (H: ${item.Eating_Helpful}) | A: ${item.Substances} (H: ${item.Substances_Helpful}) | S: ${item.Sleep} (H: ${item.Sleep_Helpful}) | Ex: ${item.Exercise} (H: ${item.Exercise_Helpful})`);
     });
 
     return {
-      'Weekly PLEASE Log': lines.join('\\n')
+      'Weekly PLEASE Log': lines.join('n')
     };
   },
 
@@ -596,23 +596,23 @@ export const AbcPleaseModule = {
     const erEntries = entries.filter(x => erTypes.includes(x.type));
 
     if (!erEntries.length) {
-      listContainer.innerHTML = \`<p style="color: var(--text-muted); font-size: 0.85rem;">No saved worksheets yet.</p>\`;
+      listContainer.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem;">No saved worksheets yet.</p>`;
       return;
     }
 
-    listContainer.innerHTML = erEntries.map(item => \`
+    listContainer.innerHTML = erEntries.map(item => `
       <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 0.85rem; border-radius: var(--radius-md); margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center;">
         <div>
-          <strong style="color: var(--accent-purple); display: block;">\${item.title}</strong>
-          <span style="font-size: 0.75rem; color: var(--text-muted);">\${new Date(item.createdAt).toLocaleString()}</span>
+          <strong style="color: var(--accent-purple); display: block;">${item.title}</strong>
+          <span style="font-size: 0.75rem; color: var(--text-muted);">${new Date(item.createdAt).toLocaleString()}</span>
         </div>
         <div style="display: flex; gap: 0.4rem;">
-          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.copySavedABC('\${item.id}')">📋 Copy</button>
-          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.printSavedABC('\${item.id}')">🖨️ Print</button>
-          <button class="btn btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.deleteABC('\${item.id}')">🗑️</button>
+          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.copySavedABC('${item.id}')">📋 Copy</button>
+          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.printSavedABC('${item.id}')">🖨️ Print</button>
+          <button class="btn btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.deleteABC('${item.id}')">🗑️</button>
         </div>
       </div>
-    \`).join('');
+    `).join('');
 
     window.copySavedABC = (id) => {
       const item = erEntries.find(x => x.id === id);

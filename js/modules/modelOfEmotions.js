@@ -417,23 +417,23 @@ export const ModelOfEmotionsModule = {
     const erEntries = entries.filter(x => erTypes.includes(x.type));
 
     if (!erEntries.length) {
-      listContainer.innerHTML = \`<p style="color: var(--text-muted); font-size: 0.85rem;">No saved worksheets yet.</p>\`;
+      listContainer.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem;">No saved worksheets yet.</p>`;
       return;
     }
 
-    listContainer.innerHTML = erEntries.map(item => \`
+    listContainer.innerHTML = erEntries.map(item => `
       <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 0.85rem; border-radius: var(--radius-md); margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center;">
         <div>
-          <strong style="color: var(--accent-purple); display: block;">\${item.title}</strong>
-          <span style="font-size: 0.75rem; color: var(--text-muted);">\${new Date(item.createdAt).toLocaleString()}</span>
+          <strong style="color: var(--accent-purple); display: block;">${item.title}</strong>
+          <span style="font-size: 0.75rem; color: var(--text-muted);">${new Date(item.createdAt).toLocaleString()}</span>
         </div>
         <div style="display: flex; gap: 0.4rem;">
-          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.copySavedER('\${item.id}')">📋 Copy</button>
-          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.printSavedER('\${item.id}')">🖨️ Print</button>
-          <button class="btn btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.deleteER('\${item.id}')">🗑️</button>
+          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.copySavedER('${item.id}')">📋 Copy</button>
+          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.printSavedER('${item.id}')">🖨️ Print</button>
+          <button class="btn btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.deleteER('${item.id}')">🗑️</button>
         </div>
       </div>
-    \`).join('');
+    `).join('');
 
     window.copySavedER = (id) => {
       const item = erEntries.find(x => x.id === id);

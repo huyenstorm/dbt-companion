@@ -57,7 +57,7 @@ export const ChainAnalysisModule = {
 
             <div class="form-group">
               <label class="form-label">4. Chain of Links (Thoughts, Feelings, Sensations, Behaviors leading up to the behavior)</label>
-              <textarea class="form-control" id="ca-links" style="min-height: 120px;" placeholder="Link 1: Thought 'I can't take this'\nLink 2: Heart rate spiked\nLink 3: Urge to slam door..."></textarea>
+              <textarea class="form-control" id="ca-links" style="min-height: 120px;" placeholder="Link 1: Thought 'I can't take this'nLink 2: Heart rate spikednLink 3: Urge to slam door..."></textarea>
             </div>
 
             <div class="grid-2">
@@ -827,7 +827,7 @@ export const ChainAnalysisModule = {
     caForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const fields = this.getCAFormData(container);
-      await db.saveWorksheet({ type: 'chain_analysis', title: \`Chain Analysis: \${fields['Problem Behavior']}\`, data: fields });
+      await db.saveWorksheet({ type: 'chain_analysis', title: `Chain Analysis: ${fields['Problem Behavior']}`, data: fields });
       alert('Chain Analysis saved!');
       caForm.reset();
       this.loadSavedEntries(container);
@@ -845,8 +845,8 @@ export const ChainAnalysisModule = {
         form.addEventListener('submit', async (e) => {
           e.preventDefault();
           const fields = getFormDataFn(container);
-          await db.saveWorksheet({ type, title: \`\${titlePrefix} Worksheet\`, data: fields });
-          alert(\`\${titlePrefix} saved!\`);
+          await db.saveWorksheet({ type, title: `${titlePrefix} Worksheet`, data: fields });
+          alert(`${titlePrefix} saved!`);
           form.reset();
           this.loadSavedEntries(container);
         });
@@ -866,7 +866,7 @@ export const ChainAnalysisModule = {
     accForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const fields = this.getAccFormData(container);
-      await db.saveWorksheet({ type: 'accepts_ws5', title: \`ACCEPTS WS5: \${fields.Prompting.substring(0, 30)}...\`, data: fields });
+      await db.saveWorksheet({ type: 'accepts_ws5', title: `ACCEPTS WS5: ${fields.Prompting.substring(0, 30)}...`, data: fields });
       alert('ACCEPTS Worksheet 5 saved!');
       accForm.reset();
       this.loadSavedEntries(container);
@@ -882,7 +882,7 @@ export const ChainAnalysisModule = {
     sootheForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const fields = this.getSootheFormData(container);
-      await db.saveWorksheet({ type: 'soothe_ws6', title: \`Self-Soothe WS6: \${fields.Prompting.substring(0, 30)}...\`, data: fields });
+      await db.saveWorksheet({ type: 'soothe_ws6', title: `Self-Soothe WS6: ${fields.Prompting.substring(0, 30)}...`, data: fields });
       alert('Self-Soothing Worksheet 6 saved!');
       sootheForm.reset();
       this.loadSavedEntries(container);
@@ -898,7 +898,7 @@ export const ChainAnalysisModule = {
     impForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const fields = this.getImpFormData(container);
-      await db.saveWorksheet({ type: 'improve_ws7', title: \`IMPROVE WS7: \${fields.Prompting.substring(0, 30)}...\`, data: fields });
+      await db.saveWorksheet({ type: 'improve_ws7', title: `IMPROVE WS7: ${fields.Prompting.substring(0, 30)}...`, data: fields });
       alert('IMPROVE the Moment Worksheet 7 saved!');
       impForm.reset();
       this.loadSavedEntries(container);
@@ -1071,23 +1071,23 @@ export const ChainAnalysisModule = {
     const dtEntries = entries.filter(x => dtTypes.includes(x.type));
 
     if (!dtEntries.length) {
-      listContainer.innerHTML = \`<p style="color: var(--text-muted); font-size: 0.85rem;">No saved worksheets yet.</p>\`;
+      listContainer.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem;">No saved worksheets yet.</p>`;
       return;
     }
 
-    listContainer.innerHTML = dtEntries.map(item => \`
+    listContainer.innerHTML = dtEntries.map(item => `
       <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 0.85rem; border-radius: var(--radius-md); margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center;">
         <div>
-          <strong style="color: var(--accent-rose); display: block;">\${item.title}</strong>
-          <span style="font-size: 0.75rem; color: var(--text-muted);">\${new Date(item.createdAt).toLocaleString()}</span>
+          <strong style="color: var(--accent-rose); display: block;">${item.title}</strong>
+          <span style="font-size: 0.75rem; color: var(--text-muted);">${new Date(item.createdAt).toLocaleString()}</span>
         </div>
         <div style="display: flex; gap: 0.4rem;">
-          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.copySavedDT('\${item.id}')">📋 Copy</button>
-          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.printSavedDT('\${item.id}')">🖨️ Print</button>
-          <button class="btn btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.deleteDT('\${item.id}')">🗑️</button>
+          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.copySavedDT('${item.id}')">📋 Copy</button>
+          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.printSavedDT('${item.id}')">🖨️ Print</button>
+          <button class="btn btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.deleteDT('${item.id}')">🗑️</button>
         </div>
       </div>
-    \`).join('');
+    `).join('');
 
     window.copySavedDT = (id) => {
       const item = dtEntries.find(x => x.id === id);
