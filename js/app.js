@@ -15,16 +15,22 @@ class App {
     this.currentTheme = 'dark';
     this.searchIndex = [
       { name: 'Linehan Model of Emotions (Worksheet 4)', target: 'emotion-regulation', deckTarget: 'model-emotions' },
+      { name: 'Check the Facts Worksheet (Worksheet 5)', target: 'emotion-regulation', deckTarget: 'check-facts-ws5' },
       { name: 'Wise Mind Alignment Wizard', target: 'mindfulness', deckTarget: 'wise-mind' },
       { name: 'Mindfulness of Current Emotion', target: 'mindfulness', deckTarget: 'mindfulness-emotion' },
       { name: 'Problem Solving Wizard (Handout 12)', target: 'mindfulness', deckTarget: 'problem-solving' },
       { name: 'DEAR MAN Script Builder', target: 'interpersonal', deckTarget: 'dear-man' },
-      { name: 'The Dime Game Calculator (Worksheet 5)', target: 'interpersonal', deckTarget: 'dime-game' },
+      { name: 'Clarifying Priorities in Interpersonal Situations (Worksheet 3)', target: 'interpersonal', deckTarget: 'priorities-ws3' },
+      { name: 'The Dime Game Calculator (Worksheet 6)', target: 'interpersonal', deckTarget: 'dime-game' },
       { name: 'Validating Others Homework (Worksheet 12)', target: 'interpersonal', deckTarget: 'val-others' },
       { name: 'Self-Validation & Self-Respect (Worksheet 13)', target: 'interpersonal', deckTarget: 'self-val' },
       { name: 'Values to Actions Pipeline (Worksheet 11)', target: 'emotion-regulation', deckTarget: 'values-to-actions' },
-      { name: 'PLEASE Health Log (Physical Vulnerabilities)', target: 'emotion-regulation', deckTarget: 'please-log' },
+      { name: 'Build Mastery & Cope Ahead (Worksheet 12)', target: 'emotion-regulation', deckTarget: 'mastery-ws12' },
+      { name: 'PLEASE Skills Log (Worksheet 14)', target: 'emotion-regulation', deckTarget: 'please-ws14' },
       { name: 'Behavioral Chain Analysis (Worksheet 2)', target: 'distress-tolerance', deckTarget: 'chain-analysis' },
+      { name: 'Distracting with ACCEPTS Log (Worksheet 5)', target: 'distress-tolerance', deckTarget: 'accepts-ws5' },
+      { name: 'Self-Soothing Sensory Log (Worksheet 6)', target: 'distress-tolerance', deckTarget: 'soothe-ws6' },
+      { name: 'IMPROVE the Moment Log (Worksheet 7)', target: 'distress-tolerance', deckTarget: 'improve-ws7' },
       { name: 'Sleep Hygiene Protocol Reference (Handout 20B)', target: 'emotion-regulation', deckTarget: 'ref-sleep' },
       { name: 'Apologizing Effectively Guide (I\'M SORRY Handout X)', target: 'interpersonal', deckTarget: 'ref-sorry' },
       { name: 'Wise Mind ACCEPTS Distract Checklist (Handout 7)', target: 'distress-tolerance', deckTarget: 'dt-accepts' },
@@ -172,17 +178,23 @@ class App {
       const ipDm = document.getElementById('dearman-form')?.closest('.card');
       const ipValOth = document.getElementById('val-others-form')?.closest('.card');
       const ipSelfVal = document.getElementById('self-val-form')?.closest('.card');
+      const ipPrio = document.getElementById('priorities-ws3-form')?.closest('.card');
       const ipDime = document.getElementById('dime-game-container');
 
       if (ipDm) ipDm.style.display = targetKey === 'dear-man' ? 'block' : 'none';
       if (ipDime) ipDime.style.display = targetKey === 'dime-game' ? 'block' : 'none';
       if (ipValOth) ipValOth.style.display = targetKey === 'val-others' ? 'block' : 'none';
       if (ipSelfVal) ipSelfVal.style.display = targetKey === 'self-val' ? 'block' : 'none';
+      if (ipPrio) ipPrio.style.display = targetKey === 'priorities-ws3' ? 'block' : 'none';
 
       if (isRef && refContainer) {
         const subTabBtn = refContainer.querySelector(`.nav-tabs .tab-btn[data-reftab="${targetKey}"]`);
         if (subTabBtn) subTabBtn.click();
       }
+
+      // Sync inner form tabs
+      const targetTabBtn = container.querySelector(`.nav-tabs .tab-btn[data-ietab="ie-${targetKey === 'priorities-ws3' ? 'priorities' : targetKey}"]`);
+      if (targetTabBtn) targetTabBtn.click();
     }
 
     // 3. Emotion Regulation
@@ -192,26 +204,38 @@ class App {
       if (refContainer) refContainer.style.display = isRef ? 'block' : 'none';
 
       const erMoe = document.getElementById('model-of-emotions-form')?.closest('.card');
-      const erAbcPos = document.getElementById('abc-a-form')?.closest('.card');
+      const erCheckFacts = document.getElementById('check-facts-ws5-form')?.closest('.card');
+      const erAbcPos = document.getElementById('v2a-form')?.closest('.card') || document.getElementById('abc-a-form')?.closest('.card');
+      
       const erTabVal = document.querySelector('.tab-btn[data-subtab="tab-v2a"]');
-      const erTabPlease = document.querySelector('.tab-btn[data-subtab="tab-please"]');
+      const erTabMastery = document.querySelector('.tab-btn[data-subtab="tab-mastery-cope"]');
+      const erTabPlease = document.querySelector('.tab-btn[data-subtab="tab-please-ws14"]');
 
       if (erMoe) erMoe.style.display = targetKey === 'model-emotions' ? 'block' : 'none';
+      if (erCheckFacts) erCheckFacts.style.display = targetKey === 'check-facts-ws5' ? 'block' : 'none';
+      
       if (erAbcPos) {
-        erAbcPos.closest('.card').style.display = (targetKey === 'values-to-actions' || targetKey === 'please-log') ? 'block' : 'none';
+        const isAbc = ['values-to-actions', 'mastery-ws12', 'please-ws14'].includes(targetKey);
+        erAbcPos.style.display = isAbc ? 'block' : 'none';
+        
         if (targetKey === 'values-to-actions' && erTabVal) erTabVal.click();
-        if (targetKey === 'please-log' && erTabPlease) erTabPlease.click();
+        if (targetKey === 'mastery-ws12' && erTabMastery) erTabMastery.click();
+        if (targetKey === 'please-ws14' && erTabPlease) erTabPlease.click();
       }
 
       if (isRef && refContainer) {
         const subTabBtn = refContainer.querySelector(`.nav-tabs .tab-btn[data-reftab="${targetKey}"]`);
         if (subTabBtn) subTabBtn.click();
       }
+
+      // Sync inner form tabs
+      const targetTabBtn = container.querySelector(`.nav-tabs .tab-btn[data-moetab="moe-${targetKey === 'check-facts-ws5' ? 'checkfacts' : 'model'}"]`);
+      if (targetTabBtn) targetTabBtn.click();
     }
 
     // 4. Distress Tolerance
     if (moduleName === 'distress-tolerance') {
-      const isRef = targetKey !== 'chain-analysis';
+      const isRef = ['tipp', 'dt-accepts', 'dt-soothe', 'dt-improve'].includes(targetKey);
       if (wsContainer) wsContainer.style.display = isRef ? 'none' : 'block';
       if (refContainer) refContainer.style.display = isRef ? 'block' : 'none';
 
@@ -219,6 +243,10 @@ class App {
         const subTabBtn = refContainer.querySelector(`.nav-tabs .tab-btn[data-reftab="${targetKey}"], .nav-tabs .tab-btn[data-dt="${targetKey}"]`);
         if (subTabBtn) subTabBtn.click();
       }
+
+      // Sync inner form tabs
+      const targetTabBtn = container.querySelector(`.nav-tabs .tab-btn[data-dttab="dt-${targetKey === 'chain' || targetKey === 'chain-analysis' ? 'chain' : targetKey + '-ws'}"]`);
+      if (targetTabBtn) targetTabBtn.click();
     }
   }
 

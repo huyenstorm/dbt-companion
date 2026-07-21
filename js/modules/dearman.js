@@ -1,4 +1,4 @@
-/* Interpersonal Effectiveness: DEAR MAN, Validating Others (WS 12), Self-Validation (WS 13) */
+/* Interpersonal Effectiveness: DEAR MAN, Validating Others (WS 12), Self-Validation (WS 13), Clarifying Priorities (WS 3) */
 import { db } from '../db.js';
 import { Exports } from '../exports.js';
 
@@ -12,12 +12,13 @@ export const DearManModule = {
               <span class="badge badge-blue">Interpersonal Effectiveness</span>
               Interpersonal & Validation Worksheets
             </h2>
-            <p class="card-subtitle">Complete DEAR MAN scripts, practice validating others, and build self-validation/self-respect.</p>
+            <p class="card-subtitle">Clarify your priorities, build scripts, and practice validation.</p>
           </div>
         </div>
 
         <div class="nav-tabs" style="background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem;">
           <button class="tab-btn active" data-ietab="ie-dearman">🗣️ DEAR MAN Builder</button>
+          <button class="tab-btn" data-ietab="ie-priorities">🎯 Clarifying Priorities (Worksheet 3)</button>
           <button class="tab-btn" data-ietab="ie-val-others">👥 Validating Others (Worksheet 12)</button>
           <button class="tab-btn" data-ietab="ie-self-val">🛡️ Self-Validation (Worksheet 13)</button>
         </div>
@@ -70,6 +71,74 @@ export const DearManModule = {
             <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
               <button type="button" class="btn btn-secondary" id="btn-copy-dm">📋 Copy Script</button>
               <button type="submit" class="btn btn-primary">💾 Save Script</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Clarifying Priorities (Worksheet 3) -->
+        <div class="ietab-content" id="ie-priorities" style="display: none;">
+          <form id="priorities-ws3-form">
+            <div class="form-group">
+              <label class="form-label">Prompting Event for my problem (Who did what to whom? What led up to what?)</label>
+              <textarea class="form-control" id="prio-prompting" placeholder="Describe the situation..." required></textarea>
+            </div>
+
+            <div class="form-group">
+              <h4 style="color: var(--accent-blue); margin-bottom: 0.5rem; font-size: 0.95rem;">My Wants & Desires in this Situation:</h4>
+              <div class="grid-3">
+                <div class="form-group">
+                  <label class="form-label">Objectives: What specific results do I want?</label>
+                  <textarea class="form-control" id="prio-objectives" placeholder="What do I want this person to do, stop, or accept?"></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Relationship: How do I want the other person to feel/think about me?</label>
+                  <textarea class="form-control" id="prio-relationship" placeholder="Because of how I handle the interaction..."></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Self-Respect: How do I want to feel/think about myself?</label>
+                  <textarea class="form-control" id="prio-selfrespect" placeholder="Because of how I handle the interaction..."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <h4 style="color: var(--accent-purple); margin-bottom: 0.5rem; font-size: 0.95rem;">Rate Priorities (1 = most important, 2 = second, 3 = least):</h4>
+              <div class="grid-3">
+                <div class="form-group">
+                  <label class="form-label">Objectives Priority</label>
+                  <select class="form-control" id="prio-rate-obj">
+                    <option value="1">1 (Highest)</option>
+                    <option value="2">2 (Medium)</option>
+                    <option value="3">3 (Lowest)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Relationship Priority</label>
+                  <select class="form-control" id="prio-rate-rel">
+                    <option value="2">2 (Medium)</option>
+                    <option value="1">1 (Highest)</option>
+                    <option value="3">3 (Lowest)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Self-Respect Priority</label>
+                  <select class="form-control" id="prio-rate-self">
+                    <option value="3">3 (Lowest)</option>
+                    <option value="1">1 (Highest)</option>
+                    <option value="2">2 (Medium)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Imbalances and conflicts in priorities that make it hard to be effective:</label>
+              <textarea class="form-control" id="prio-conflicts" placeholder="e.g. 'I want to ask for what I want, but I am too worried about what they will think of me...'"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+              <button type="button" class="btn btn-secondary" id="btn-copy-prio">📋 Copy Worksheet</button>
+              <button type="submit" class="btn btn-primary">💾 Save Worksheet 3</button>
             </div>
           </form>
         </div>
@@ -203,6 +272,21 @@ export const DearManModule = {
       Exports.copyForPortal('DEAR MAN Script', new Date(), data);
     });
 
+    // Clarifying Priorities (WS 3)
+    const prioForm = container.querySelector('#priorities-ws3-form');
+    prioForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = this.getPrioFormData(container);
+      await db.saveWorksheet({ type: 'priorities_ws3', title: `Priorities WS3: ${new Date().toLocaleDateString()}`, data });
+      alert('Clarifying Priorities Worksheet 3 saved!');
+      prioForm.reset();
+    });
+
+    container.querySelector('#btn-copy-prio').addEventListener('click', () => {
+      const data = this.getPrioFormData(container);
+      Exports.copyForPortal('Clarifying Priorities Homework', new Date(), data);
+    });
+
     const valForm = container.querySelector('#val-others-form');
     valForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -242,6 +326,19 @@ export const DearManModule = {
       'Mindful': container.querySelector('#dm-mindful').value,
       'Appear Confident': container.querySelector('#dm-appear').value,
       'Negotiate': container.querySelector('#dm-negotiate').value
+    };
+  },
+
+  getPrioFormData(container) {
+    return {
+      'Prompting Event': container.querySelector('#prio-prompting').value,
+      'Objectives Desires': container.querySelector('#prio-objectives').value,
+      'Relationship Desires': container.querySelector('#prio-relationship').value,
+      'Self-Respect Desires': container.querySelector('#prio-selfrespect').value,
+      'Objectives Priority': container.querySelector('#prio-rate-obj').value,
+      'Relationship Priority': container.querySelector('#prio-rate-rel').value,
+      'Self-Respect Priority': container.querySelector('#prio-rate-self').value,
+      'Priority Conflicts': container.querySelector('#prio-conflicts').value
     };
   },
 
