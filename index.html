@@ -27,7 +27,7 @@
       <div class="brand-icon">DBT</div>
       <div>
         <div class="brand-title">DBT Skills Companion</div>
-        <div class="brand-subtitle">Privacy-First • Local Storage • Dashboard</div>
+        <div class="brand-subtitle">Privacy-First • Local Storage</div>
       </div>
     </div>
 
@@ -43,23 +43,37 @@
     
     <!-- 1. LANDING PAGE / DASHBOARD -->
     <section class="view-section active" id="view-dashboard">
-      <div style="text-align: center; margin-bottom: 2rem; margin-top: 1rem;">
+      <div style="text-align: center; margin-bottom: 1.5rem; margin-top: 0.5rem;">
         <h1 style="font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
           Welcome to Your DBT Workspace
         </h1>
-        <p style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 0.25rem;">Select a core module below to access interactive homework worksheets and reference guides.</p>
+        <p style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 0.25rem;">Interactive homework worksheets & reference guides.</p>
+      </div>
+
+      <!-- Search Directory Widget -->
+      <div class="card" style="margin-bottom: 1.5rem; border-color: var(--accent-purple);">
+        <h3 style="font-size: 0.95rem; color: var(--accent-purple); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
+          <span>🔍</span> Worksheet & Skill Finder Directory
+        </h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">Type any skill or worksheet name to open it instantly:</p>
+        <div style="position: relative;">
+          <input type="text" class="form-control" id="search-worksheets" placeholder="Search: e.g. DEAR MAN, Chain Analysis, Wise Mind, Dime Game, Sleep Hygiene...">
+          <div id="search-results" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-md); max-height: 250px; overflow-y: auto; z-index: 150; box-shadow: var(--shadow-lg); padding: 0.5rem 0;">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
       </div>
 
       <!-- Quick Actions / Emergency row -->
       <div class="grid-2" style="margin-bottom: 1.5rem;">
-        <div class="card" style="border-color: var(--accent-rose); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem;">
+        <div class="card" style="border-color: var(--accent-rose); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; margin-bottom: 0;">
           <div>
             <strong style="color: var(--accent-rose); display: block; font-size: 1rem;">🚨 High Distress / Panic Reset</strong>
             <span style="font-size: 0.8rem; color: var(--text-muted);">Access TIPP cold temperature & paced breathing timer.</span>
           </div>
           <button class="btn btn-danger btn-dashboard-shortcut" data-target="distress-tolerance" data-sub="ref">Reset Now</button>
         </div>
-        <div class="card" style="border-color: var(--accent-teal); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem;">
+        <div class="card" style="border-color: var(--accent-teal); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; margin-bottom: 0;">
           <div>
             <strong style="color: var(--accent-teal); display: block; font-size: 1rem;">📝 Daily Diary Card</strong>
             <span style="font-size: 0.8rem; color: var(--text-muted);">Track daily target behaviors, urges, and skills used.</span>
@@ -134,6 +148,8 @@
 
     <!-- 2. CORE MINDFULNESS VIEW -->
     <section class="view-section" id="view-mindfulness">
+      <button class="btn btn-secondary btn-back-dashboard" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.8rem;">← Back to Dashboard</button>
+      
       <div class="card">
         <h2 style="color: var(--accent-teal); margin-bottom: 0.25rem;">✨ Core Mindfulness Module</h2>
         <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Develop active awareness, find Wise Mind, and observe sensations without judgment.</p>
@@ -144,6 +160,15 @@
         </div>
 
         <div class="subview-panel active" id="panel-mindfulness-ws">
+          <!-- Dropdown Selector to prevent scroll clutter -->
+          <div class="form-group" style="margin-bottom: 1.25rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+            <label class="form-label">Select Active Worksheet:</label>
+            <select class="form-control ws-selector" data-target-container="mindfulness-worksheets-container">
+              <option value="wise-mind">Wise Mind Alignment</option>
+              <option value="mindfulness-emotion">Mindfulness of Current Emotion</option>
+              <option value="problem-solving">Problem Solving (Handout 12)</option>
+            </select>
+          </div>
           <div id="mindfulness-worksheets-container"></div>
         </div>
 
@@ -171,6 +196,8 @@
 
     <!-- 3. INTERPERSONAL EFFECTIVENESS VIEW -->
     <section class="view-section" id="view-interpersonal">
+      <button class="btn btn-secondary btn-back-dashboard" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.8rem;">← Back to Dashboard</button>
+
       <div class="card">
         <h2 style="color: var(--accent-blue); margin-bottom: 0.25rem;">🗣️ Interpersonal Effectiveness Module</h2>
         <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Navigate relationships, assert boundaries, validate others, and protect self-respect.</p>
@@ -181,6 +208,15 @@
         </div>
 
         <div class="subview-panel active" id="panel-interpersonal-ws">
+          <div class="form-group" style="margin-bottom: 1.25rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+            <label class="form-label">Select Active Worksheet:</label>
+            <select class="form-control ws-selector" data-target-container="interpersonal-worksheets-container">
+              <option value="dear-man">DEAR MAN Script Builder</option>
+              <option value="dime-game">The Dime Game Calculator</option>
+              <option value="val-others">Validating Others (Worksheet 12)</option>
+              <option value="self-val">Self-Validation (Worksheet 13)</option>
+            </select>
+          </div>
           <div id="interpersonal-worksheets-container"></div>
         </div>
 
@@ -192,6 +228,8 @@
 
     <!-- 4. EMOTION REGULATION VIEW -->
     <section class="view-section" id="view-emotion-regulation">
+      <button class="btn btn-secondary btn-back-dashboard" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.8rem;">← Back to Dashboard</button>
+
       <div class="card">
         <h2 style="color: var(--accent-purple); margin-bottom: 0.25rem;">🧠 Emotion Regulation Module</h2>
         <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Understand emotional reactions, fit feelings to facts, practice opposite action, and reduce vulnerability.</p>
@@ -202,6 +240,14 @@
         </div>
 
         <div class="subview-panel active" id="panel-emotion-regulation-ws">
+          <div class="form-group" style="margin-bottom: 1.25rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+            <label class="form-label">Select Active Worksheet:</label>
+            <select class="form-control ws-selector" data-target-container="emotion-regulation-worksheets-container">
+              <option value="model-emotions">Linehan Model of Emotions (Worksheet 4)</option>
+              <option value="values-to-actions">Values to Actions (Worksheet 11)</option>
+              <option value="please-log">PLEASE Health Log</option>
+            </select>
+          </div>
           <div id="emotion-regulation-worksheets-container"></div>
         </div>
 
@@ -213,6 +259,8 @@
 
     <!-- 5. DISTRESS TOLERANCE VIEW -->
     <section class="view-section" id="view-distress-tolerance">
+      <button class="btn btn-secondary btn-back-dashboard" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.8rem;">← Back to Dashboard</button>
+
       <div class="card">
         <h2 style="color: var(--accent-rose); margin-bottom: 0.25rem;">🛡️ Distress Tolerance Module</h2>
         <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Crisis survival guidelines, distraction tools, sensory self-soothing, and behavior chain analysis.</p>
@@ -233,11 +281,14 @@
     </section>
 
     <!-- 6. GLOBAL DIARY CARD VIEW -->
-    <section class="view-section" id="view-diary-card"></section>
+    <section class="view-section" id="view-diary-card">
+      <button class="btn btn-secondary btn-back-dashboard" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.8rem;">← Back to Dashboard</button>
+      <!-- Renders Diary Card inside -->
+    </section>
 
   </main>
 
-  <!-- Mobile Bottom Navigation Bar (Now with Dashboard Home) -->
+  <!-- Mobile Bottom Navigation Bar (With Dashboard Home) -->
   <nav class="mobile-nav">
     <button class="mobile-nav-btn active" data-view="dashboard">
       <span>🏠</span>
