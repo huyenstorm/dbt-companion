@@ -160,13 +160,19 @@ class App {
       if (wsContainer) wsContainer.style.display = targetKey === 'mindfulness-ref' ? 'none' : 'block';
       if (simpleRefPanel) simpleRefPanel.style.display = targetKey === 'mindfulness-ref' ? 'block' : 'none';
 
-      const mfAlign = document.getElementById('wise-mind-form')?.closest('.card');
-      const mfMce = document.getElementById('mce-form')?.closest('.card');
-      const mfPs = document.getElementById('solve-form')?.closest('.card');
-
-      if (mfAlign) mfAlign.style.display = targetKey === 'wise-mind' ? 'block' : 'none';
-      if (mfMce) mfMce.style.display = targetKey === 'mindfulness-emotion' ? 'block' : 'none';
-      if (mfPs) mfPs.style.display = targetKey === 'problem-solving' ? 'block' : 'none';
+      const wmMap = {
+        'wise-mind': 'wm-align',
+        'wise-mind-practice-ws3': 'wm-ws3',
+        'what-skills-ws4': 'wm-ws4',
+        'how-skills-ws5': 'wm-ws5',
+        'mindfulness-emotion': 'wm-mce',
+        'problem-solving': 'wm-solve'
+      };
+      const tabAttrVal = wmMap[targetKey];
+      if (tabAttrVal) {
+        const tabBtn = container.querySelector(`.nav-tabs .tab-btn[data-wm="${tabAttrVal}"]`);
+        if (tabBtn) tabBtn.click();
+      }
     }
 
     // 2. Interpersonal Effectiveness
@@ -175,26 +181,36 @@ class App {
       if (wsContainer) wsContainer.style.display = isRef ? 'none' : 'block';
       if (refContainer) refContainer.style.display = isRef ? 'block' : 'none';
 
-      const ipDm = document.getElementById('dearman-form')?.closest('.card');
-      const ipValOth = document.getElementById('val-others-form')?.closest('.card');
-      const ipSelfVal = document.getElementById('self-val-form')?.closest('.card');
-      const ipPrio = document.getElementById('priorities-ws3-form')?.closest('.card');
-      const ipDime = document.getElementById('dime-game-container');
+      const mainCard = document.getElementById('dearman-form')?.closest('.card');
+      const dimeWrapper = document.getElementById('dime-game-wrapper');
 
-      if (ipDm) ipDm.style.display = targetKey === 'dear-man' ? 'block' : 'none';
-      if (ipDime) ipDime.style.display = targetKey === 'dime-game' ? 'block' : 'none';
-      if (ipValOth) ipValOth.style.display = targetKey === 'val-others' ? 'block' : 'none';
-      if (ipSelfVal) ipSelfVal.style.display = targetKey === 'self-val' ? 'block' : 'none';
-      if (ipPrio) ipPrio.style.display = targetKey === 'priorities-ws3' ? 'block' : 'none';
+      if (targetKey === 'dime-game') {
+        if (mainCard) mainCard.style.display = 'none';
+        if (dimeWrapper) dimeWrapper.style.display = 'block';
+      } else {
+        if (mainCard) mainCard.style.display = 'block';
+        if (dimeWrapper) dimeWrapper.style.display = 'none';
+
+        const ieMap = {
+          'dear-man': 'ie-dearman',
+          'priorities-ws3': 'ie-priorities',
+          'tracking-skills-ws5': 'ie-tracking',
+          'mindfulness-others-ws9': 'ie-mindfulness',
+          'dialectics-ws11': 'ie-dialectics',
+          'val-others': 'ie-val-others',
+          'self-val': 'ie-self-val'
+        };
+        const tabAttrVal = ieMap[targetKey];
+        if (tabAttrVal) {
+          const tabBtn = container.querySelector(`.nav-tabs .tab-btn[data-ietab="${tabAttrVal}"]`);
+          if (tabBtn) tabBtn.click();
+        }
+      }
 
       if (isRef && refContainer) {
         const subTabBtn = refContainer.querySelector(`.nav-tabs .tab-btn[data-reftab="${targetKey}"]`);
         if (subTabBtn) subTabBtn.click();
       }
-
-      // Sync inner form tabs
-      const targetTabBtn = container.querySelector(`.nav-tabs .tab-btn[data-ietab="ie-${targetKey === 'priorities-ws3' ? 'priorities' : targetKey}"]`);
-      if (targetTabBtn) targetTabBtn.click();
     }
 
     // 3. Emotion Regulation
@@ -203,34 +219,46 @@ class App {
       if (wsContainer) wsContainer.style.display = isRef ? 'none' : 'block';
       if (refContainer) refContainer.style.display = isRef ? 'block' : 'none';
 
-      const erMoe = document.getElementById('model-of-emotions-form')?.closest('.card');
-      const erCheckFacts = document.getElementById('check-facts-ws5-form')?.closest('.card');
-      const erAbcPos = document.getElementById('v2a-form')?.closest('.card') || document.getElementById('abc-a-form')?.closest('.card');
-      
-      const erTabVal = document.querySelector('.tab-btn[data-subtab="tab-v2a"]');
-      const erTabMastery = document.querySelector('.tab-btn[data-subtab="tab-mastery-cope"]');
-      const erTabPlease = document.querySelector('.tab-btn[data-subtab="tab-please-ws14"]');
+      const moeCard = document.getElementById('model-of-emotions-form')?.closest('.card');
+      const abcWrapper = document.getElementById('abc-please-wrapper');
+      const isMoe = ['model-emotions', 'check-facts-ws5', 'opposite-action-ws7'].includes(targetKey);
 
-      if (erMoe) erMoe.style.display = targetKey === 'model-emotions' ? 'block' : 'none';
-      if (erCheckFacts) erCheckFacts.style.display = targetKey === 'check-facts-ws5' ? 'block' : 'none';
-      
-      if (erAbcPos) {
-        const isAbc = ['values-to-actions', 'mastery-ws12', 'please-ws14'].includes(targetKey);
-        erAbcPos.style.display = isAbc ? 'block' : 'none';
-        
-        if (targetKey === 'values-to-actions' && erTabVal) erTabVal.click();
-        if (targetKey === 'mastery-ws12' && erTabMastery) erTabMastery.click();
-        if (targetKey === 'please-ws14' && erTabPlease) erTabPlease.click();
+      if (isMoe) {
+        if (moeCard) moeCard.style.display = 'block';
+        if (abcWrapper) abcWrapper.style.display = 'none';
+
+        const moeMap = {
+          'model-emotions': 'moe-model',
+          'check-facts-ws5': 'moe-checkfacts',
+          'opposite-action-ws7': 'moe-opposite'
+        };
+        const tabAttrVal = moeMap[targetKey];
+        if (tabAttrVal) {
+          const tabBtn = container.querySelector(`.nav-tabs .tab-btn[data-moetab="${tabAttrVal}"]`);
+          if (tabBtn) tabBtn.click();
+        }
+      } else {
+        if (moeCard) moeCard.style.display = 'none';
+        if (abcWrapper) abcWrapper.style.display = 'block';
+
+        const abcMap = {
+          'values-to-actions': 'tab-v2a',
+          'vulnerability-reduction-ws9': 'tab-reduce-vuln',
+          'pleasant-diary-ws10': 'tab-pleasant-events',
+          'mastery-ws12': 'tab-mastery-cope',
+          'please-ws14': 'tab-please-ws14'
+        };
+        const tabAttrVal = abcMap[targetKey];
+        if (tabAttrVal) {
+          const tabBtn = container.querySelector(`.nav-tabs .tab-btn[data-subtab="${tabAttrVal}"]`);
+          if (tabBtn) tabBtn.click();
+        }
       }
 
       if (isRef && refContainer) {
         const subTabBtn = refContainer.querySelector(`.nav-tabs .tab-btn[data-reftab="${targetKey}"]`);
         if (subTabBtn) subTabBtn.click();
       }
-
-      // Sync inner form tabs
-      const targetTabBtn = container.querySelector(`.nav-tabs .tab-btn[data-moetab="moe-${targetKey === 'check-facts-ws5' ? 'checkfacts' : 'model'}"]`);
-      if (targetTabBtn) targetTabBtn.click();
     }
 
     // 4. Distress Tolerance
@@ -239,14 +267,29 @@ class App {
       if (wsContainer) wsContainer.style.display = isRef ? 'none' : 'block';
       if (refContainer) refContainer.style.display = isRef ? 'block' : 'none';
 
+      const dtMap = {
+        'chain-analysis': 'dt-chain',
+        'stop-skill-ws2': 'dt-stop',
+        'pros-cons-ws3': 'dt-proscons',
+        'tip-skills-ws4': 'dt-tip',
+        'accepts-ws5': 'dt-accepts-ws',
+        'soothe-ws6': 'dt-soothe-ws',
+        'improve-ws7': 'dt-improve-ws',
+        'radical-acceptance-ws9': 'dt-radical-acc',
+        'turning-mind-ws10': 'dt-turning-mind',
+        'half-smile-ws11': 'dt-half-smile',
+        'mindfulness-thoughts-ws12': 'dt-mindful-thoughts'
+      };
+      const tabAttrVal = dtMap[targetKey];
+      if (tabAttrVal) {
+        const tabBtn = container.querySelector(`.nav-tabs .tab-btn[data-dttab="${tabAttrVal}"]`);
+        if (tabBtn) tabBtn.click();
+      }
+
       if (isRef && refContainer) {
         const subTabBtn = refContainer.querySelector(`.nav-tabs .tab-btn[data-reftab="${targetKey}"], .nav-tabs .tab-btn[data-dt="${targetKey}"]`);
         if (subTabBtn) subTabBtn.click();
       }
-
-      // Sync inner form tabs
-      const targetTabBtn = container.querySelector(`.nav-tabs .tab-btn[data-dttab="dt-${targetKey === 'chain' || targetKey === 'chain-analysis' ? 'chain' : targetKey + '-ws'}"]`);
-      if (targetTabBtn) targetTabBtn.click();
     }
   }
 
