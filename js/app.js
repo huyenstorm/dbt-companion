@@ -1,4 +1,4 @@
-/* Main Application Router & Controller (Reorganized with Flat Button Decks & Search Directory) */
+/* Main Application Router & Controller (Fully Clickable Tiles & 2-Column Sidebar Selectors) */
 import { db } from './db.js';
 import { ModelOfEmotionsModule } from './modules/modelOfEmotions.js';
 import { ChainAnalysisModule } from './modules/chainAnalysis.js';
@@ -40,7 +40,7 @@ class App {
     this.setupTheme();
     this.setupNavigation();
     this.setupBackupModal();
-    this.setupDashboardShortcuts();
+    this.setupClickableTiles();
     this.setupDeckNav();
     this.setupSearchDirectory();
     this.renderAllViews();
@@ -92,12 +92,12 @@ class App {
     });
   }
 
-  setupDashboardShortcuts() {
-    const shortcuts = document.querySelectorAll('.btn-dashboard-shortcut');
-    shortcuts.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const targetView = btn.dataset.target;
-        const targetDeckBtn = btn.dataset.sub;
+  setupClickableTiles() {
+    const tiles = document.querySelectorAll('.clickable-tile');
+    tiles.forEach(tile => {
+      tile.addEventListener('click', () => {
+        const targetView = tile.dataset.dashboardTile;
+        const targetDeckBtn = tile.dataset.sub;
 
         this.switchView(targetView);
 
@@ -145,12 +145,11 @@ class App {
     const container = document.getElementById(`view-${moduleName}`);
     if (!container) return;
 
-    // Hide/Show major sections
     const wsContainer = container.querySelector('[id$="-worksheets-container"]');
     const refContainer = container.querySelector('[id$="-references-container"]');
     const simpleRefPanel = container.querySelector('#panel-mindfulness-ref');
 
-    // 1. Core Mindfulness (Wise Mind Alignment, Mindfulness of Emotion, Problem Solving)
+    // 1. Core Mindfulness
     if (moduleName === 'mindfulness') {
       if (wsContainer) wsContainer.style.display = targetKey === 'mindfulness-ref' ? 'none' : 'block';
       if (simpleRefPanel) simpleRefPanel.style.display = targetKey === 'mindfulness-ref' ? 'block' : 'none';

@@ -52,23 +52,23 @@
 
       <!-- Quick Actions / Emergency row (CRITICAL: Moved to top for instant access in crisis) -->
       <div class="grid-2" style="margin-bottom: 1.25rem;">
-        <div class="card" style="border-color: var(--accent-rose); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; margin-bottom: 0;">
+        <div class="card clickable-tile" style="border-color: var(--accent-rose); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; margin-bottom: 0;" data-dashboard-tile="distress-tolerance" data-sub="tipp">
           <div>
             <strong style="color: var(--accent-rose); display: block; font-size: 1rem;">🚨 High Distress / Panic Reset</strong>
             <span style="font-size: 0.8rem; color: var(--text-muted);">Access TIPP cold temperature & paced breathing timer.</span>
           </div>
-          <button class="btn btn-danger btn-dashboard-shortcut" data-target="distress-tolerance" data-sub="tipp">Reset Now</button>
+          <span style="font-size: 1.25rem;">⚡</span>
         </div>
-        <div class="card" style="border-color: var(--accent-teal); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; margin-bottom: 0;">
+        <div class="card clickable-tile" style="border-color: var(--accent-teal); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; margin-bottom: 0;" data-dashboard-tile="diary-card">
           <div>
             <strong style="color: var(--accent-teal); display: block; font-size: 1rem;">📝 Daily Diary Card</strong>
             <span style="font-size: 0.8rem; color: var(--text-muted);">Track daily target behaviors, urges, and skills used.</span>
           </div>
-          <button class="btn btn-primary btn-dashboard-shortcut" data-target="diary-card">Log Today</button>
+          <span style="font-size: 1.25rem;">📅</span>
         </div>
       </div>
 
-      <!-- Search Directory Widget (Placed directly below quick-actions) -->
+      <!-- Search Directory Widget -->
       <div class="card" style="margin-bottom: 1.5rem; border-color: var(--accent-purple); position: relative; z-index: 10;">
         <h3 style="font-size: 0.95rem; color: var(--accent-purple); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
           <span>🔍</span> Worksheet & Skill Finder Directory
@@ -82,66 +82,50 @@
         </div>
       </div>
 
-      <!-- 4 Core DBT Modules Grid -->
-      <div class="grid-2">
+      <!-- 4 Core DBT Modules Grid (Strict 2x2 Grid, fully clickable tiles) -->
+      <div class="dashboard-grid">
         <!-- Module 1: Mindfulness -->
-        <div class="card" style="border-top: 4px solid var(--accent-teal);">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 0.75rem;">
-            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--accent-teal);">1. Core Mindfulness</h3>
+        <div class="card clickable-tile" style="border-top: 4px solid var(--accent-teal);" data-dashboard-tile="mindfulness">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 0.5rem;">
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--accent-teal);">Core Mindfulness</h3>
             <span style="font-size: 1.2rem;">✨</span>
           </div>
-          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; min-height: 40px;">
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">
             Cultivate presence, observe emotions like waves, and synthesize Reasonable and Emotional minds into Wise Mind.
           </p>
-          <div style="display: flex; gap: 0.5rem;">
-            <button class="btn btn-secondary btn-dashboard-shortcut" style="flex:1; font-size:0.8rem;" data-target="mindfulness" data-sub="wise-mind">Worksheets</button>
-            <button class="btn btn-secondary btn-dashboard-shortcut" style="flex:1; font-size:0.8rem;" data-target="mindfulness" data-sub="mindfulness-ref">References</button>
-          </div>
         </div>
 
         <!-- Module 2: Interpersonal Effectiveness -->
-        <div class="card" style="border-top: 4px solid var(--accent-blue);">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 0.75rem;">
-            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--accent-blue);">2. Interpersonal Effectiveness</h3>
+        <div class="card clickable-tile" style="border-top: 4px solid var(--accent-blue);" data-dashboard-tile="interpersonal">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 0.5rem;">
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--accent-blue);">Interpersonal Effectiveness</h3>
             <span style="font-size: 1.2rem;">🗣️</span>
           </div>
-          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; min-height: 40px;">
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">
             Build script boundaries (DEAR MAN), calculate assertiveness (Dime Game), validate others, and apologize effectively.
           </p>
-          <div style="display: flex; gap: 0.5rem;">
-            <button class="btn btn-secondary btn-dashboard-shortcut" style="flex:1; font-size:0.8rem;" data-target="interpersonal" data-sub="dear-man">Worksheets</button>
-            <button class="btn btn-secondary btn-dashboard-shortcut" style="flex:1; font-size:0.8rem;" data-target="interpersonal" data-sub="ref-sorry">References</button>
-          </div>
         </div>
 
         <!-- Module 3: Emotion Regulation -->
-        <div class="card" style="border-top: 4px solid var(--accent-purple);">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 0.75rem;">
-            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--accent-purple);">3. Emotion Regulation</h3>
+        <div class="card clickable-tile" style="border-top: 4px solid var(--accent-purple);" data-dashboard-tile="emotion-regulation">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 0.5rem;">
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--accent-purple);">Emotion Regulation</h3>
             <span style="font-size: 1.2rem;">🧠</span>
           </div>
-          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; min-height: 40px;">
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">
             Deconstruct reactions (Model of Emotions), align values to action steps, solve problems, and practice opposite actions.
           </p>
-          <div style="display: flex; gap: 0.5rem;">
-            <button class="btn btn-secondary btn-dashboard-shortcut" style="flex:1; font-size:0.8rem;" data-target="emotion-regulation" data-sub="model-emotions">Worksheets</button>
-            <button class="btn btn-secondary btn-dashboard-shortcut" style="flex:1; font-size:0.8rem;" data-target="emotion-regulation" data-sub="ref-emotions">References</button>
-          </div>
         </div>
 
         <!-- Module 4: Distress Tolerance -->
-        <div class="card" style="border-top: 4px solid var(--accent-rose);">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 0.75rem;">
-            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--accent-rose);">4. Distress Tolerance</h3>
+        <div class="card clickable-tile" style="border-top: 4px solid var(--accent-rose);" data-dashboard-tile="distress-tolerance">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 0.5rem;">
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--accent-rose);">Distress Tolerance</h3>
             <span style="font-size: 1.2rem;">🛡️</span>
           </div>
-          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; min-height: 40px;">
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">
             Map chains of behaviors (Chain Analysis), distract mind (ACCEPTS), self-soothe five senses, and improve the moment.
           </p>
-          <div style="display: flex; gap: 0.5rem;">
-            <button class="btn btn-secondary btn-dashboard-shortcut" style="flex:1; font-size:0.8rem;" data-target="distress-tolerance" data-sub="chain-analysis">Worksheets</button>
-            <button class="btn btn-secondary btn-dashboard-shortcut" style="flex:1; font-size:0.8rem;" data-target="distress-tolerance" data-sub="dt-accepts">References</button>
-          </div>
         </div>
       </div>
     </section>
@@ -154,15 +138,18 @@
         <h2 style="color: var(--accent-teal); margin-bottom: 0.25rem;">✨ Core Mindfulness</h2>
         <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Develop active awareness, find Wise Mind, and observe sensations without judgment.</p>
 
-        <!-- 1-Click Flat Navigation Deck -->
-        <div class="module-nav-deck">
-          <span class="deck-label">Worksheets:</span>
-          <button class="deck-btn active" data-deck-target="wise-mind">Wise Mind</button>
-          <button class="deck-btn" data-deck-target="mindfulness-emotion">Emotion Wave</button>
-          <button class="deck-btn" data-deck-target="problem-solving">Problem Solving</button>
-          
-          <span class="deck-label">References:</span>
-          <button class="deck-btn" data-deck-target="mindfulness-ref">States of Mind</button>
+        <!-- 2-Column Sub-navigation Grid -->
+        <div class="module-nav-grid">
+          <div class="nav-column">
+            <div class="nav-column-title">Worksheets</div>
+            <button class="deck-btn active" data-deck-target="wise-mind">Wise Mind Alignment</button>
+            <button class="deck-btn" data-deck-target="mindfulness-emotion">Mindfulness of Current Emotion</button>
+            <button class="deck-btn" data-deck-target="problem-solving">Problem Solving (Handout 12)</button>
+          </div>
+          <div class="nav-column">
+            <div class="nav-column-title">References</div>
+            <button class="deck-btn" data-deck-target="mindfulness-ref">States of Mind Reference</button>
+          </div>
         </div>
 
         <!-- Worksheets Container -->
@@ -199,16 +186,19 @@
         <h2 style="color: var(--accent-blue); margin-bottom: 0.25rem;">🗣️ Interpersonal Effectiveness</h2>
         <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Navigate relationships, assert boundaries, validate others, and protect self-respect.</p>
 
-        <!-- 1-Click Flat Navigation Deck -->
-        <div class="module-nav-deck">
-          <span class="deck-label">Worksheets:</span>
-          <button class="deck-btn active" data-deck-target="dear-man">DEAR MAN Builder</button>
-          <button class="deck-btn" data-deck-target="dime-game">Dime Game</button>
-          <button class="deck-btn" data-deck-target="val-others">Validating Others (WS 12)</button>
-          <button class="deck-btn" data-deck-target="self-val">Self-Validation (WS 13)</button>
-          
-          <span class="deck-label">References:</span>
-          <button class="deck-btn" data-deck-target="ref-sorry">I'M SORRY Guide</button>
+        <!-- 2-Column Sub-navigation Grid -->
+        <div class="module-nav-grid">
+          <div class="nav-column">
+            <div class="nav-column-title">Worksheets</div>
+            <button class="deck-btn active" data-deck-target="dear-man">DEAR MAN Script Builder</button>
+            <button class="deck-btn" data-deck-target="dime-game">The Dime Game Calculator</button>
+            <button class="deck-btn" data-deck-target="val-others">Validating Others (Worksheet 12)</button>
+            <button class="deck-btn" data-deck-target="self-val">Self-Validation (Worksheet 13)</button>
+          </div>
+          <div class="nav-column">
+            <div class="nav-column-title">References</div>
+            <button class="deck-btn" data-deck-target="ref-sorry">Apologizing Effectively (I'M SORRY)</button>
+          </div>
         </div>
 
         <div id="interpersonal-worksheets-container" class="module-section-active-card"></div>
@@ -224,17 +214,20 @@
         <h2 style="color: var(--accent-purple); margin-bottom: 0.25rem;">🧠 Emotion Regulation</h2>
         <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Understand emotional reactions, fit feelings to facts, practice opposite action, and reduce vulnerability.</p>
 
-        <!-- 1-Click Flat Navigation Deck -->
-        <div class="module-nav-deck">
-          <span class="deck-label">Worksheets:</span>
-          <button class="deck-btn active" data-deck-target="model-emotions">Model of Emotions</button>
-          <button class="deck-btn" data-deck-target="values-to-actions">Values to Actions (WS 11)</button>
-          <button class="deck-btn" data-deck-target="please-log">PLEASE Health Log</button>
-          
-          <span class="deck-label">References:</span>
-          <button class="deck-btn" data-deck-target="ref-emotions">Emotion Dictionary</button>
-          <button class="deck-btn" data-deck-target="ref-opposite-action">Opposite Actions Matrix</button>
-          <button class="deck-btn" data-deck-target="ref-sleep">Sleep Hygiene (20B)</button>
+        <!-- 2-Column Sub-navigation Grid -->
+        <div class="module-nav-grid">
+          <div class="nav-column">
+            <div class="nav-column-title">Worksheets</div>
+            <button class="deck-btn active" data-deck-target="model-emotions">Model of Emotions Worksheet 4</button>
+            <button class="deck-btn" data-deck-target="values-to-actions">Values to Actions Worksheet 11</button>
+            <button class="deck-btn" data-deck-target="please-log">PLEASE Health Log</button>
+          </div>
+          <div class="nav-column">
+            <div class="nav-column-title">References</div>
+            <button class="deck-btn" data-deck-target="ref-emotions">Emotion Reference Dictionary</button>
+            <button class="deck-btn" data-deck-target="ref-opposite-action">Opposite Actions Matrix (13)</button>
+            <button class="deck-btn" data-deck-target="ref-sleep">Sleep Hygiene Protocol (20B)</button>
+          </div>
         </div>
 
         <div id="emotion-regulation-worksheets-container" class="module-section-active-card"></div>
@@ -250,16 +243,19 @@
         <h2 style="color: var(--accent-rose); margin-bottom: 0.25rem;">🛡️ Distress Tolerance</h2>
         <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Crisis survival guidelines, distraction tools, sensory self-soothing, and behavior chain analysis.</p>
 
-        <!-- 1-Click Flat Navigation Deck -->
-        <div class="module-nav-deck">
-          <span class="deck-label">Worksheets:</span>
-          <button class="deck-btn active" data-deck-target="chain-analysis">Chain Analysis (WS 2)</button>
-          
-          <span class="deck-label">References / Decks:</span>
-          <button class="deck-btn" data-deck-target="tipp">TIPP Emergency Reset</button>
-          <button class="deck-btn" data-deck-target="dt-accepts">Wise Mind ACCEPTS</button>
-          <button class="deck-btn" data-deck-target="dt-soothe">Self-Soothe 5 Senses</button>
-          <button class="deck-btn" data-deck-target="dt-improve">IMPROVE the Moment</button>
+        <!-- 2-Column Sub-navigation Grid -->
+        <div class="module-nav-grid">
+          <div class="nav-column">
+            <div class="nav-column-title">Worksheets</div>
+            <button class="deck-btn active" data-deck-target="chain-analysis">Chain Analysis (Worksheet 2)</button>
+          </div>
+          <div class="nav-column">
+            <div class="nav-column-title">References / Decks</div>
+            <button class="deck-btn" data-deck-target="tipp">TIPP Emergency Reset</button>
+            <button class="deck-btn" data-deck-target="dt-accepts">Wise Mind ACCEPTS</button>
+            <button class="deck-btn" data-deck-target="dt-soothe">Self-Soothe 5 Senses</button>
+            <button class="deck-btn" data-deck-target="dt-improve">IMPROVE the Moment</button>
+          </div>
         </div>
 
         <div id="distress-tolerance-worksheets-container" class="module-section-active-card"></div>
@@ -323,7 +319,7 @@
     </div>
   </div>
 
-  <!-- Register Service Worker for Offline PWA with Auto-Update Hook -->
+  <!-- Register Service Worker for Offline PWA -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
