@@ -458,118 +458,97 @@ export const ReferencesModule = {
         <!-- Deciding Opposite Action vs Problem Solving -->
         <div class="reftab-content" id="ref-er-deciding" style="display: none;">
           <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); line-height: 1.6;">
-            <h3 style="color: var(--accent-purple); font-size: 1.25rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+            <h3 style="color: var(--accent-purple); font-size: 1.25rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; text-align: center;">
               Opposite Action and Problem Solving: Deciding Which to Use (Handout 9)
             </h3>
             
-            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem; text-align: center;">
-              Use this interactive flowchart logic to determine whether to act on your urge, problem-solve, or practice Opposite Action.
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem; text-align: center; max-width: 600px; margin-left: auto; margin-right: auto;">
+              First, ask: <strong>Does the emotion fit the facts?</strong> then follow the corresponding decision path below:
             </p>
 
-            <div class="flowchart-container">
-              <!-- Node 1: Start Question -->
-              <div class="flowchart-node question">
-                <strong style="color: var(--accent-purple); font-size: 1rem; display: block; margin-bottom: 0.25rem;">STEP 1: CHECK THE FACTS</strong>
-                <span style="font-size: 0.85rem; color: var(--text-primary); font-weight: 600;">Does the emotion fit the facts?</span>
-              </div>
+            <div class="grid-2" style="gap: 1.5rem; align-items: stretch;">
               
-              <div class="flowchart-connector"></div>
-              
-              <!-- Branches for Step 1 -->
-              <div class="flowchart-branches">
-                
-                <!-- Left Branch: YES (Emotion fits facts) -->
-                <div class="flowchart-branch">
-                  <div class="flowchart-branch-line"></div>
-                  <span class="flowchart-branch-label">YES</span>
+              <!-- 🟢 Path A: Fits the Facts -->
+              <div style="background: rgba(20, 184, 166, 0.02); border: 2px solid var(--accent-teal); border-radius: var(--radius-lg); padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                  <h4 style="color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem; font-weight: 700; border-bottom: 1px dashed rgba(20, 184, 166, 0.2); padding-bottom: 0.4rem;">
+                    🟢 Path A: Emotion Fits the Facts
+                  </h4>
+                  <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
+                    Your emotional reaction is justified by the objective facts of the situation.
+                  </p>
                   
-                  <div class="flowchart-node question">
-                    <strong style="color: var(--accent-blue); font-size: 0.9rem; display: block; margin-bottom: 0.25rem;">STEP 2: CHECK WISE MIND</strong>
+                  <div class="flowchart-node question" style="max-width: 100%; margin-bottom: 1rem;">
+                    <strong style="color: var(--accent-blue); font-size: 0.8rem; display: block; margin-bottom: 0.25rem; text-transform: uppercase;">Check Wise Mind</strong>
                     <span style="font-size: 0.85rem; color: var(--text-primary); font-weight: 600;">Is acting on this emotion effective?</span>
                   </div>
-                  
-                  <div class="flowchart-connector"></div>
-                  
-                  <!-- Branches for Yes -> Effective -->
-                  <div class="flowchart-branches">
-                    <!-- Left-Left Branch: YES (Effective) -->
-                    <div class="flowchart-branch">
-                      <div class="flowchart-branch-line"></div>
-                      <span class="flowchart-branch-label">YES</span>
-                      
-                      <div class="flowchart-node outcome-green" style="text-align: left;">
-                        <strong style="color: var(--accent-teal); font-size: 0.85rem; display: block; margin-bottom: 0.4rem; text-transform: uppercase;">Act on Urge & Problem-Solve</strong>
-                        <ul style="padding-left: 1.2rem; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
-                          <li>Be mindful of current emotions (ER Handout 22)</li>
-                          <li>Act on emotion / action urges</li>
-                          <li>Problem-solve unwanted emotions (ER Handout 12)</li>
-                        </ul>
-                      </div>
-                    </div>
-                    
-                    <!-- Left-Right Branch: NO (Not Effective) -->
-                    <div class="flowchart-branch">
-                      <div class="flowchart-branch-line"></div>
-                      <span class="flowchart-branch-label">NO</span>
-                      
-                      <div class="flowchart-node outcome-rose" style="text-align: left;">
-                        <strong style="color: var(--accent-rose); font-size: 0.85rem; display: block; margin-bottom: 0.4rem; text-transform: uppercase;">Do Not Act / Act Opposite</strong>
-                        <ul style="padding-left: 1.2rem; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
-                          <li>Do NOT act on emotion or action urge</li>
-                          <li>Practice Opposite Action (ER Handouts 10-11)</li>
-                        </ul>
-                      </div>
-                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                  <!-- Option A1 -->
+                  <div class="flowchart-node outcome-green" style="max-width: 100%; text-align: left;">
+                    <span style="font-size: 0.7rem; font-weight: 800; color: var(--accent-teal); background: rgba(20, 184, 166, 0.1); padding: 0.1rem 0.4rem; border-radius: var(--radius-sm); float: right;">YES</span>
+                    <strong style="color: var(--accent-teal); font-size: 0.85rem; display: block; margin-bottom: 0.4rem; text-transform: uppercase;">Act on Urge & Problem-Solve</strong>
+                    <ul style="padding-left: 1.2rem; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+                      <li>Be mindful of current emotions (Handout 22).</li>
+                      <li>Act on emotional action urges.</li>
+                      <li>Problem-solve unwanted emotions (Handout 12).</li>
+                    </ul>
+                  </div>
+
+                  <!-- Option A2 -->
+                  <div class="flowchart-node outcome-rose" style="max-width: 100%; text-align: left;">
+                    <span style="font-size: 0.7rem; font-weight: 800; color: var(--accent-rose); background: rgba(244, 63, 94, 0.1); padding: 0.1rem 0.4rem; border-radius: var(--radius-sm); float: right;">NO</span>
+                    <strong style="color: var(--accent-rose); font-size: 0.85rem; display: block; margin-bottom: 0.4rem; text-transform: uppercase;">Do Not Act / Act Opposite</strong>
+                    <ul style="padding-left: 1.2rem; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+                      <li>Do NOT act on emotional action urge.</li>
+                      <li>Consider Opposite Action (Handouts 10-11).</li>
+                    </ul>
                   </div>
                 </div>
-                
-                <!-- Right Branch: NO (Emotion does not fit facts) -->
-                <div class="flowchart-branch">
-                  <div class="flowchart-branch-line"></div>
-                  <span class="flowchart-branch-label">NO</span>
+              </div>
+
+              <!-- 🔴 Path B: Does NOT Fit the Facts -->
+              <div style="background: rgba(244, 63, 94, 0.02); border: 2px solid var(--accent-rose); border-radius: var(--radius-lg); padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                  <h4 style="color: var(--accent-rose); font-size: 1.1rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem; font-weight: 700; border-bottom: 1px dashed rgba(244, 63, 94, 0.2); padding-bottom: 0.4rem;">
+                    🔴 Path B: Emotion Does NOT Fit the Facts
+                  </h4>
+                  <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
+                    Your emotional reaction does not align with the objective facts of the situation.
+                  </p>
                   
-                  <div class="flowchart-node question">
-                    <strong style="color: var(--accent-blue); font-size: 0.9rem; display: block; margin-bottom: 0.25rem;">STEP 2: CHECK WISE MIND</strong>
+                  <div class="flowchart-node question" style="max-width: 100%; margin-bottom: 1rem;">
+                    <strong style="color: var(--accent-blue); font-size: 0.8rem; display: block; margin-bottom: 0.25rem; text-transform: uppercase;">Check Wise Mind</strong>
                     <span style="font-size: 0.85rem; color: var(--text-primary); font-weight: 600;">Is acting on this emotion effective?</span>
                   </div>
-                  
-                  <div class="flowchart-connector"></div>
-                  
-                  <!-- Branches for No -> Effective -->
-                  <div class="flowchart-branches">
-                    <!-- Right-Left Branch: NO (Not Effective) -->
-                    <div class="flowchart-branch">
-                      <div class="flowchart-branch-line"></div>
-                      <span class="flowchart-branch-label">NO</span>
-                      
-                      <div class="flowchart-node outcome-rose" style="text-align: left;">
-                        <strong style="color: var(--accent-rose); font-size: 0.85rem; display: block; margin-bottom: 0.4rem; text-transform: uppercase;">Do Not Act / Act Opposite</strong>
-                        <ul style="padding-left: 1.2rem; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
-                          <li>Do NOT act on emotion or action urge</li>
-                          <li>Change thoughts to fit the facts (ER Handout 8)</li>
-                          <li>Practice Opposite Action (ER Handouts 10-11)</li>
-                        </ul>
-                      </div>
-                    </div>
-                    
-                    <!-- Right-Right Branch: YES (Effective) -->
-                    <div class="flowchart-branch">
-                      <div class="flowchart-branch-line"></div>
-                      <span class="flowchart-branch-label">YES</span>
-                      
-                      <div class="flowchart-node outcome-purple" style="text-align: left;">
-                        <strong style="color: var(--accent-purple); font-size: 0.85rem; display: block; margin-bottom: 0.4rem; text-transform: uppercase;">Mindful Action / Accept</strong>
-                        <ul style="padding-left: 1.2rem; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
-                          <li>Be mindful of current emotions (ER Handout 22)</li>
-                          <li>Act, but accept consequences gracefully</li>
-                          <li>Reconsider Opposite Action</li>
-                        </ul>
-                      </div>
-                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                  <!-- Option B1 -->
+                  <div class="flowchart-node outcome-rose" style="max-width: 100%; text-align: left;">
+                    <span style="font-size: 0.7rem; font-weight: 800; color: var(--accent-rose); background: rgba(244, 63, 94, 0.1); padding: 0.1rem 0.4rem; border-radius: var(--radius-sm); float: right;">NO</span>
+                    <strong style="color: var(--accent-rose); font-size: 0.85rem; display: block; margin-bottom: 0.4rem; text-transform: uppercase;">Do Not Act / Act Opposite</strong>
+                    <ul style="padding-left: 1.2rem; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+                      <li>Do NOT act on emotional action urge.</li>
+                      <li>Change thoughts to fit the facts (Handout 8).</li>
+                      <li>Do Opposite Action (Handouts 10-11).</li>
+                    </ul>
+                  </div>
+
+                  <!-- Option B2 -->
+                  <div class="flowchart-node outcome-purple" style="max-width: 100%; text-align: left;">
+                    <span style="font-size: 0.7rem; font-weight: 800; color: var(--accent-purple); background: rgba(168, 85, 247, 0.1); padding: 0.1rem 0.4rem; border-radius: var(--radius-sm); float: right;">YES</span>
+                    <strong style="color: var(--accent-purple); font-size: 0.85rem; display: block; margin-bottom: 0.4rem; text-transform: uppercase;">Mindful Action / Accept</strong>
+                    <ul style="padding-left: 1.2rem; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+                      <li>Be mindful of current emotions (Handout 22).</li>
+                      <li>Act, but accept the consequences gracefully.</li>
+                      <li>Reconsider Opposite Action.</li>
+                    </ul>
                   </div>
                 </div>
-                
               </div>
+
             </div>
           </div>
         </div>

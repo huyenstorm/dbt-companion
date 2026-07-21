@@ -57,6 +57,7 @@ class App {
     this.setupClickableTiles();
     this.setupDeckNav();
     this.setupSearchDirectory();
+    this.setupSkillFinder();
     this.renderAllViews();
     this.syncDeckNavVisibility('mindfulness', 'wise-mind');
     this.syncDeckNavVisibility('interpersonal', 'dear-man');
@@ -299,6 +300,110 @@ class App {
         if (subTabBtn) subTabBtn.click();
       }
     }
+  }
+
+  setupSkillFinder() {
+    const step1 = document.getElementById('sf-step-1');
+    const step2 = document.getElementById('sf-step-2');
+    const step3 = document.getElementById('sf-step-3');
+    
+    const distressBtns = document.querySelectorAll('.sf-distress-btn');
+    const goalOptions = document.getElementById('sf-goal-options');
+    const btnBack = document.getElementById('btn-sf-back');
+    const btnReset = document.getElementById('btn-sf-reset');
+    const btnGo = document.getElementById('btn-sf-go');
+    
+    const recommendTitle = document.getElementById('sf-recommend-title');
+    const recommendDesc = document.getElementById('sf-recommend-desc');
+    
+    let selectedDistress = '';
+    let selectedRecommendation = null;
+
+    const goalsByDistress = {
+      extreme: [
+        { label: '💧 Reduce physical heat/arousal immediately (cold face splash)', view: 'distress-tolerance', deck: 'tipp', title: 'TIPP: Temperature Reset', desc: 'Splash your face with ice-cold water while holding your breath to activate the mammalian dive reflex.' },
+        { label: '🏃 Release intense pent-up physical panic/energy', view: 'distress-tolerance', deck: 'tipp', title: 'TIPP: Intense Exercise', desc: 'Engage in brief, high-intensity exercise (e.g., jumping jacks, sprints) to burn off the panic.' },
+        { label: '💨 Slow down racing thoughts and heart rate', view: 'distress-tolerance', deck: 'tipp', title: 'TIPP: Paced Breathing', desc: 'Breathe deeply from the stomach. Inhale for 4 seconds, exhale for 8 seconds, to trigger parasympathetic relaxation.' },
+        { label: '💪 Calm physical muscle shaking or tension', view: 'distress-tolerance', deck: 'tipp', title: 'TIPP: Paired Muscle Relaxation', desc: 'Tense a muscle group for 5-7 seconds, then release it while saying the word "Relax".' }
+      ],
+      high: [
+        { label: '🛑 Stop myself from acting impulsively on dangerous urges', view: 'distress-tolerance', deck: 'ref-dt-stop', title: 'STOP Skill Guide', desc: 'Stop, Take a step back, Observe, and Proceed mindfully to prevent crisis behavior.' },
+        { label: '🧩 Distract my mind fully from current suffering', view: 'distress-tolerance', deck: 'dt-accepts', title: 'Wise Mind ACCEPTS', desc: 'Use Activities, Contributing, Comparisons, Emotions, Pushing away, Thoughts, and Sensations.' },
+        { label: '🌸 Ground my body using physical senses', view: 'distress-tolerance', deck: 'dt-soothe', title: 'Self-Soothing 5 Senses', desc: 'Calm the nervous system by paying attention to sight, sound, smell, taste, and touch.' },
+        { label: '☀️ Change my cognitive focus to improve my mood', view: 'distress-tolerance', deck: 'dt-improve', title: 'IMPROVE the Moment', desc: 'Use Imagery, Meaning, Prayer, Relaxation, One thing in the moment, Vacation, and Encouragement.' },
+        { label: '⚖️ Assess the cost/benefit of acting on my urge', view: 'distress-tolerance', deck: 'pros-cons-ws3', title: 'Pros & Cons Worksheet', desc: 'List the pros and cons of acting on urges versus resisting urges to align with Wise Mind.' }
+      ],
+      moderate: [
+        { label: '🔍 Check if my emotional intensity fits the actual situation', view: 'emotion-regulation', deck: 'check-facts-ws5', title: 'Check the Facts (Worksheet 5)', desc: 'Inspect if your emotion is justified by the objective details, or if interpretations are distorting it.' },
+        { label: '🔄 Change an unjustified or ineffective feeling', view: 'emotion-regulation', deck: 'opposite-action-ws7', title: 'Opposite Action (Worksheet 7)', desc: 'Act 180-degrees opposite to your emotional urge to alter the brain chemistry of that emotion.' },
+        { label: '🛠️ Solve a problem that has factual justification', view: 'mindfulness', deck: 'problem-solving', title: 'Problem Solving Sequence (Handout 12)', desc: 'Factual situations require logical action steps: brainstorm solutions, weigh pros/cons, and execute.' },
+        { label: '🗣️ Express my needs or boundaries clearly to someone', view: 'interpersonal', deck: 'dear-man', title: 'DEAR MAN Builder (Worksheet 4)', desc: 'Describe, Express, Assert, and Reinforce to state your wishes clearly while appearing confident.' }
+      ],
+      low: [
+        { label: '👥 Keep my relationship positive during a request', view: 'interpersonal', deck: 'ref-ie-give', title: 'Relationship: GIVE (Handout 6)', desc: 'Use a Gentle approach, act Interested, Validate the other person, and maintain an Easy manner.' },
+        { label: '🛡️ Protect my self-respect and stick to my values', view: 'interpersonal', deck: 'ref-ie-fast', title: 'Self-Respect: FAST (Handout 7)', desc: 'Be Fair, No apologies, Stick to values, and be Truthful during interpersonal requests.' },
+        { label: '✨ Practice grounding / quiet my active mind', view: 'mindfulness', deck: 'wise-mind', title: 'Wise Mind Alignment Wizard', desc: 'Enter the center of awareness, align logic and emotion, and identify your wise path forward.' },
+        { label: '💭 Observe thoughts without getting swept away by them', view: 'distress-tolerance', deck: 'mindfulness-thoughts-ws12', title: 'Mindfulness of Thoughts (Worksheet 12)', desc: 'Practice cognitive defusion and watch thoughts arise and pass like leaves floating down a stream.' }
+      ]
+    };
+
+    distressBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedDistress = btn.dataset.distress;
+        
+        // Render goals
+        goalOptions.innerHTML = '';
+        const goals = goalsByDistress[selectedDistress];
+        goals.forEach(g => {
+          const optBtn = document.createElement('button');
+          optBtn.type = 'button';
+          optBtn.className = 'btn btn-secondary sf-goal-btn';
+          optBtn.style.textAlign = 'left';
+          optBtn.style.padding = '0.6rem 0.8rem';
+          optBtn.style.fontSize = '0.8rem';
+          optBtn.textContent = g.label;
+          optBtn.addEventListener('click', () => {
+            selectedRecommendation = { view: g.view, deck: g.deck };
+            recommendTitle.textContent = g.title;
+            recommendDesc.textContent = g.desc;
+            
+            // Show step 3
+            step2.style.display = 'none';
+            step3.style.display = 'block';
+          });
+          goalOptions.appendChild(optBtn);
+        });
+
+        // Toggle steps
+        step1.style.display = 'none';
+        step2.style.display = 'block';
+      });
+    });
+
+    btnBack.addEventListener('click', () => {
+      step2.style.display = 'none';
+      step1.style.display = 'block';
+    });
+
+    btnReset.addEventListener('click', () => {
+      step3.style.display = 'none';
+      step1.style.display = 'block';
+      selectedDistress = '';
+      selectedRecommendation = null;
+    });
+
+    btnGo.addEventListener('click', () => {
+      if (selectedRecommendation) {
+        this.switchView(selectedRecommendation.view);
+        this.syncDeckNavVisibility(selectedRecommendation.view, selectedRecommendation.deck);
+        
+        // Reset wizard state for next time they come back
+        step3.style.display = 'none';
+        step1.style.display = 'block';
+        selectedDistress = '';
+        selectedRecommendation = null;
+      }
+    });
   }
 
   setupSearchDirectory() {
