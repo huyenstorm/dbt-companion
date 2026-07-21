@@ -1,4 +1,4 @@
-/* Main Application Router & Controller (Reorganized with Search Directory & Worksheet Toggles) */
+/* Main Application Router & Controller (Reorganized with Flat Button Decks & Search Directory) */
 import { db } from './db.js';
 import { ModelOfEmotionsModule } from './modules/modelOfEmotions.js';
 import { ChainAnalysisModule } from './modules/chainAnalysis.js';
@@ -14,24 +14,24 @@ class App {
   constructor() {
     this.currentTheme = 'dark';
     this.searchIndex = [
-      { name: 'Linehan Model of Emotions (Worksheet 4)', target: 'emotion-regulation', tab: 'ws', value: 'model-emotions' },
-      { name: 'Wise Mind Alignment', target: 'mindfulness', tab: 'ws', value: 'wise-mind' },
-      { name: 'Mindfulness of Current Emotion', target: 'mindfulness', tab: 'ws', value: 'mindfulness-emotion' },
-      { name: 'Problem Solving Wizard (Handout 12)', target: 'mindfulness', tab: 'ws', value: 'problem-solving' },
-      { name: 'DEAR MAN Script Builder', target: 'interpersonal', tab: 'ws', value: 'dear-man' },
-      { name: 'The Dime Game Calculator (Worksheet 5)', target: 'interpersonal', tab: 'ws', value: 'dime-game' },
-      { name: 'Validating Others Homework (Worksheet 12)', target: 'interpersonal', tab: 'ws', value: 'val-others' },
-      { name: 'Self-Validation & Self-Respect (Worksheet 13)', target: 'interpersonal', tab: 'ws', value: 'self-val' },
-      { name: 'Values to Actions Pipeline (Worksheet 11)', target: 'emotion-regulation', tab: 'ws', value: 'values-to-actions' },
-      { name: 'PLEASE Health Log (Physical Vulnerabilities)', target: 'emotion-regulation', tab: 'ws', value: 'please-log' },
-      { name: 'Behavioral Chain Analysis (Worksheet 2)', target: 'distress-tolerance', tab: 'ws', value: '' },
-      { name: 'Sleep Hygiene Protocol Reference (Handout 20B)', target: 'emotion-regulation', tab: 'ref', subTab: 'ref-sleep' },
-      { name: 'Apologizing Effectively Guide (I\'M SORRY Handout X)', target: 'interpersonal', tab: 'ref', subTab: 'ref-sorry' },
-      { name: 'Wise Mind ACCEPTS Distract Checklist (Handout 7)', target: 'distress-tolerance', tab: 'ref', subTab: 'dt-accepts' },
-      { name: 'Self-Soothe 5 Senses Checklist (Handout 8)', target: 'distress-tolerance', tab: 'ref', subTab: 'dt-soothe' },
-      { name: 'IMPROVE the Moment Checklist (Handout 9)', target: 'distress-tolerance', tab: 'ref', subTab: 'dt-improve' },
-      { name: 'TIPP Paced Breathing & Temperature Reset', target: 'distress-tolerance', tab: 'ref', subTab: '' },
-      { name: 'Diary Card Weekly Tracker', target: 'diary-card', tab: '' }
+      { name: 'Linehan Model of Emotions (Worksheet 4)', target: 'emotion-regulation', deckTarget: 'model-emotions' },
+      { name: 'Wise Mind Alignment Wizard', target: 'mindfulness', deckTarget: 'wise-mind' },
+      { name: 'Mindfulness of Current Emotion', target: 'mindfulness', deckTarget: 'mindfulness-emotion' },
+      { name: 'Problem Solving Wizard (Handout 12)', target: 'mindfulness', deckTarget: 'problem-solving' },
+      { name: 'DEAR MAN Script Builder', target: 'interpersonal', deckTarget: 'dear-man' },
+      { name: 'The Dime Game Calculator (Worksheet 5)', target: 'interpersonal', deckTarget: 'dime-game' },
+      { name: 'Validating Others Homework (Worksheet 12)', target: 'interpersonal', deckTarget: 'val-others' },
+      { name: 'Self-Validation & Self-Respect (Worksheet 13)', target: 'interpersonal', deckTarget: 'self-val' },
+      { name: 'Values to Actions Pipeline (Worksheet 11)', target: 'emotion-regulation', deckTarget: 'values-to-actions' },
+      { name: 'PLEASE Health Log (Physical Vulnerabilities)', target: 'emotion-regulation', deckTarget: 'please-log' },
+      { name: 'Behavioral Chain Analysis (Worksheet 2)', target: 'distress-tolerance', deckTarget: 'chain-analysis' },
+      { name: 'Sleep Hygiene Protocol Reference (Handout 20B)', target: 'emotion-regulation', deckTarget: 'ref-sleep' },
+      { name: 'Apologizing Effectively Guide (I\'M SORRY Handout X)', target: 'interpersonal', deckTarget: 'ref-sorry' },
+      { name: 'Wise Mind ACCEPTS Distract Checklist (Handout 7)', target: 'distress-tolerance', deckTarget: 'dt-accepts' },
+      { name: 'Self-Soothe 5 Senses Checklist (Handout 8)', target: 'distress-tolerance', deckTarget: 'dt-soothe' },
+      { name: 'IMPROVE the Moment Checklist (Handout 9)', target: 'distress-tolerance', deckTarget: 'dt-improve' },
+      { name: 'TIPP Paced Breathing & Temperature Reset', target: 'distress-tolerance', deckTarget: 'tipp' },
+      { name: 'Diary Card Weekly Tracker', target: 'diary-card', deckTarget: '' }
     ];
     this.init();
   }
@@ -41,10 +41,13 @@ class App {
     this.setupNavigation();
     this.setupBackupModal();
     this.setupDashboardShortcuts();
-    this.setupWorksheetSelectors();
+    this.setupDeckNav();
     this.setupSearchDirectory();
     this.renderAllViews();
-    this.syncWorksheetVisibility();
+    this.syncDeckNavVisibility('mindfulness', 'wise-mind');
+    this.syncDeckNavVisibility('interpersonal', 'dear-man');
+    this.syncDeckNavVisibility('emotion-regulation', 'model-emotions');
+    this.syncDeckNavVisibility('distress-tolerance', 'chain-analysis');
   }
 
   async setupTheme() {
@@ -87,21 +90,6 @@ class App {
         this.switchView('dashboard');
       });
     });
-
-    const subtabs = document.querySelectorAll('.view-section .nav-tabs .tab-btn');
-    subtabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        const parentSection = tab.closest('.view-section');
-        const targetPanelId = 'panel-' + tab.dataset.subview;
-
-        parentSection.querySelectorAll('.nav-tabs .tab-btn').forEach(t => t.classList.remove('active'));
-        parentSection.querySelectorAll('.subview-panel').forEach(p => p.style.display = 'none');
-
-        tab.classList.add('active');
-        const targetPanel = document.getElementById(targetPanelId);
-        if (targetPanel) targetPanel.style.display = 'block';
-      });
-    });
   }
 
   setupDashboardShortcuts() {
@@ -109,14 +97,13 @@ class App {
     shortcuts.forEach(btn => {
       btn.addEventListener('click', () => {
         const targetView = btn.dataset.target;
-        const subType = btn.dataset.sub;
+        const targetDeckBtn = btn.dataset.sub;
 
         this.switchView(targetView);
 
-        if (subType) {
-          const targetSection = document.getElementById(`view-${targetView}`);
-          const tabBtn = targetSection.querySelector(`.nav-tabs .tab-btn[data-subview^="${targetView}-${subType}"]`);
-          if (tabBtn) tabBtn.click();
+        if (targetDeckBtn) {
+          const deckBtn = document.querySelector(`#view-${targetView} .deck-btn[data-deck-target="${targetDeckBtn}"]`);
+          if (deckBtn) deckBtn.click();
         }
       });
     });
@@ -138,50 +125,101 @@ class App {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  setupWorksheetSelectors() {
-    const selectors = document.querySelectorAll('.ws-selector');
-    selectors.forEach(sel => {
-      sel.addEventListener('change', () => {
-        this.syncWorksheetVisibility();
+  setupDeckNav() {
+    const deckBtns = document.querySelectorAll('.deck-btn');
+    deckBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const parentSection = btn.closest('.view-section');
+        const viewName = parentSection.id.replace('view-', '');
+        const targetKey = btn.dataset.deckTarget;
+
+        parentSection.querySelectorAll('.deck-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        this.syncDeckNavVisibility(viewName, targetKey);
       });
     });
   }
 
-  syncWorksheetVisibility() {
-    // 1. Mindfulness Toggle
-    const mfVal = document.querySelector('.ws-selector[data-target-container="mindfulness-worksheets-container"]').value;
-    const mfAlign = document.getElementById('wise-mind-form')?.closest('.card') || document.getElementById('wise-mind-form');
-    const mfMce = document.getElementById('mce-form')?.closest('.card') || document.getElementById('mce-form');
-    const mfPs = document.getElementById('solve-form')?.closest('.card') || document.getElementById('solve-form');
+  syncDeckNavVisibility(moduleName, targetKey) {
+    const container = document.getElementById(`view-${moduleName}`);
+    if (!container) return;
 
-    if (mfAlign) mfAlign.style.display = mfVal === 'wise-mind' ? 'block' : 'none';
-    if (mfMce) mfMce.style.display = mfVal === 'mindfulness-emotion' ? 'block' : 'none';
-    if (mfPs) mfPs.style.display = mfVal === 'problem-solving' ? 'block' : 'none';
+    // Hide/Show major sections
+    const wsContainer = container.querySelector('[id$="-worksheets-container"]');
+    const refContainer = container.querySelector('[id$="-references-container"]');
+    const simpleRefPanel = container.querySelector('#panel-mindfulness-ref');
 
-    // 2. Interpersonal Toggle
-    const ipVal = document.querySelector('.ws-selector[data-target-container="interpersonal-worksheets-container"]').value;
-    const ipDm = document.getElementById('dearman-form')?.closest('.card') || document.getElementById('dearman-form');
-    const ipValOth = document.getElementById('val-others-form')?.closest('.card') || document.getElementById('val-others-form');
-    const ipSelfVal = document.getElementById('self-val-form')?.closest('.card') || document.getElementById('self-val-form');
-    const ipDime = document.getElementById('dime-game-container');
+    // 1. Core Mindfulness (Wise Mind Alignment, Mindfulness of Emotion, Problem Solving)
+    if (moduleName === 'mindfulness') {
+      if (wsContainer) wsContainer.style.display = targetKey === 'mindfulness-ref' ? 'none' : 'block';
+      if (simpleRefPanel) simpleRefPanel.style.display = targetKey === 'mindfulness-ref' ? 'block' : 'none';
 
-    if (ipDm) ipDm.style.display = ipVal === 'dear-man' ? 'block' : 'none';
-    if (ipDime) ipDime.style.display = ipVal === 'dime-game' ? 'block' : 'none';
-    if (ipValOth) ipValOth.style.display = ipVal === 'val-others' ? 'block' : 'none';
-    if (ipSelfVal) ipSelfVal.style.display = ipVal === 'self-val' ? 'block' : 'none';
+      const mfAlign = document.getElementById('wise-mind-form')?.closest('.card');
+      const mfMce = document.getElementById('mce-form')?.closest('.card');
+      const mfPs = document.getElementById('solve-form')?.closest('.card');
 
-    // 3. Emotion Regulation Toggle
-    const erVal = document.querySelector('.ws-selector[data-target-container="emotion-regulation-worksheets-container"]').value;
-    const erMoe = document.getElementById('model-of-emotions-form')?.closest('.card') || document.getElementById('model-of-emotions-form');
-    const erAbcPos = document.getElementById('abc-a-form')?.closest('.card') || document.getElementById('abc-a-form');
-    const erTabVal = document.querySelector('.tab-btn[data-subtab="tab-v2a"]');
-    const erTabPlease = document.querySelector('.tab-btn[data-subtab="tab-please"]');
+      if (mfAlign) mfAlign.style.display = targetKey === 'wise-mind' ? 'block' : 'none';
+      if (mfMce) mfMce.style.display = targetKey === 'mindfulness-emotion' ? 'block' : 'none';
+      if (mfPs) mfPs.style.display = targetKey === 'problem-solving' ? 'block' : 'none';
+    }
 
-    if (erMoe) erMoe.style.display = erVal === 'model-emotions' ? 'block' : 'none';
-    if (erAbcPos) {
-      erAbcPos.closest('.card').style.display = (erVal === 'values-to-actions' || erVal === 'please-log') ? 'block' : 'none';
-      if (erVal === 'values-to-actions' && erTabVal) erTabVal.click();
-      if (erVal === 'please-log' && erTabPlease) erTabPlease.click();
+    // 2. Interpersonal Effectiveness
+    if (moduleName === 'interpersonal') {
+      const isRef = targetKey.startsWith('ref-');
+      if (wsContainer) wsContainer.style.display = isRef ? 'none' : 'block';
+      if (refContainer) refContainer.style.display = isRef ? 'block' : 'none';
+
+      const ipDm = document.getElementById('dearman-form')?.closest('.card');
+      const ipValOth = document.getElementById('val-others-form')?.closest('.card');
+      const ipSelfVal = document.getElementById('self-val-form')?.closest('.card');
+      const ipDime = document.getElementById('dime-game-container');
+
+      if (ipDm) ipDm.style.display = targetKey === 'dear-man' ? 'block' : 'none';
+      if (ipDime) ipDime.style.display = targetKey === 'dime-game' ? 'block' : 'none';
+      if (ipValOth) ipValOth.style.display = targetKey === 'val-others' ? 'block' : 'none';
+      if (ipSelfVal) ipSelfVal.style.display = targetKey === 'self-val' ? 'block' : 'none';
+
+      if (isRef && refContainer) {
+        const subTabBtn = refContainer.querySelector(`.nav-tabs .tab-btn[data-reftab="${targetKey}"]`);
+        if (subTabBtn) subTabBtn.click();
+      }
+    }
+
+    // 3. Emotion Regulation
+    if (moduleName === 'emotion-regulation') {
+      const isRef = targetKey.startsWith('ref-');
+      if (wsContainer) wsContainer.style.display = isRef ? 'none' : 'block';
+      if (refContainer) refContainer.style.display = isRef ? 'block' : 'none';
+
+      const erMoe = document.getElementById('model-of-emotions-form')?.closest('.card');
+      const erAbcPos = document.getElementById('abc-a-form')?.closest('.card');
+      const erTabVal = document.querySelector('.tab-btn[data-subtab="tab-v2a"]');
+      const erTabPlease = document.querySelector('.tab-btn[data-subtab="tab-please"]');
+
+      if (erMoe) erMoe.style.display = targetKey === 'model-emotions' ? 'block' : 'none';
+      if (erAbcPos) {
+        erAbcPos.closest('.card').style.display = (targetKey === 'values-to-actions' || targetKey === 'please-log') ? 'block' : 'none';
+        if (targetKey === 'values-to-actions' && erTabVal) erTabVal.click();
+        if (targetKey === 'please-log' && erTabPlease) erTabPlease.click();
+      }
+
+      if (isRef && refContainer) {
+        const subTabBtn = refContainer.querySelector(`.nav-tabs .tab-btn[data-reftab="${targetKey}"]`);
+        if (subTabBtn) subTabBtn.click();
+      }
+    }
+
+    // 4. Distress Tolerance
+    if (moduleName === 'distress-tolerance') {
+      const isRef = targetKey !== 'chain-analysis';
+      if (wsContainer) wsContainer.style.display = isRef ? 'none' : 'block';
+      if (refContainer) refContainer.style.display = isRef ? 'block' : 'none';
+
+      if (isRef && refContainer) {
+        const subTabBtn = refContainer.querySelector(`.nav-tabs .tab-btn[data-reftab="${targetKey}"], .nav-tabs .tab-btn[data-dt="${targetKey}"]`);
+        if (subTabBtn) subTabBtn.click();
+      }
     }
   }
 
@@ -200,43 +238,27 @@ class App {
 
       if (matches.length > 0) {
         results.innerHTML = matches.map(item => `
-          <div class="search-result-item" style="padding: 0.6rem 1rem; cursor: pointer; font-size: 0.85rem; border-bottom: 1px solid var(--border-color); color: var(--text-primary); transition: background var(--transition-fast);" data-target="${item.target}" data-tab="${item.tab}" data-value="${item.value || ''}" data-subtab="${item.subTab || ''}">
+          <div class="search-result-item" style="padding: 0.6rem 1rem; cursor: pointer; font-size: 0.85rem; border-bottom: 1px solid var(--border-color); color: var(--text-primary); transition: background var(--transition-fast);" data-target="${item.target}" data-deck-target="${item.deckTarget || ''}">
             <strong style="color: var(--accent-purple);">${item.name}</strong>
             <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Module: ${item.target.toUpperCase()}</span>
           </div>
         `).join('');
         results.style.display = 'block';
 
-        // Add event listeners
         results.querySelectorAll('.search-result-item').forEach(el => {
           el.addEventListener('mouseover', () => el.style.backgroundColor = 'var(--bg-card-hover)');
           el.addEventListener('mouseout', () => el.style.backgroundColor = 'transparent');
           el.addEventListener('click', () => {
             const target = el.dataset.target;
-            const tab = el.dataset.tab;
-            const value = el.dataset.value;
-            const subtab = el.dataset.subtab;
+            const deckTarget = el.dataset.deckTarget;
 
             this.switchView(target);
             input.value = '';
             results.style.display = 'none';
 
-            if (tab) {
-              const tabBtn = document.querySelector(`.nav-tabs .tab-btn[data-subview="${target}-${tab}"]`);
-              if (tabBtn) tabBtn.click();
-
-              if (tab === 'ws' && value) {
-                const selector = document.querySelector(`.ws-selector[data-target-container="${target}-worksheets-container"]`);
-                if (selector) {
-                  selector.value = value;
-                  selector.dispatchEvent(new Event('change'));
-                }
-              }
-
-              if (tab === 'ref' && subtab) {
-                const subtabBtn = document.querySelector(`.nav-tabs .tab-btn[data-reftab="${subtab}"], .nav-tabs .tab-btn[data-dt="${subtab}"]`);
-                if (subtabBtn) subtabBtn.click();
-              }
+            if (deckTarget) {
+              const deckBtn = document.querySelector(`#view-${target} .deck-btn[data-deck-target="${deckTarget}"]`);
+              if (deckBtn) deckBtn.click();
             }
           });
         });
@@ -246,7 +268,6 @@ class App {
       }
     });
 
-    // Close results dropdown on outside click
     document.addEventListener('click', (e) => {
       if (!input.contains(e.target) && !results.contains(e.target)) {
         results.style.display = 'none';
