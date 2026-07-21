@@ -17,7 +17,7 @@ class App {
       { name: 'Linehan Model of Emotions (Worksheet 4)', target: 'emotion-regulation', deckTarget: 'model-emotions' },
       { name: 'Check the Facts Worksheet (Worksheet 5)', target: 'emotion-regulation', deckTarget: 'check-facts-ws5' },
       { name: 'Wise Mind Alignment Wizard', target: 'mindfulness', deckTarget: 'wise-mind' },
-      { name: 'Mindfulness of Current Emotion', target: 'mindfulness', deckTarget: 'mindfulness-emotion' },
+      { name: 'Mindfulness of Current Emotion (Worksheet 15)', target: 'mindfulness', deckTarget: 'mindfulness-emotion' },
       { name: 'Problem Solving Wizard (Handout 12)', target: 'mindfulness', deckTarget: 'problem-solving' },
       { name: 'DEAR MAN Script Builder', target: 'interpersonal', deckTarget: 'dear-man' },
       { name: 'Clarifying Priorities in Interpersonal Situations (Worksheet 3)', target: 'interpersonal', deckTarget: 'priorities-ws3' },

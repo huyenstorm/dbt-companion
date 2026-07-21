@@ -17,73 +17,91 @@ export const ModelOfEmotionsModule = {
         </div>
 
         <div class="nav-tabs" style="background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem;">
-          <button class="tab-btn active" data-moetab="moe-model">🧠 Model of Emotions (WS 4)</button>
+          <button class="tab-btn active" data-moetab="moe-model">🧠 Model of Emotions (WS 4/4a)</button>
           <button class="tab-btn" data-moetab="moe-checkfacts">🔍 Check the Facts (WS 5)</button>
         </div>
 
-        <!-- 1. Model of Emotions (Worksheet 4) -->
+        <!-- 1. Model of Emotions (Worksheet 4/4a) -->
         <div class="moetab-content active" id="moe-model">
           <form id="model-of-emotions-form">
-            <div class="form-group">
-              <label class="form-label">1. Primary Emotion Name</label>
-              <select class="form-control" id="moe-emotion" required>
-                <option value="">-- Select or type emotion --</option>
-                <option value="Fear / Anxiety">Fear / Anxiety</option>
-                <option value="Anger / Frustration">Anger / Frustration</option>
-                <option value="Sadness / Grief">Sadness / Grief</option>
-                <option value="Shame / Humiliation">Shame / Humiliation</option>
-                <option value="Guilt">Guilt</option>
-                <option value="Disgust">Disgust</option>
-                <option value="Jealousy / Envy">Jealousy / Envy</option>
-                <option value="Joy / Excitement">Joy / Excitement</option>
-                <option value="Love / Attachment">Love / Attachment</option>
-              </select>
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">1. Primary Emotion Name</label>
+                <select class="form-control" id="moe-emotion" required>
+                  <option value="">-- Select emotion --</option>
+                  <option value="Fear / Anxiety">Fear / Anxiety</option>
+                  <option value="Anger / Frustration">Anger / Frustration</option>
+                  <option value="Sadness / Grief">Sadness / Grief</option>
+                  <option value="Shame / Humiliation">Shame / Humiliation</option>
+                  <option value="Guilt">Guilt</option>
+                  <option value="Disgust">Disgust</option>
+                  <option value="Jealousy / Envy">Jealousy / Envy</option>
+                  <option value="Joy / Excitement">Joy / Excitement</option>
+                  <option value="Love / Attachment">Love / Attachment</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Intensity Level (0 to 100)</label>
+                <input type="number" min="0" max="100" class="form-control" id="moe-intensity" placeholder="e.g. 85">
+              </div>
             </div>
 
             <div class="grid-2">
               <div class="form-group">
-                <label class="form-label">2. Vulnerability Factors (Before the event)</label>
+                <label class="form-label">2. Vulnerability Factors (What happened before that made me vulnerable?)</label>
                 <textarea class="form-control" id="moe-vulnerabilities" placeholder="e.g. Physical exhaustion, training fatigue, poor sleep, hungry..."></textarea>
               </div>
 
               <div class="form-group">
-                <label class="form-label">3. Prompting Event (What triggered it?)</label>
+                <label class="form-label">3. Prompting Event (What set off the emotion? Just the facts!)</label>
                 <textarea class="form-control" id="moe-prompting-event" placeholder="e.g. Kid spilled juice, received critical email, unexpected schedule change..."></textarea>
               </div>
             </div>
 
             <div class="grid-2">
               <div class="form-group">
-                <label class="form-label">4. Interpretations & Beliefs (Thoughts)</label>
+                <label class="form-label">4. Interpretations & Beliefs (Thoughts, assumptions, appraisals)</label>
                 <textarea class="form-control" id="moe-interpretations" placeholder="e.g. 'I can't handle this', 'They don't respect my time...'"></textarea>
               </div>
 
               <div class="form-group">
-                <label class="form-label">5. Biological / Physical Sensations</label>
+                <label class="form-label">5. Face and Body Changes (Biological changes & physical sensations)</label>
                 <textarea class="form-control" id="moe-sensations" placeholder="e.g. Heart racing, tight chest, stomach drop, heat in face..."></textarea>
               </div>
             </div>
 
             <div class="grid-2">
               <div class="form-group">
-                <label class="form-label">6. Action Urge (What did you WANT to do?)</label>
+                <label class="form-label">6. Action Urges (What did you WANT to do? What did you WANT to say?)</label>
                 <textarea class="form-control" id="moe-action-urge" placeholder="e.g. Yell, isolate, run away, freeze..."></textarea>
               </div>
 
               <div class="form-group">
-                <label class="form-label">7. Expression & Behavior (What did you ACTUALLY do?)</label>
-                <textarea class="form-control" id="moe-expression" placeholder="e.g. Walked out of room, used TIPP paced breathing, yelled..."></textarea>
+                <label class="form-label">7. Face and Body Language (facial expressions, posture, gestures)</label>
+                <textarea class="form-control" id="moe-facelanguage" placeholder="e.g. Frowned, clenched fists, slumped shoulders..."></textarea>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">8. What I SAID in the situation (be specific)</label>
+                <textarea class="form-control" id="moe-said" placeholder="e.g. 'I need some space right now.' or yelled..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">9. What I DID in the situation (be specific)</label>
+                <textarea class="form-control" id="moe-did" placeholder="e.g. Walked out of room, used TIPP paced breathing, slammed door..."></textarea>
               </div>
             </div>
 
             <div class="form-group">
-              <label class="form-label">8. After-effects & Secondary Emotions</label>
+              <label class="form-label">10. What AFTEREFFECTS did the emotion have on me? (State of mind, memory, body, etc.)</label>
               <textarea class="form-control" id="moe-after-effects" placeholder="e.g. Guilt after reaction, physical fatigue, felt relieved after using STOP..."></textarea>
             </div>
 
             <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1rem;">
               <button type="button" class="btn btn-secondary" id="btn-copy-moe">📋 Copy Worksheet</button>
-              <button type="submit" class="btn btn-primary">💾 Save Worksheet 4</button>
+              <button type="submit" class="btn btn-primary">💾 Save Worksheet 4/4a</button>
             </div>
           </form>
         </div>
@@ -201,7 +219,7 @@ export const ModelOfEmotionsModule = {
       });
     });
 
-    // Model of Emotions (WS 4)
+    // Model of Emotions (WS 4/4a)
     const moeForm = container.querySelector('#model-of-emotions-form');
     moeForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -237,12 +255,15 @@ export const ModelOfEmotionsModule = {
   getMOEFormData(container) {
     return {
       'Primary Emotion': container.querySelector('#moe-emotion').value,
+      'Intensity Level': container.querySelector('#moe-intensity').value + '/100',
       'Vulnerabilities': container.querySelector('#moe-vulnerabilities').value,
       'Prompting Event': container.querySelector('#moe-prompting-event').value,
       'Interpretations': container.querySelector('#moe-interpretations').value,
       'Physical Sensations': container.querySelector('#moe-sensations').value,
       'Action Urge': container.querySelector('#moe-action-urge').value,
-      'Actual Expression/Behavior': container.querySelector('#moe-expression').value,
+      'Face and Body Language': container.querySelector('#moe-facelanguage').value,
+      'What I SAID': container.querySelector('#moe-said').value,
+      'What I DID': container.querySelector('#moe-did').value,
       'After-effects': container.querySelector('#moe-after-effects').value
     };
   },

@@ -1,4 +1,4 @@
-/* Wise Mind, Mindfulness of Current Emotion, and Problem Solving (Handout 12) */
+/* Wise Mind, Mindfulness of Current Emotion (WS 15), and Problem Solving (Handout 12) */
 import { db } from '../db.js';
 import { Exports } from '../exports.js';
 
@@ -18,7 +18,7 @@ export const WiseMindModule = {
 
         <div class="nav-tabs" style="background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem;">
           <button class="tab-btn active" data-wm="wm-align">✨ Wise Mind Alignment</button>
-          <button class="tab-btn" data-wm="wm-mce">🌊 Mindfulness of Emotion</button>
+          <button class="tab-btn" data-wm="wm-mce">🌊 Mindfulness of Emotion (WS 15)</button>
           <button class="tab-btn" data-wm="wm-solve">🛠️ Problem Solving (Handout 12)</button>
         </div>
 
@@ -52,32 +52,61 @@ export const WiseMindModule = {
           </form>
         </div>
 
-        <!-- Mindfulness of Current Emotion -->
+        <!-- Mindfulness of Current Emotion (Worksheet 15) -->
         <div class="wm-content" id="wm-mce" style="display: none;">
           <form id="mce-form">
-            <div class="form-group">
-              <label class="form-label">Target Emotion</label>
-              <input type="text" class="form-control" id="mce-emotion" placeholder="e.g. Panic, Sadness, Overwhelm..." required>
+            <div class="grid-3">
+              <div class="form-group">
+                <label class="form-label">Emotion Name</label>
+                <input type="text" class="form-control" id="mce-emotion" placeholder="e.g. Panic, Sadness, Anger..." required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Intensity Before (0-100)</label>
+                <input type="number" min="0" max="100" class="form-control" id="mce-before" placeholder="e.g. 95" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Intensity After (0-100)</label>
+                <input type="number" min="0" max="100" class="form-control" id="mce-after" placeholder="e.g. 50">
+              </div>
             </div>
 
             <div class="form-group">
-              <label class="form-label">1. Body Sensations (Where do you feel it physically?)</label>
-              <textarea class="form-control" id="mce-sensations" placeholder="Tight throat, stomach knot, tingling in arms..."></textarea>
+              <label class="form-label">Describe prompting situation:</label>
+              <textarea class="form-control" id="mce-situation" placeholder="Fill out Steps 1 and 2 of Worksheet 5 (Check the Facts) if necessary..."></textarea>
             </div>
 
             <div class="form-group">
-              <label class="form-label">2. Observing the Wave (Riding the peak without fighting)</label>
-              <textarea class="form-control" id="mce-wave" placeholder="I am noticing the emotion rising... it is reaching a peak... I am allowing it to crest and pass without pushing it down."></textarea>
+              <label class="form-label" style="color: var(--accent-teal);">Check off any of the following mindfulness actions you practiced:</label>
+              <div class="grid-2" style="background: var(--bg-secondary); padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); font-size: 0.8rem; gap: 0.5rem 1rem;">
+                <div>
+                  <label style="display:block; margin-bottom:0.25rem;"><input type="checkbox" class="mce-check" value="Stepped back and noticed"> Stepped back and just noticed the emotion</label>
+                  <label style="display:block; margin-bottom:0.25rem;"><input type="checkbox" class="mce-check" value="Experienced waves"> Experienced the emotion as waves on a beach</label>
+                  <label style="display:block; margin-bottom:0.25rem;"><input type="checkbox" class="mce-check" value="Let go of judgments"> Let go of judgments about my emotion</label>
+                  <label style="display:block; margin-bottom:0.25rem;"><input type="checkbox" class="mce-check" value="Noticed body location"> Noticed where in my body I felt sensations</label>
+                  <label style="display:block; margin-bottom:0.25rem;"><input type="checkbox" class="mce-check" value="Paid attention to physical"> Paid attention to physical sensations</label>
+                  <label style="display:block; margin-bottom:0.25rem;"><input type="checkbox" class="mce-check" value="Observed duration"> Observed how long it took to go away</label>
+                  <label style="display:block; margin-bottom:0.25rem;"><input type="checkbox" class="mce-check" value="Reminded critical fails"> Reminded myself critical thoughts fail</label>
+                </div>
+                <div>
+                  <label style="display:block; margin-bottom:0.25rem;"><input type="checkbox" class="mce-check" value="Willingness unwelcome"> Practiced willingness to feel unwelcome emotions</label>
+                  <label style="display:block; margin-bottom:0.25rem;"><input type="checkbox" class="mce-check" value="Imagined clouds"> Imagined my emotions as clouds in the sky</label>
+                  <label style="display:block; margin-bottom:0.25rem;"><input type="checkbox" class="mce-check" value="Noticed action urge"> Just noticed the action urge with my emotion</label>
+                  <label style="display:block; margin-bottom:0.25rem;"><input type="checkbox" class="mce-check" value="Avoided acting"> Got myself to avoid acting on urge</label>
+                  <label style="display:block; margin-bottom:0.25rem;"><input type="checkbox" class="mce-check" value="Reminded felt different"> Reminded myself of times I felt different</label>
+                  <label style="display:block; margin-bottom:0.25rem;"><input type="checkbox" class="mce-check" value="Radically accepted"> Practiced radically accepting my emotion</label>
+                  <label style="display:block; margin-bottom:0.25rem;"><input type="checkbox" class="mce-check" value="Tried to love emotion"> Tried to love my emotions</label>
+                </div>
+              </div>
             </div>
 
             <div class="form-group">
-              <label class="form-label">3. Self-Validation (Remembering: 'I am not my emotion')</label>
-              <textarea class="form-control" id="mce-validation" placeholder="'It makes sense I feel this way given my fatigue/history. This feeling is temporary.'"></textarea>
+              <label class="form-label">Comments and descriptions of experiences:</label>
+              <textarea class="form-control" id="mce-comments" placeholder="Describe how the waves crested, bodily shifts, or insights..."></textarea>
             </div>
 
             <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
               <button type="button" class="btn btn-secondary" id="btn-copy-mce">📋 Copy</button>
-              <button type="submit" class="btn btn-primary">💾 Save Session</button>
+              <button type="submit" class="btn btn-primary">💾 Save Worksheet 15</button>
             </div>
           </form>
         </div>
@@ -163,14 +192,9 @@ export const WiseMindModule = {
     const mceForm = container.querySelector('#mce-form');
     mceForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const data = {
-        'Target Emotion': container.querySelector('#mce-emotion').value,
-        'Body Sensations': container.querySelector('#mce-sensations').value,
-        'Wave Observation': container.querySelector('#mce-wave').value,
-        'Self Validation': container.querySelector('#mce-validation').value
-      };
-      await db.saveWorksheet({ type: 'mindfulness_emotion', title: `Mindfulness of Emotion: ${data['Target Emotion']}`, data });
-      alert('Mindfulness of Emotion entry saved!');
+      const data = this.getMCEFormData(container);
+      await db.saveWorksheet({ type: 'mindfulness_emotion_ws15', title: `Mindfulness of Emotion WS15: ${data['Target Emotion']}`, data });
+      alert('Mindfulness of Emotion Worksheet 15 saved!');
       mceForm.reset();
     });
 
@@ -194,19 +218,26 @@ export const WiseMindModule = {
     });
 
     container.querySelector('#btn-copy-mce').addEventListener('click', () => {
-      const data = {
-        'Target Emotion': container.querySelector('#mce-emotion').value,
-        'Body Sensations': container.querySelector('#mce-sensations').value,
-        'Wave Observation': container.querySelector('#mce-wave').value,
-        'Self Validation': container.querySelector('#mce-validation').value
-      };
-      Exports.copyForPortal('Mindfulness of Current Emotion', new Date(), data);
+      const data = this.getMCEFormData(container);
+      Exports.copyForPortal('Mindfulness of Current Emotion (WS15)', new Date(), data);
     });
 
     container.querySelector('#btn-copy-ps').addEventListener('click', () => {
       const data = this.getPSFormData(container);
       Exports.copyForPortal('Problem Solving Homework', new Date(), data);
     });
+  },
+
+  getMCEFormData(container) {
+    const checks = Array.from(container.querySelectorAll('.mce-check:checked')).map(c => c.value);
+    return {
+      'Target Emotion': container.querySelector('#mce-emotion').value,
+      'Intensity Before': container.querySelector('#mce-before').value + '/100',
+      'Intensity After': container.querySelector('#mce-after').value + '/100',
+      'Situation': container.querySelector('#mce-situation').value,
+      'Mindfulness Steps Practiced': checks.join(', ') || 'None selected',
+      'Description / Comments': container.querySelector('#mce-comments').value
+    };
   },
 
   getPSFormData(container) {

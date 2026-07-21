@@ -1,4 +1,4 @@
-/* Interpersonal Effectiveness: DEAR MAN, Validating Others (WS 12), Self-Validation (WS 13), Clarifying Priorities (WS 3) */
+/* Interpersonal Effectiveness: DEAR MAN (WS 4), Validating Others (WS 12), Self-Validation (WS 13), Clarifying Priorities (WS 3) */
 import { db } from '../db.js';
 import { Exports } from '../exports.js';
 
@@ -17,60 +17,83 @@ export const DearManModule = {
         </div>
 
         <div class="nav-tabs" style="background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem;">
-          <button class="tab-btn active" data-ietab="ie-dearman">🗣️ DEAR MAN Builder</button>
+          <button class="tab-btn active" data-ietab="ie-dearman">🗣️ DEAR MAN & GIVE FAST Builder (WS 4)</button>
           <button class="tab-btn" data-ietab="ie-priorities">🎯 Clarifying Priorities (Worksheet 3)</button>
           <button class="tab-btn" data-ietab="ie-val-others">👥 Validating Others (Worksheet 12)</button>
           <button class="tab-btn" data-ietab="ie-self-val">🛡️ Self-Validation (Worksheet 13)</button>
         </div>
 
-        <!-- DEAR MAN Script Builder -->
+        <!-- DEAR MAN Script Builder (Worksheet 4) -->
         <div class="ietab-content active" id="ie-dearman">
           <form id="dearman-form">
-            <div class="form-group">
-              <label class="form-label">Objective / Request Goal</label>
-              <input type="text" class="form-control" id="dm-goal" placeholder="e.g. Asking partner for 1 hour of quiet study/rest time without kids..." required>
+            <div class="grid-3">
+              <div class="form-group">
+                <label class="form-label">Objectives in Situation (Results I want)</label>
+                <input type="text" class="form-control" id="dm-goal" placeholder="e.g. Asking for 1 hour of quiet rest time..." required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Relationship Issue (How I want them to feel about me)</label>
+                <input type="text" class="form-control" id="dm-rel-issue" placeholder="e.g. Keep connection secure and avoid conflict...">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Self-Respect Issue (How I want to feel about myself)</label>
+                <input type="text" class="form-control" id="dm-self-issue" placeholder="e.g. Feel assertive and protect my boundaries...">
+              </div>
             </div>
+
+            <h4 style="color: var(--accent-blue); margin-bottom: 0.5rem; font-size: 0.9rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.25rem;">SCRIPT IDEAS FOR DEAR MAN, GIVE FAST</h4>
 
             <div class="grid-2">
               <div class="form-group">
-                <label class="form-label">D - Describe (Clear non-judgmental facts)</label>
+                <label class="form-label">1. Describe situation (Clear non-judgmental facts)</label>
                 <textarea class="form-control" id="dm-describe" placeholder="e.g. 'I've been training for 3 hours and managing the kids' dinner...'"></textarea>
               </div>
               <div class="form-group">
-                <label class="form-label">E - Express (Express feelings/opinions clearly)</label>
+                <label class="form-label">2. Express feelings/opinions (Express clearly)</label>
                 <textarea class="form-control" id="dm-express" placeholder="e.g. 'I'm feeling overwhelmed and physically depleted...'"></textarea>
               </div>
             </div>
 
             <div class="grid-2">
               <div class="form-group">
-                <label class="form-label">A - Assert (Ask clearly or say NO directly)</label>
+                <label class="form-label">3. Assert request / say NO directly (Broken record focus)</label>
                 <textarea class="form-control" id="dm-assert" placeholder="e.g. 'I need you to take over bedtime duty for the next hour.'"></textarea>
               </div>
               <div class="form-group">
-                <label class="form-label">R - Reinforce (Reward/explain positive consequences)</label>
-                <textarea class="form-control" id="dm-reinforce" placeholder="e.g. 'That will give me energy so I can be fully present for tomorrow's family trip.'"></textarea>
+                <label class="form-label">4. Reinforcing comments (Explain positive consequences)</label>
+                <textarea class="form-control" id="dm-reinforce" placeholder="e.g. 'That will give me energy so I can be fully present for tomorrow...'"></textarea>
               </div>
             </div>
 
             <div class="grid-3">
               <div class="form-group">
-                <label class="form-label">M - Mindful (Stay focused / broken record)</label>
-                <textarea class="form-control" id="dm-mindful" placeholder="Stay on message; ignore distractions."></textarea>
+                <label class="form-label">5. Mindful & Appearing Confident comments</label>
+                <textarea class="form-control" id="dm-mindful" placeholder="Stay on message; maintain posture & eye contact."></textarea>
               </div>
               <div class="form-group">
-                <label class="form-label">A - Appear Confident (Body language & tone)</label>
-                <textarea class="form-control" id="dm-appear" placeholder="Eye contact, steady voice, erect posture."></textarea>
-              </div>
-              <div class="form-group">
-                <label class="form-label">N - Negotiate (Offer solutions / middle ground)</label>
+                <label class="form-label">6. Negotiating comments (Middle ground / solutions)</label>
                 <textarea class="form-control" id="dm-negotiate" placeholder="e.g. 'I can take over morning duty tomorrow in return.'"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">7. Validating comments (GIVE: validate their perspective)</label>
+                <textarea class="form-control" id="dm-validate" placeholder="e.g. 'I know you had a busy day at work too...'"></textarea>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">8. Easy manner comments (GIVE: easygoing & light tone)</label>
+                <textarea class="form-control" id="dm-easymanner" placeholder="e.g. 'Let's team up on this, it'll make dinner go smoother...'"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Things to AVOID doing and saying (Write to keep mindful of traps)</label>
+                <textarea class="form-control" id="dm-avoid" placeholder="e.g. Avoid apologizing for asking, avoid yelling, avoid slamming doors..."></textarea>
               </div>
             </div>
 
             <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
               <button type="button" class="btn btn-secondary" id="btn-copy-dm">📋 Copy Script</button>
-              <button type="submit" class="btn btn-primary">💾 Save Script</button>
+              <button type="submit" class="btn btn-primary">💾 Save Script WS 4</button>
             </div>
           </form>
         </div>
@@ -262,8 +285,8 @@ export const DearManModule = {
     dmForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const data = this.getDMFormData(container);
-      await db.saveWorksheet({ type: 'dear_man', title: `DEAR MAN: ${data['Goal']}`, data });
-      alert('DEAR MAN script saved!');
+      await db.saveWorksheet({ type: 'dear_man', title: `DEAR MAN Script: ${data['Objectives']}`, data });
+      alert('DEAR MAN / GIVE FAST script saved!');
       dmForm.reset();
     });
 
@@ -318,14 +341,18 @@ export const DearManModule = {
 
   getDMFormData(container) {
     return {
-      'Goal': container.querySelector('#dm-goal').value,
+      'Objectives': container.querySelector('#dm-goal').value,
+      'Relationship Issue': container.querySelector('#dm-rel-issue').value,
+      'Self-Respect Issue': container.querySelector('#dm-self-issue').value,
       'Describe': container.querySelector('#dm-describe').value,
       'Express': container.querySelector('#dm-express').value,
       'Assert': container.querySelector('#dm-assert').value,
       'Reinforce': container.querySelector('#dm-reinforce').value,
-      'Mindful': container.querySelector('#dm-mindful').value,
-      'Appear Confident': container.querySelector('#dm-appear').value,
-      'Negotiate': container.querySelector('#dm-negotiate').value
+      'Mindful & Appear Confident': container.querySelector('#dm-mindful').value,
+      'Negotiate': container.querySelector('#dm-negotiate').value,
+      'Validate (GIVE)': container.querySelector('#dm-validate').value,
+      'Easy Manner (GIVE)': container.querySelector('#dm-easymanner').value,
+      'Avoid Actions/Sayings': container.querySelector('#dm-avoid').value
     };
   },
 
