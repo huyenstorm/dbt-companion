@@ -37,7 +37,15 @@ class App {
       { name: 'Self-Soothe 5 Senses Checklist (Handout 8)', target: 'distress-tolerance', deckTarget: 'dt-soothe' },
       { name: 'IMPROVE the Moment Checklist (Handout 9)', target: 'distress-tolerance', deckTarget: 'dt-improve' },
       { name: 'TIPP Paced Breathing & Temperature Reset', target: 'distress-tolerance', deckTarget: 'tipp' },
-      { name: 'Diary Card Weekly Tracker', target: 'diary-card', deckTarget: '' }
+      { name: 'Diary Card Weekly Tracker', target: 'diary-card', deckTarget: '' },
+      { name: 'IE Skills Overview Reference (Handout 3)', target: 'interpersonal', deckTarget: 'ref-ie-overview' },
+      { name: 'Objectives: DEAR MAN Reference (Handout 5)', target: 'interpersonal', deckTarget: 'ref-ie-dearman' },
+      { name: 'Relationship: GIVE Reference (Handout 6/6A)', target: 'interpersonal', deckTarget: 'ref-ie-give' },
+      { name: 'Self-Respect: FAST Reference (Handout 7)', target: 'interpersonal', deckTarget: 'ref-ie-fast' },
+      { name: 'Opposite Action vs. Problem Solving Reference (Handout 9)', target: 'emotion-regulation', deckTarget: 'ref-er-deciding' },
+      { name: 'Problem Solving Sequence Reference (Handout 12)', target: 'emotion-regulation', deckTarget: 'ref-er-problemsolving' },
+      { name: 'STOP Skill Guide Reference (Handout 4)', target: 'distress-tolerance', deckTarget: 'ref-dt-stop' },
+      { name: 'Radical Acceptance Guide Reference (Handout 9)', target: 'distress-tolerance', deckTarget: 'ref-dt-radical' }
     ];
     this.init();
   }
@@ -402,14 +410,16 @@ class App {
     document.getElementById('interpersonal-worksheets-container').appendChild(dimeGameCard);
     DimeGameModule.render(dimeGameCard);
 
-    // 2a. Interpersonal References (I'M SORRY)
+    // 2a. Interpersonal References
     const ipRefContainer = document.getElementById('interpersonal-references-container');
     ReferencesModule.render(ipRefContainer);
-    ipRefContainer.querySelectorAll('.nav-tabs .tab-btn[data-reftab^="ref-emotions"]').forEach(x => x.style.display = 'none');
-    ipRefContainer.querySelectorAll('.nav-tabs .tab-btn[data-reftab^="ref-opposite-action"]').forEach(x => x.style.display = 'none');
-    ipRefContainer.querySelectorAll('.nav-tabs .tab-btn[data-reftab^="ref-sleep"]').forEach(x => x.style.display = 'none');
-    const sorryTab = ipRefContainer.querySelector('.nav-tabs .tab-btn[data-reftab="ref-sorry"]');
-    if (sorryTab) sorryTab.click();
+    ipRefContainer.querySelectorAll('.nav-tabs .tab-btn').forEach(btn => {
+      const tab = btn.dataset.reftab;
+      const isIe = tab.startsWith('ref-ie-') || tab === 'ref-sorry';
+      btn.style.display = isIe ? 'inline-block' : 'none';
+    });
+    const defaultTab = ipRefContainer.querySelector('.nav-tabs .tab-btn[data-reftab="ref-ie-overview"]');
+    if (defaultTab) defaultTab.click();
 
     // 3. Emotion Regulation Worksheets
     ModelOfEmotionsModule.render(document.getElementById('emotion-regulation-worksheets-container'));
@@ -422,7 +432,13 @@ class App {
     // 3a. Emotion Regulation References
     const erRefContainer = document.getElementById('emotion-regulation-references-container');
     ReferencesModule.render(erRefContainer);
-    erRefContainer.querySelectorAll('.nav-tabs .tab-btn[data-reftab="ref-sorry"]').forEach(x => x.style.display = 'none');
+    erRefContainer.querySelectorAll('.nav-tabs .tab-btn').forEach(btn => {
+      const tab = btn.dataset.reftab;
+      const isEr = tab.startsWith('ref-er-') || tab === 'ref-emotions' || tab === 'ref-opposite-action' || tab === 'ref-sleep';
+      btn.style.display = isEr ? 'inline-block' : 'none';
+    });
+    const defaultErTab = erRefContainer.querySelector('.nav-tabs .tab-btn[data-reftab="ref-emotions"]');
+    if (defaultErTab) defaultErTab.click();
 
     // 4. Distress Tolerance Worksheets
     ChainAnalysisModule.render(document.getElementById('distress-tolerance-worksheets-container'));

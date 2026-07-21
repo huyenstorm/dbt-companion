@@ -51,6 +51,8 @@ export const DistressToleranceModule = {
           <button class="tab-btn active" data-dt="dt-accepts">🛡️ ACCEPTS (Handout 7)</button>
           <button class="tab-btn" data-dt="dt-soothe">🌿 Self-Soothe (Handout 8)</button>
           <button class="tab-btn" data-dt="dt-improve">✨ IMPROVE (Handout 9)</button>
+          <button class="tab-btn" data-dt="ref-dt-stop">🛑 STOP (Handout 4)</button>
+          <button class="tab-btn" data-dt="ref-dt-radical">👐 Radical Acceptance (Handout 9)</button>
         </div>
 
         <!-- ACCEPTS (Handout 7) -->
@@ -179,6 +181,54 @@ export const DistressToleranceModule = {
               <label style="display:block;"><input type="checkbox"> Cheerlead yourself: 'You go, girl! You can stand it!'</label>
               <label style="display:block;"><input type="checkbox"> 'I will make it out of this.' / 'I am doing the best I can.'</label>
               <label style="display:block;"><input type="checkbox"> 'This too shall pass.' / 'It won't last forever.'</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- STOP Skill (Handout 4) -->
+        <div class="dt-content" id="ref-dt-stop" style="display: none;">
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; font-style: italic;">
+            STOP Skill - Keep from making a bad situation worse:
+          </p>
+          <div class="grid-2" style="font-size: 0.8rem; line-height: 1.6;">
+            <div>
+              <strong style="color: var(--accent-rose); display: block; margin-top: 0.5rem;">S - Stop</strong>
+              <p>Do not just react. Stop! Freeze! Do not move a muscle. Your emotions may try to make you act without thinking. Stay in control!</p>
+
+              <strong style="color: var(--accent-rose); display: block; margin-top: 0.5rem;">T - Take a step back</strong>
+              <p>Take a step back from the situation. Take a break. Let go. Take a deep breath. Do not let your feelings make you act impulsively.</p>
+            </div>
+            <div>
+              <strong style="color: var(--accent-rose); display: block; margin-top: 0.5rem;">O - Observe</strong>
+              <p>Notice what is going on inside and outside you. What is the situation? What are your thoughts and feelings? What are others saying or doing?</p>
+
+              <strong style="color: var(--accent-rose); display: block; margin-top: 0.5rem;">P - Proceed mindfully</strong>
+              <p>Act with awareness. In deciding what to do, consider your thoughts and feelings, the situation, and other people's thoughts and feelings. Think about your goals.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Radical Acceptance (Handout 9) -->
+        <div class="dt-content" id="ref-dt-radical" style="display: none;">
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; font-style: italic;">
+            Radical Acceptance - Let go of fighting reality:
+          </p>
+          <div class="grid-2" style="font-size: 0.8rem; line-height: 1.6;">
+            <div>
+              <strong style="color: var(--accent-purple); display: block; margin-top: 0.5rem;">Understand the basics</strong>
+              <p>Figure out what you need to accept. Reality is what it is, and it cannot be changed right now.</p>
+              <label style="display:block;"><input type="checkbox"> Rate acceptance 0-5</label>
+              <label style="display:block;"><input type="checkbox"> Refine list</label>
+            </div>
+            <div>
+              <strong style="color: var(--accent-purple); display: block; margin-top: 0.5rem;">Check off exercises:</strong>
+              <label style="display:block;"><input type="checkbox"> Observe questioning</label>
+              <label style="display:block;"><input type="checkbox"> Remind reality is what it is</label>
+              <label style="display:block;"><input type="checkbox"> Allow disappointment</label>
+              <label style="display:block;"><input type="checkbox"> Pros/Cons of accepting vs. rejecting</label>
+              <label style="display:block;"><input type="checkbox"> Change posture</label>
+              <label style="display:block;"><input type="checkbox"> Willing hands</label>
+              <label style="display:block;"><input type="checkbox"> Half-smile</label>
             </div>
           </div>
         </div>

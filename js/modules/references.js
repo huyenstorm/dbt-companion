@@ -14,11 +14,17 @@ export const ReferencesModule = {
           </div>
         </div>
 
-        <div class="nav-tabs" style="background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem;">
+        <div class="nav-tabs" style="background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
           <button class="tab-btn active" data-reftab="ref-emotions">📖 Ways to Describe & Fit Emotions</button>
           <button class="tab-btn" data-reftab="ref-opposite-action">⚡ Reviewing Opposite Action (Handout 13)</button>
           <button class="tab-btn" data-reftab="ref-sleep">🌙 Sleep Hygiene Protocol (20B)</button>
           <button class="tab-btn" data-reftab="ref-sorry">🤝 Apologizing Effectively (I'M SORRY)</button>
+          <button class="tab-btn" data-reftab="ref-ie-overview">🎯 IE Goals & Factors (Handout 3)</button>
+          <button class="tab-btn" data-reftab="ref-ie-dearman">🗣️ DEAR MAN (Handout 5)</button>
+          <button class="tab-btn" data-reftab="ref-ie-give">🤝 GIVE & Validation (Handout 6 & 6A)</button>
+          <button class="tab-btn" data-reftab="ref-ie-fast">🛡️ FAST (Handout 7)</button>
+          <button class="tab-btn" data-reftab="ref-er-deciding">⚖️ Deciding Opposite Action (Handout 9)</button>
+          <button class="tab-btn" data-reftab="ref-er-problemsolving">🧩 Problem Solving Sequence (Handout 12)</button>
         </div>
 
         <!-- Emotion Dictionary -->
@@ -242,6 +248,297 @@ export const ReferencesModule = {
               <p style="font-size: 0.85rem; color: var(--text-secondary);">
                 Say whY this behavior will not occur again. Identify the causes of this behavior. Discuss how you will commit time, effort, and resources to avoid making the same mistake in the future. Follow through with promised behavior. If the pattern of behavior is recurrent, it may be helpful to state that you will continue to think about what you did and/or take the initiative to bring up the topic again.
               </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- IE Overview -->
+        <div class="reftab-content" id="ref-ie-overview" style="display: none;">
+          <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); line-height: 1.6;">
+            <h3 style="color: var(--accent-purple); font-size: 1.25rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+              Goals of Interpersonal Effectiveness (Handout 3)
+            </h3>
+            
+            <div style="margin-bottom: 1.25rem; margin-top: 1rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">1. Objectives Effectiveness (DEAR MAN)</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                Getting what you want from another person. Obtaining your legitimate rights. Getting another person to do something you want them to do. Saying no to an unwanted or unreasonable request. Resolving an interpersonal conflict. Getting your opinion or point of view taken seriously.
+              </p>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">2. Relationship Effectiveness (GIVE)</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                Getting or keeping a good relationship. Acting in such a way that the other person keeps liking and respecting you. Balancing immediate goals with the good of the long-term relationship. Maintaining relationships that matter to you.
+              </p>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">3. Self-Respect Effectiveness (FAST)</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                Keeping or improving self-respect. Respecting your own values and beliefs. Acting in a way that makes you feel moral. Acting in a way that makes you feel capable and effective.
+              </p>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem;">
+              <strong style="display: block; color: var(--accent-purple); font-size: 1.1rem; margin-bottom: 0.5rem;">Factors to Consider in Deciding How Firm to Be</strong>
+              <ul style="padding-left: 1.2rem; font-size: 0.85rem; color: var(--text-secondary);">
+                <li><strong>Capability:</strong> Is the person able to give you what you want? Do you have what the person wants?</li>
+                <li><strong>Priorities:</strong> Are your goals more important than the relationship or self-respect?</li>
+                <li><strong>Self-Respect:</strong> Does asking/saying no align with your values?</li>
+                <li><strong>Rights:</strong> Is the person required by law or moral code to give you what you want?</li>
+                <li><strong>Authority:</strong> Are you responsible for directing the person, or are they responsible for directing you?</li>
+                <li><strong>Relationship:</strong> Is the request appropriate to the current relationship?</li>
+                <li><strong>Goals:</strong> Is what you want important enough?</li>
+                <li><strong>Give and Take:</strong> Have you given enough? Has the other person?</li>
+                <li><strong>Homework:</strong> Do you have all the facts? Are you clear about what you want?</li>
+                <li><strong>Timing:</strong> Is this a good time to ask?</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- DEAR MAN -->
+        <div class="reftab-content" id="ref-ie-dearman" style="display: none;">
+          <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); line-height: 1.6;">
+            <h3 style="color: var(--accent-purple); font-size: 1.25rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+              Guidelines for Objectives Effectiveness: Getting What You Want (DEAR MAN) (Handout 5)
+            </h3>
+            
+            <div style="margin-bottom: 1.25rem; margin-top: 1rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">D - Describe</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                Describe the current situation (if necessary). Stick to the facts. Tell the person exactly what you are reacting to.
+              </p>
+              <p style="font-size: 0.85rem; font-family: var(--font-mono); color: var(--accent-teal); padding-left: 0.5rem; border-left: 2px solid var(--accent-teal);">
+                "You told me you would be home by dinner but you didn't get here until 11."
+              </p>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">E - Express</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                Express your feelings and opinions about the situation. Don't assume that the other person knows how you feel.
+              </p>
+              <p style="font-size: 0.85rem; font-family: var(--font-mono); color: var(--accent-teal); padding-left: 0.5rem; border-left: 2px solid var(--accent-teal);">
+                "When you come home so late, I start worrying about you."
+              </p>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">A - Assert</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                Assert yourself by asking for what you want or saying no clearly. Do not assume that others will figure out what you want. Remember that others cannot read your mind.
+              </p>
+              <p style="font-size: 0.85rem; font-family: var(--font-mono); color: var(--accent-teal); padding-left: 0.5rem; border-left: 2px solid var(--accent-teal);">
+                "I would really like it if you would call me when you are going to be late."
+              </p>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">R - Reinforce</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                Reinforce (reward) the person ahead of time by explaining positive effects of getting what you want or need. If necessary, also clarify the negative consequences of not getting what you want or need.
+              </p>
+              <p style="font-size: 0.85rem; font-family: var(--font-mono); color: var(--accent-teal); padding-left: 0.5rem; border-left: 2px solid var(--accent-teal);">
+                "I would be so relieved, and a lot easier to live with, if you do that."
+              </p>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">M - (Stay) Mindful</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                Keep your focus on your goals. Maintain your position. Don't be distracted.<br>
+                <strong>"Broken record":</strong> Keep asking, saying no, or expressing your opinion over and over and over. Just keep replaying the same thing again and again.<br>
+                <strong>Ignore attacks:</strong> If the other person attacks, threatens, or tries to change the subject, ignore the threats, comments, or attempts to divert you. Do not respond to attacks. Ignore distractions. Just keep making your point.
+              </p>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">A - Appear Confident</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                Appear effective and competent. Use a confident voice tone and physical manner; make good eye contact. No stammering, whispering, staring at the floor, retreating. No saying "I'm not sure," etc.
+              </p>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">N - Negotiate</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                Be willing to give to get. Offer and ask for other solutions to the problem. Reduce your request. Say no, but offer to do something else or to solve the problem another way. Focus on what will work.<br>
+                <strong>Turn the tables:</strong> Turn the problem over to the other person. Ask for other solutions. ("What do you think we should do?")
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- GIVE -->
+        <div class="reftab-content" id="ref-ie-give" style="display: none;">
+          <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); line-height: 1.6;">
+            <h3 style="color: var(--accent-purple); font-size: 1.25rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+              Guidelines for Relationship Effectiveness: Keeping the Relationship (GIVE) (Handout 6 & 6A)
+            </h3>
+            
+            <div style="margin-bottom: 1.25rem; margin-top: 1rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">G - (Be) Gentle</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                Be nice and respectful. No attacks, no threats, no judging, no sneering. Accept occasional no's to your requests.
+              </p>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">I - (Act) Interested</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                Listen and appear interested in the other person. Listen to the other person's point of view. Face the person; maintain eye contact; lean toward the person rather than away. Don't interrupt or talk over the person.
+              </p>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">V - Validate</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                With words and actions, show that you understand the other person's feelings and thoughts about the situation. See the world from the other person's point of view, and then say or act on what you see.
+              </p>
+              
+              <h4 style="color: var(--accent-purple); font-size: 1rem; margin: 1rem 0 0.5rem 0;">Levels of Validation (Handout 6A)</h4>
+              <ul style="padding-left: 1.2rem; font-size: 0.85rem; color: var(--text-secondary);">
+                <li><strong>Level 1: Pay Attention</strong> Look interested, listen, and observe. No multitasking.</li>
+                <li><strong>Level 2: Reflect Back</strong> Say back what you heard the other person say or do, without adding anything or judging.</li>
+                <li><strong>Level 3: "Read Minds"</strong> Be sensitive to what is not being said by the other person. Pay attention to facial expressions, body language, what is happening, and what you know about the person already.</li>
+                <li><strong>Level 4: Understand</strong> Show how the other person's feelings, thoughts, or actions make sense, given their past experiences.</li>
+                <li><strong>Level 5: Acknowledge the Valid</strong> Show how the other person's feelings, thoughts, or actions make sense, given their current reality and facts.</li>
+                <li><strong>Level 6: Show Equality</strong> Treat the other person as an equal, not as fragile or incompetent. Be genuine.</li>
+              </ul>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">E - (Use an) Easy Manner</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                Use a little humor. Smile. Ease the person along. Be lighthearted. Sweet-talk. Use a "soft sell" over a "hard sell." Be "political."
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAST -->
+        <div class="reftab-content" id="ref-ie-fast" style="display: none;">
+          <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); line-height: 1.6;">
+            <h3 style="color: var(--accent-purple); font-size: 1.25rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+              Guidelines for Self-Respect Effectiveness: Keeping Respect for Yourself (FAST) (Handout 7)
+            </h3>
+            
+            <div style="margin-bottom: 1.25rem; margin-top: 1rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">F - (Be) Fair</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                Be fair to yourself and to the other person. Remember to validate your own feelings and wishes, as well as the other person's.
+              </p>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">A - (No) Apologies</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                Don't over-apologize. No apologizing for being alive or for making a request at all. No apologies for having an opinion, for disagreeing. No looking ashamed, with eyes and head down or slumping. No invalidating the valid.
+              </p>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">S - Stick to Values</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                Stick to your own values. Don't sell out your values or integrity for reasons that aren't very important. Be clear on what you believe is the moral or valued way of thinking and acting, and "stick to your guns."
+              </p>
+            </div>
+            
+            <div style="margin-bottom: 1.25rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">T - (Be) Truthful</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                Don't lie. Don't act helpless when you are not. Don't exaggerate or make up excuses.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deciding Opposite Action vs Problem Solving -->
+        <div class="reftab-content" id="ref-er-deciding" style="display: none;">
+          <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); line-height: 1.6;">
+            <h3 style="color: var(--accent-purple); font-size: 1.25rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+              Figuring Out Opposite Action from Problem Solving (Handout 9)
+            </h3>
+            
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+              Use this flowchart logic to determine whether to act on your urge, problem-solve the situation, or use Opposite Action.
+            </p>
+
+            <ol style="padding-left: 1.2rem; font-size: 0.9rem; color: var(--text-secondary);">
+              <li style="margin-bottom: 1rem;">
+                <strong style="color: var(--text-primary);">Does the emotion fit the facts?</strong><br>
+                Check the facts. Is the emotion justified by the actual situation you are in?
+                <ul style="margin-top: 0.5rem; list-style-type: disc;">
+                  <li><strong>NO:</strong> Do OPPOSITE ACTION.</li>
+                  <li><strong>YES:</strong> Proceed to step 2.</li>
+                </ul>
+              </li>
+              <li style="margin-bottom: 1rem;">
+                <strong style="color: var(--text-primary);">Is acting on the emotion effective?</strong><br>
+                Will acting on your emotional urge help you achieve your goals in the situation?
+                <ul style="margin-top: 0.5rem; list-style-type: disc;">
+                  <li><strong>NO:</strong> Do NOT act on the emotional urge. Do OPPOSITE ACTION.</li>
+                  <li><strong>YES:</strong> Proceed to step 3.</li>
+                </ul>
+              </li>
+              <li style="margin-bottom: 1rem;">
+                <strong style="color: var(--text-primary);">Mindful of current emotions</strong><br>
+                Be mindful of your current emotions. Don't push them away, but don't hold on to them either.
+              </li>
+              <li style="margin-bottom: 1rem;">
+                <strong style="color: var(--text-primary);">Act on urge / Problem-solve</strong><br>
+                Act on your emotional urge, and/or PROBLEM-SOLVE the situation that is causing the emotion.
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- Problem Solving -->
+        <div class="reftab-content" id="ref-er-problemsolving" style="display: none;">
+          <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); line-height: 1.6;">
+            <h3 style="color: var(--accent-purple); font-size: 1.25rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+              Problem Solving (Handout 12)
+            </h3>
+            
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+              When the emotion is justified by the facts, and acting on the emotion is effective, or when the situation itself is the problem.
+            </p>
+
+            <div style="margin-bottom: 1rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1rem;">1. Figure out and describe the problem situation.</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">Specify the situation. What is happening? Who is involved? When? Where?</p>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1rem;">2. Check the facts (all the facts) to be sure you have the right problem situation.</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">If your facts are wrong, go back and describe the problem again.</p>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1rem;">3. Identify your goal in solving the problem.</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">Identify what needs to happen or change for you to feel OK. Keep it simple.</p>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1rem;">4. Brainstorm lots of solutions.</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">Think of as many solutions as you can. Ask for suggestions from people you trust. Do not be critical of any ideas at first.</p>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1rem;">5. Choose a solution that fits the goal and is likely to work.</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">If you are unsure, choose two solutions that look good. Do a pros and cons list for each to compare them. Choose the best one.</p>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1rem;">6. Put the solution into action.</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">Act! Try out the solution. Take the first step, and then the second ...</p>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1rem;">7. Evaluate the results of using the solution.</strong>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">It worked? YAY! It didn't work? Go back to Step 5 and choose a new solution to try.</p>
             </div>
           </div>
         </div>
