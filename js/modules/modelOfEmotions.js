@@ -25,6 +25,23 @@ export const ModelOfEmotionsModule = {
         <!-- 1. Model of Emotions (Worksheet 4/4a) -->
         <div class="moetab-content active" id="moe-model">
           <form id="model-of-emotions-form">
+            <!-- Starting Point Selector -->
+            <div class="form-group" style="margin-bottom: 1.5rem; background: var(--bg-secondary); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+              <label class="form-label" style="color: var(--accent-purple);">How would you like to identify your emotion?</label>
+              <select class="form-control" id="moe-entry-point">
+                <option value="emotion">Select Emotion Name (Default)</option>
+                <option value="sensations">Body Sensations</option>
+                <option value="urges">Action Urges</option>
+                <option value="thoughts">Interpretations / Thoughts</option>
+              </select>
+
+              <div id="moe-entry-dynamic" style="display: none; margin-top: 1rem;"></div>
+              <div id="moe-entry-suggestions" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                <p style="margin-bottom: 0.75rem; font-size: 0.9rem; color: var(--text-muted);">Based on your somatic/mental inputs, you might be experiencing: <span style="font-size: 0.8rem;">(Click to set primary emotion)</span></p>
+                <div id="moe-suggestion-buttons" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+              </div>
+            </div>
+
             <div class="grid-2">
               <div class="form-group">
                 <label class="form-label">1. Primary Emotion Name</label>
@@ -304,6 +321,99 @@ export const ModelOfEmotionsModule = {
         t.classList.add('active');
         const target = container.querySelector('#' + t.dataset.moetab);
         if (target) target.style.display = 'block';
+      });
+    });
+
+    // Starting Point Selector Logic
+    const entryPointSelect = container.querySelector('#moe-entry-point');
+    const entryDynamic = container.querySelector('#moe-entry-dynamic');
+    const entrySuggestions = container.querySelector('#moe-entry-suggestions');
+    const suggestionButtons = container.querySelector('#moe-suggestion-buttons');
+    
+    const entryData = {
+      sensations: [
+        { label: 'Heart racing', emotions: ['Fear / Anxiety', 'Anger / Frustration'] },
+        { label: 'Tight chest', emotions: ['Fear / Anxiety', 'Sadness / Grief'] },
+        { label: 'Stomach drop', emotions: ['Fear / Anxiety', 'Disgust'] },
+        { label: 'Heat in face', emotions: ['Anger / Frustration', 'Shame / Humiliation'] },
+        { label: 'Crying / Tears', emotions: ['Sadness / Grief', 'Joy / Excitement'] },
+        { label: 'Nausea', emotions: ['Disgust', 'Fear / Anxiety'] }
+      ],
+      urges: [
+        { label: 'Run away', emotions: ['Fear / Anxiety', 'Shame / Humiliation'] },
+        { label: 'Attack / Yell', emotions: ['Anger / Frustration'] },
+        { label: 'Isolate / Withdraw', emotions: ['Sadness / Grief', 'Shame / Humiliation', 'Fear / Anxiety'] },
+        { label: 'Fix / Apologize', emotions: ['Guilt'] },
+        { label: 'Push away', emotions: ['Disgust'] },
+        { label: 'Control', emotions: ['Jealousy / Envy'] }
+      ],
+      thoughts: [
+        { label: 'I am in danger', emotions: ['Fear / Anxiety'] },
+        { label: 'This is unfair', emotions: ['Anger / Frustration'] },
+        { label: 'I have lost something', emotions: ['Sadness / Grief'] },
+        { label: 'I am bad/flawed', emotions: ['Shame / Humiliation'] },
+        { label: 'I did something wrong', emotions: ['Guilt'] },
+        { label: 'This is toxic/gross', emotions: ['Disgust'] },
+        { label: 'They have what I want', emotions: ['Jealousy / Envy'] }
+      ]
+    };
+
+    entryPointSelect.addEventListener('change', (e) => {
+      const val = e.target.value;
+      if (val === 'emotion') {
+        entryDynamic.style.display = 'none';
+        entrySuggestions.style.display = 'none';
+        return;
+      }
+      
+      const items = entryData[val];
+      entryDynamic.innerHTML = '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">' + items.map((item, idx) => 
+        '<label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; cursor: pointer; color: var(--text-color);">' +
+        '<input type="checkbox" class="moe-entry-checkbox" value="' + idx + '"> ' + item.label +
+        '</label>'
+      ).join('') + '</div>';
+      entryDynamic.style.display = 'block';
+      entrySuggestions.style.display = 'none';
+
+      const checkboxes = entryDynamic.querySelectorAll('.moe-entry-checkbox');
+      checkboxes.forEach(cb => {
+        cb.addEventListener('change', () => {
+          const checkedIdxs = Array.from(checkboxes).filter(c => c.checked).map(c => parseInt(c.value));
+          if (checkedIdxs.length === 0) {
+            entrySuggestions.style.display = 'none';
+            return;
+          }
+          
+          const possibleEmotions = new Set();
+          checkedIdxs.forEach(idx => {
+            items[idx].emotions.forEach(em => possibleEmotions.add(em));
+          });
+          
+          suggestionButtons.innerHTML = Array.from(possibleEmotions).map(em => 
+            '<button type="button" class="btn btn-secondary suggestion-btn" style="padding: 0.35rem 0.75rem; font-size: 0.85rem;" data-em="' + em + '">' + em + '</button>'
+          ).join('');
+          
+          entrySuggestions.style.display = 'block';
+          
+          suggestionButtons.querySelectorAll('.suggestion-btn').forEach(btn => {
+            btn.addEventListener('click', (ev) => {
+              const selectedEmotion = ev.target.getAttribute('data-em');
+              container.querySelector('#moe-emotion').value = selectedEmotion;
+              
+              const checkedLabels = checkedIdxs.map(idx => items[idx].label).join(', ');
+              if (val === 'sensations') {
+                const existing = container.querySelector('#moe-sensations').value;
+                container.querySelector('#moe-sensations').value = existing ? existing + ', ' + checkedLabels : checkedLabels;
+              } else if (val === 'urges') {
+                const existing = container.querySelector('#moe-action-urge').value;
+                container.querySelector('#moe-action-urge').value = existing ? existing + ', ' + checkedLabels : checkedLabels;
+              } else if (val === 'thoughts') {
+                const existing = container.querySelector('#moe-interpretations').value;
+                container.querySelector('#moe-interpretations').value = existing ? existing + ', ' + checkedLabels : checkedLabels;
+              }
+            });
+          });
+        });
       });
     });
 
