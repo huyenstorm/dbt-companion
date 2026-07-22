@@ -65,6 +65,53 @@ class App {
     this.syncDeckNavVisibility('interpersonal', 'dear-man');
     this.syncDeckNavVisibility('emotion-regulation', 'model-emotions');
     this.syncDeckNavVisibility('distress-tolerance', 'chain-analysis');
+
+    const hash = window.location.hash;
+    let initialView = 'dashboard';
+    let initialDeck = '';
+
+    if (hash) {
+      const hashStr = hash.replace('#', '');
+      const validViews = ['dashboard', 'mindfulness', 'interpersonal', 'emotion-regulation', 'distress-tolerance', 'diary-card'];
+      
+      for (const view of validViews) {
+        if (hashStr === view || hashStr.startsWith(view + '-')) {
+          initialView = view;
+          if (hashStr.length > view.length) {
+            initialDeck = hashStr.substring(view.length + 1);
+          }
+          break;
+        }
+      }
+    }
+
+    history.replaceState({ view: initialView, deck: initialDeck }, '', hash || '#dashboard');
+    this.switchView(initialView, true);
+    
+    if (initialDeck) {
+      const deckBtn = document.querySelector(`#view-${initialView} .deck-btn[data-deck-target="${initialDeck}"]`);
+      if (deckBtn) {
+        const parentSection = deckBtn.closest('.view-section');
+        parentSection.querySelectorAll('.deck-btn').forEach(b => b.classList.remove('active'));
+        deckBtn.classList.add('active');
+        this.syncDeckNavVisibility(initialView, initialDeck);
+      }
+    }
+
+    window.addEventListener('popstate', (e) => {
+      if (e.state) {
+        this.switchView(e.state.view, true);
+        if (e.state.deck) {
+          const deckBtn = document.querySelector(`#view-${e.state.view} .deck-btn[data-deck-target="${e.state.deck}"]`);
+          if (deckBtn) {
+            const parentSection = deckBtn.closest('.view-section');
+            parentSection.querySelectorAll('.deck-btn').forEach(b => b.classList.remove('active'));
+            deckBtn.classList.add('active');
+            this.syncDeckNavVisibility(e.state.view, e.state.deck);
+          }
+        }
+      }
+    });
   }
 
   async setupTheme() {
@@ -116,17 +163,18 @@ class App {
         const targetView = tile.dataset.dashboardTile;
         const targetDeckBtn = tile.dataset.sub;
 
-        this.switchView(targetView);
-
         if (targetDeckBtn) {
+          this.switchView(targetView, true);
           const deckBtn = document.querySelector(`#view-${targetView} .deck-btn[data-deck-target="${targetDeckBtn}"]`);
           if (deckBtn) deckBtn.click();
+        } else {
+          this.switchView(targetView);
         }
       });
     });
   }
 
-  switchView(viewName) {
+  switchView(viewName, isPopState = false) {
     const sections = document.querySelectorAll('.view-section');
     const mobileBtns = document.querySelectorAll('.mobile-nav-btn');
 
@@ -140,6 +188,12 @@ class App {
     if (activeMobileBtn) activeMobileBtn.classList.add('active');
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (!isPopState) {
+      const activeDeckBtn = document.querySelector(`#view-${viewName} .deck-btn.active`);
+      const deckName = activeDeckBtn ? activeDeckBtn.dataset.deckTarget : '';
+      history.pushState({ view: viewName, deck: deckName }, '', `#${viewName}${deckName ? '-' + deckName : ''}`);
+    }
   }
 
   setupDeckNav() {
@@ -154,6 +208,8 @@ class App {
         btn.classList.add('active');
 
         this.syncDeckNavVisibility(viewName, targetKey);
+        
+        history.pushState({ view: viewName, deck: targetKey }, '', `#${viewName}-${targetKey}`);
       });
     });
   }
@@ -580,7 +636,11 @@ class App {
             const target = el.dataset.target;
             const deckTarget = el.dataset.deckTarget;
 
-            this.switchView(target);
+            if (deckTarget) {
+              this.switchView(target, true);
+            } else {
+              this.switchView(target);
+            }
             input.value = '';
             results.style.display = 'none';
 
