@@ -59,6 +59,7 @@ class App {
     this.setupSearchDirectory();
     this.setupSkillFinder();
     this.setupSafetyPlan();
+    this.setupModalDismissalHandlers();
     this.renderAllViews();
     this.syncDeckNavVisibility('mindfulness', 'wise-mind');
     this.syncDeckNavVisibility('interpersonal', 'dear-man');
@@ -645,6 +646,27 @@ class App {
         reader.readAsText(file);
       });
     }
+  }
+
+  setupModalDismissalHandlers() {
+    // Close modal on overlay background click
+    const overlays = document.querySelectorAll('.modal-overlay');
+    overlays.forEach(overlay => {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          overlay.classList.remove('active');
+        }
+      });
+    });
+
+    // Close modal on close X click
+    const closeXBtns = document.querySelectorAll('.modal-close-x');
+    closeXBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const overlay = btn.closest('.modal-overlay');
+        if (overlay) overlay.classList.remove('active');
+      });
+    });
   }
 
   renderAllViews() {

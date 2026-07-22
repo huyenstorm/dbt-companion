@@ -377,7 +377,8 @@
 
   <!-- Backup & Restore Data Modal -->
   <div class="modal-overlay" id="backup-modal">
-    <div class="modal-card">
+    <div class="modal-card" style="position: relative;">
+      <button type="button" class="modal-close-x" style="position: absolute; top: 0.75rem; right: 1rem; background: transparent; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; line-height: 1; padding: 0; z-index: 10;">&times;</button>
       <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--accent-purple);">🔒 Data Privacy, Backup & Restore</h3>
       <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
         All of your therapy worksheets and diary cards stay <strong>100% locally inside your device browser</strong> (`IndexedDB`). No data is ever sent to any remote server or cloud database.
@@ -397,7 +398,8 @@
 
   <!-- Crisis Safety Plan Modal -->
   <div class="modal-overlay" id="safety-plan-modal">
-    <div class="modal-card" style="max-width: 600px; max-height: 85vh; overflow-y: auto;">
+    <div class="modal-card" style="max-width: 600px; max-height: 85vh; overflow-y: auto; position: relative;">
+      <button type="button" class="modal-close-x" style="position: absolute; top: 0.75rem; right: 1rem; background: transparent; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; line-height: 1; padding: 0; z-index: 10;">&times;</button>
       <h3 style="font-size: 1.15rem; margin-bottom: 0.25rem; color: var(--accent-rose); display: flex; align-items: center; gap: 0.4rem;">
         <span>🛡️</span> My Crisis Safety Plan
       </h3>
