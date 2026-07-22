@@ -1,6 +1,6 @@
 /* Offline PWA Service Worker - Network-First with Cache Fallback Caching Strategy */
 
-const CACHE_NAME = 'dbt-companion-v28';
+const CACHE_NAME = 'dbt-companion-v29';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
