@@ -462,6 +462,14 @@ class App {
         selectedRecommendation = null;
       }
     });
+
+    const phoneCoachingCta = document.getElementById('btn-phone-coaching-cta');
+    if (phoneCoachingCta) {
+      phoneCoachingCta.addEventListener('click', () => {
+        const btnOpenSafety = document.getElementById('btn-open-safety');
+        if (btnOpenSafety) btnOpenSafety.click();
+      });
+    }
   }
 
   setupSafetyPlan() {
