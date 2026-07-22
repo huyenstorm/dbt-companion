@@ -58,6 +58,7 @@ class App {
     this.setupDeckNav();
     this.setupSearchDirectory();
     this.setupSkillFinder();
+    this.setupSafetyPlan();
     this.renderAllViews();
     this.syncDeckNavVisibility('mindfulness', 'wise-mind');
     this.syncDeckNavVisibility('interpersonal', 'dear-man');
@@ -404,6 +405,149 @@ class App {
         selectedRecommendation = null;
       }
     });
+  }
+
+  setupSafetyPlan() {
+    const modal = document.getElementById('safety-plan-modal');
+    const btnOpen = document.getElementById('btn-open-safety');
+    const btnClose = document.getElementById('btn-close-safety');
+    const btnPrint = document.getElementById('btn-print-safety');
+    const form = document.getElementById('safety-plan-form');
+
+    if (btnOpen && modal) {
+      btnOpen.addEventListener('click', async () => {
+        const plan = await db.getSetting('safety_plan', {});
+        const textareas = form.querySelectorAll('textarea');
+        textareas.forEach(ta => {
+          ta.value = plan[ta.name] || '';
+        });
+        modal.classList.add('active');
+      });
+    }
+
+    if (btnClose && modal) {
+      btnClose.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
+    }
+
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = {};
+        const textareas = form.querySelectorAll('textarea');
+        textareas.forEach(ta => {
+          data[ta.name] = ta.value;
+        });
+
+        await db.setSetting('safety_plan', data);
+        alert('Crisis Safety Plan successfully saved!');
+        modal.classList.remove('active');
+      });
+    }
+
+    if (btnPrint && form) {
+      btnPrint.addEventListener('click', () => {
+        const data = {};
+        const textareas = form.querySelectorAll('textarea');
+        textareas.forEach(ta => {
+          data[ta.name] = ta.value || '(Not specified)';
+        });
+
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+          <html>
+            <head>
+              <title>My DBT Crisis Safety Plan</title>
+              <style>
+                body {
+                  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                  line-height: 1.6;
+                  color: #333;
+                  padding: 2rem;
+                  max-width: 800px;
+                  margin: 0 auto;
+                }
+                h1 {
+                  color: #e11d48;
+                  border-bottom: 2px solid #e11d48;
+                  padding-bottom: 0.5rem;
+                  margin-bottom: 1.5rem;
+                  font-size: 1.8rem;
+                }
+                .section {
+                  margin-bottom: 1.5rem;
+                  background: #f9fafb;
+                  border: 1px solid #e5e7eb;
+                  padding: 1.25rem;
+                  border-radius: 6px;
+                }
+                .section h3 {
+                  margin-top: 0;
+                  color: #111827;
+                  font-size: 1.05rem;
+                  border-bottom: 1px dashed #d1d5db;
+                  padding-bottom: 0.25rem;
+                }
+                p {
+                  margin: 0.5rem 0 0 0;
+                  white-space: pre-wrap;
+                  font-size: 0.9rem;
+                  color: #374151;
+                }
+                @media print {
+                  body { padding: 0; }
+                  .section { page-break-inside: avoid; }
+                }
+              </style>
+            </head>
+            <body>
+              <h1>🛡️ My DBT Crisis Safety Plan</h1>
+              <p style="font-style: italic; color: #6b7280; margin-bottom: 2rem;">
+                Keep this plan accessible. These are the steps to follow when distress levels are high.
+              </p>
+              
+              <div class="section">
+                <h3>1. Warning Signs</h3>
+                <p>${data.warning_signs}</p>
+              </div>
+              
+              <div class="section">
+                <h3>2. Internal Coping Strategies</h3>
+                <p>${data.coping_strategies}</p>
+              </div>
+              
+              <div class="section">
+                <h3>3. Social Settings & People for Distraction</h3>
+                <p>${data.distraction_settings}</p>
+              </div>
+              
+              <div class="section">
+                <h3>4. Family Members or Friends to Ask for Help</h3>
+                <p>${data.trusted_contacts}</p>
+              </div>
+              
+              <div class="section">
+                <h3>5. Professionals & Crisis Hotlines</h3>
+                <p>${data.professionals}</p>
+              </div>
+              
+              <div class="section">
+                <h3>6. Making the Environment Safe</h3>
+                <p>${data.safe_environment}</p>
+              </div>
+              
+              <script>
+                window.onload = function() {
+                  window.print();
+                };
+              </script>
+            </body>
+          </html>
+        `);
+        printWindow.document.close();
+      });
+    }
   }
 
   setupSearchDirectory() {
