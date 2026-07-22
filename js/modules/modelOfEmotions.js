@@ -16,7 +16,7 @@ export const ModelOfEmotionsModule = {
           </div>
         </div>
 
-        <div class="nav-tabs" style="background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem; flex-wrap: wrap; gap: 5px; display: flex;">
+        <div class="nav-tabs" style="background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem; flex-wrap: wrap; gap: 5px; display: none !important;">
           <button class="tab-btn active" data-moetab="moe-model">🧠 Model of Emotions (WS 4/4a)</button>
           <button class="tab-btn" data-moetab="moe-checkfacts">🔍 Check the Facts (WS 5)</button>
           <button class="tab-btn" data-moetab="moe-opposite">🔄 Opposite Action (WS 7)</button>
@@ -26,7 +26,7 @@ export const ModelOfEmotionsModule = {
         <div class="moetab-content active" id="moe-model">
           <form id="model-of-emotions-form" style="display: flex; flex-direction: column; gap: 1rem;">
             <!-- Starting Point Selector -->
-            <div class="form-group" style="order: 0; margin-bottom: 1.5rem; background: var(--bg-secondary); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+            <div class="form-group" style="order: -100; margin-bottom: 1.5rem; background: var(--bg-secondary); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
               <label class="form-label" style="color: var(--accent-purple);">Where would you like to start? (Select an entry point)</label>
               <select class="form-control" id="moe-entry-point">
                 <option value="emotion">1. Primary Emotion Name</option>
@@ -353,18 +353,26 @@ export const ModelOfEmotionsModule = {
 
     entryPointSelect.addEventListener('change', (e) => {
       const val = e.target.value;
+      const selectedItem = orderMap[val];
+      if (!selectedItem) return;
+      const S = selectedItem.defaultOrder;
       
       Object.values(orderMap).forEach(item => {
         const wrap = container.querySelector('#' + item.id);
-        if (wrap) wrap.style.order = item.defaultOrder;
+        if (wrap) {
+          const D = item.defaultOrder;
+          let newOrder;
+          if (D >= S) {
+            newOrder = D - S + 1;
+          } else {
+            newOrder = (10 - S + 1) + D;
+          }
+          wrap.style.order = newOrder;
+        }
       });
 
-      if (orderMap[val]) {
-        const wrap = container.querySelector('#' + orderMap[val].id);
-        const input = container.querySelector('#' + orderMap[val].focus);
-        if (wrap) wrap.style.order = -1;
-        if (input) input.focus();
-      }
+      const input = container.querySelector('#' + selectedItem.focus);
+      if (input) input.focus();
     });
 
     // Model of Emotions (WS 4/4a)

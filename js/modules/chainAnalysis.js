@@ -16,7 +16,7 @@ export const ChainAnalysisModule = {
           </div>
         </div>
 
-        <div class="nav-tabs" style="background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
+        <div class="nav-tabs" style="display: none !important; background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
           <button class="tab-btn active" data-dttab="dt-chain">🔗 Chain Analysis (WS 2)</button>
           <button class="tab-btn" data-dttab="dt-stop">🛑 STOP Skill (WS 2)</button>
           <button class="tab-btn" data-dttab="dt-proscons">⚖️ Pros & Cons (WS 3)</button>

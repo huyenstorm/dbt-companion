@@ -16,7 +16,7 @@ export const WiseMindModule = {
           </div>
         </div>
 
-        <div class="nav-tabs" style="background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem;">
+        <div class="nav-tabs" style="display: none !important; background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem;">
           <button class="tab-btn active" data-wm="wm-align">✨ Wise Mind Alignment</button>
           <button class="tab-btn" data-wm="wm-ws3">🧠 Wise Mind Practice (WS 3)</button>
           <button class="tab-btn" data-wm="wm-ws4">👁️ What Skills (WS 4)</button>

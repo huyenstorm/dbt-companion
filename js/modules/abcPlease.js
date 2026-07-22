@@ -16,7 +16,7 @@ export const AbcPleaseModule = {
           </div>
         </div>
 
-        <div class="nav-tabs" style="background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem; flex-wrap: wrap; gap: 5px; display: flex;">
+        <div class="nav-tabs" style="display: none !important; background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem; flex-wrap: wrap; gap: 5px; display: flex;">
           <button class="tab-btn active" data-subtab="tab-v2a">🎯 Values to Actions (WS 11)</button>
           <button class="tab-btn" data-subtab="tab-reduce-vuln">🛡️ Reducing Vulnerability (WS 9)</button>
           <button class="tab-btn" data-subtab="tab-pleasant-events">🌞 Pleasant Events (WS 10)</button>
