@@ -272,12 +272,6 @@ body {
   background: radial-gradient(circle, rgba(96, 165, 250, 0.2) 0%, transparent 80%);
 }
 
-.card:hover {
-  transform: translateY(-3px);
-  border-color: var(--accent-purple) !important;
-  box-shadow: var(--shadow-md), 0 0 15px var(--accent-purple-light);
-}
-
 /* Color-Themed Premium Hover Glows (Overrides Inline Styles) */
 .card[style*="accent-teal"]:hover,
 .clickable-tile[style*="accent-teal"]:hover {
@@ -302,6 +296,18 @@ body {
 .clickable-tile[style*="accent-purple"]:hover {
   border-color: var(--accent-purple) !important;
   box-shadow: var(--shadow-md), 0 0 20px var(--accent-purple-light) !important;
+}
+
+.card[style*="accent-amber"]:hover,
+.clickable-tile[style*="accent-amber"]:hover {
+  border-color: var(--accent-amber) !important;
+  box-shadow: var(--shadow-md), 0 0 20px rgba(251, 191, 36, 0.15) !important;
+}
+
+.card[style*="text-muted"]:hover,
+.clickable-tile[style*="text-muted"]:hover {
+  border-color: var(--text-muted) !important;
+  box-shadow: var(--shadow-md), 0 0 15px rgba(255, 255, 255, 0.08) !important;
 }
 
 .card-header {
