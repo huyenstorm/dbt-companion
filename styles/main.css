@@ -204,9 +204,35 @@ body {
 }
 
 .card:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent-purple);
+  transform: translateY(-3px);
+  border-color: var(--accent-purple) !important;
   box-shadow: var(--shadow-md), 0 0 15px var(--accent-purple-light);
+}
+
+/* Color-Themed Premium Hover Glows (Overrides Inline Styles) */
+.card[style*="accent-teal"]:hover,
+.clickable-tile[style*="accent-teal"]:hover {
+  border-color: var(--accent-teal) !important;
+  box-shadow: var(--shadow-md), 0 0 20px var(--accent-teal-light) !important;
+}
+
+.card[style*="accent-rose"]:hover,
+.clickable-tile[style*="accent-rose"]:hover,
+#btn-open-safety:hover {
+  border-color: var(--accent-rose) !important;
+  box-shadow: var(--shadow-md), 0 0 20px var(--accent-rose-light) !important;
+}
+
+.card[style*="accent-blue"]:hover,
+.clickable-tile[style*="accent-blue"]:hover {
+  border-color: var(--accent-blue) !important;
+  box-shadow: var(--shadow-md), 0 0 20px var(--accent-blue-light) !important;
+}
+
+.card[style*="accent-purple"]:hover,
+.clickable-tile[style*="accent-purple"]:hover {
+  border-color: var(--accent-purple) !important;
+  box-shadow: var(--shadow-md), 0 0 20px var(--accent-purple-light) !important;
 }
 
 .card-header {
@@ -264,7 +290,7 @@ body {
 }
 
 .clickable-tile:hover {
-  transform: translateY(-2.5px);
+  transform: translateY(-3px);
   border-color: var(--accent-purple) !important;
   box-shadow: var(--shadow-md), 0 0 15px var(--accent-purple-light);
 }
