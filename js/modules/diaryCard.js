@@ -52,14 +52,9 @@ export const DiaryCardModule = {
               </h2>
               <p class="card-subtitle">Track daily emotion intensity, target behavior urges, skills used, and habit counters.</p>
             </div>
-            <div style="display: flex; gap: 0.5rem; align-items: center;">
-              <button type="button" class="btn btn-secondary btn-back-dashboard" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
-                ⬅️ Back to Dashboard
-              </button>
-              <button type="button" class="btn btn-secondary" id="btn-dc-toggle-edit" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
-                ${this.state.editMode ? '💾 Done Editing' : '⚙️ Edit Layout'}
-              </button>
-            </div>
+            <button type="button" class="btn btn-secondary" id="btn-dc-toggle-edit" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
+              ${this.state.editMode ? '💾 Done Editing' : '⚙️ Edit Layout'}
+            </button>
           </div>
         </div>
     `;
@@ -216,7 +211,6 @@ export const DiaryCardModule = {
           </div>
 
           <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
-            <button type="button" class="btn btn-secondary btn-back-dashboard" style="margin-right: auto;">⬅️ Back to Dashboard</button>
             <button type="button" class="btn btn-secondary" id="btn-copy-dc">📋 Copy for Therapist</button>
             <button type="submit" class="btn btn-primary">💾 Save Diary Entry</button>
           </div>

@@ -5,7 +5,7 @@
   <script>
     // Developer Force Cache Reset Hook
     (function() {
-      const resetKey = 'dbt_cache_reset_v46';
+      const resetKey = 'dbt_cache_reset_v47';
       if (!localStorage.getItem(resetKey)) {
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.getRegistrations().then(regs => {
@@ -37,8 +37,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="./styles/main.css?v=46">
-  <link rel="stylesheet" href="./styles/print.css?v=46" media="print">
+  <link rel="stylesheet" href="./styles/main.css?v=47">
+  <link rel="stylesheet" href="./styles/print.css?v=47" media="print">
 </head>
 <body>
 
@@ -374,7 +374,7 @@
     </section>
 
     <!-- 6. GLOBAL DIARY CARD VIEW -->
-    <section class="view-section" id="view-diary-card">
+    <section class="view-section" id="view-diary-card" style="max-width: 800px; margin: 0 auto;">
       <button class="btn btn-secondary btn-back-dashboard" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.8rem;">← Back to Dashboard</button>
       <!-- Renders Diary Card inside -->
     </section>
@@ -478,7 +478,9 @@
   </div>
 
   <!-- 6. CRISIS SAFETY PLAN -->
-  <section class="view-section" id="view-safety-plan">
+  <section class="view-section" id="view-safety-plan" style="max-width: 800px; margin: 0 auto;">
+    <button class="btn btn-secondary btn-back-dashboard" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.8rem;">← Back to Dashboard</button>
+    
     <div class="card">
       <div class="card-header" style="margin-bottom: 1.25rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
@@ -489,14 +491,9 @@
             </h2>
             <p class="card-subtitle">Fill this out when you are calm, so it is ready to guide you in moments of high distress.</p>
           </div>
-          <div style="display: flex; gap: 0.5rem; align-items: center;">
-            <button type="button" class="btn btn-secondary btn-back-dashboard" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
-              ⬅️ Back to Dashboard
-            </button>
-            <div style="display: flex; gap: 0.2rem; background: var(--bg-secondary); padding: 0.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
-              <button type="button" class="tab-btn active" id="btn-safety-view-tab" style="padding: 0.3rem 0.6rem; font-size: 0.85rem; border-radius: var(--radius-sm);">🛡️ Quick View</button>
-              <button type="button" class="tab-btn" id="btn-safety-edit-tab" style="padding: 0.3rem 0.6rem; font-size: 0.85rem; border-radius: var(--radius-sm);">⚙️ Edit Plan</button>
-            </div>
+          <div style="display: flex; gap: 0.2rem; background: var(--bg-secondary); padding: 0.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+            <button type="button" class="tab-btn active" id="btn-safety-view-tab" style="padding: 0.3rem 0.6rem; font-size: 0.85rem; border-radius: var(--radius-sm);">🛡️ Quick View</button>
+            <button type="button" class="tab-btn" id="btn-safety-edit-tab" style="padding: 0.3rem 0.6rem; font-size: 0.85rem; border-radius: var(--radius-sm);">⚙️ Edit Plan</button>
           </div>
         </div>
       </div>
@@ -568,7 +565,9 @@
   </section>
 
   <!-- 7. VISUAL SKILLS DIRECTORY -->
-  <section class="view-section" id="view-visual-directory">
+  <section class="view-section" id="view-visual-directory" style="max-width: 800px; margin: 0 auto;">
+    <button class="btn btn-secondary btn-back-dashboard" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.8rem;">← Back to Dashboard</button>
+    
     <div class="card">
       <div class="card-header" style="margin-bottom: 1.25rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
@@ -579,9 +578,6 @@
             </h2>
             <p class="card-subtitle">Browse, sort, and search all available interactive tools and clinical references.</p>
           </div>
-          <button type="button" class="btn btn-secondary btn-back-dashboard" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
-            ⬅️ Back to Dashboard
-          </button>
         </div>
       </div>
 
@@ -635,6 +631,6 @@
   </script>
 
   <!-- Application Entry Script -->
-  <script type="module" src="./js/app.js?v=46"></script>
+  <script type="module" src="./js/app.js?v=47"></script>
 </body>
 </html>
