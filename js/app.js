@@ -710,7 +710,7 @@ class App {
     let activeSort = 'alpha';
 
     const filterTheming = {
-      all: { color: 'var(--accent-purple)', bg: 'rgba(168, 85, 247, 0.08)', activeBg: 'var(--accent-purple)' },
+      all: { color: 'var(--accent-indigo)', bg: 'rgba(129, 140, 248, 0.08)', activeBg: 'var(--accent-indigo)' },
       mindfulness: { color: 'var(--accent-teal)', bg: 'rgba(20, 184, 166, 0.08)', activeBg: 'var(--accent-teal)' },
       interpersonal: { color: 'var(--accent-purple)', bg: 'rgba(168, 85, 247, 0.08)', activeBg: 'var(--accent-purple)' },
       'emotion-regulation': { color: 'var(--accent-blue)', bg: 'rgba(59, 130, 246, 0.08)', activeBg: 'var(--accent-blue)' },
@@ -784,15 +784,18 @@ class App {
         } else if (item.target === 'distress-tolerance') {
           badgeColor = 'var(--accent-rose)';
           badgeLabel = 'Tolerance';
+        } else if (item.target === 'diary-card') {
+          badgeColor = 'var(--accent-amber)';
+          badgeLabel = 'Diary Card';
         } else {
-          badgeColor = 'var(--text-muted)';
+          badgeColor = 'var(--accent-indigo)';
           badgeLabel = 'Workbook';
         }
 
         return `
           <div class="card clickable-tile" style="border: 2px solid ${badgeColor}; padding: 1rem 1.25rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; cursor: pointer; transition: transform var(--transition-fast), background var(--transition-fast);" data-target="${item.target}" data-deck="${item.deckTarget || ''}">
             <div style="display: flex; align-items: center; gap: 1rem; min-width: 0; flex: 1;">
-              <span class="badge" style="background: ${badgeColor}15; color: ${badgeColor}; border: 1px solid ${badgeColor}30; flex-shrink: 0; padding: 0.2rem 0.5rem; font-size: 0.75rem;">
+              <span class="badge" style="background: ${badgeColor}15; color: ${badgeColor}; border: 1px solid ${badgeColor}30; flex-shrink: 0; padding: 0.2rem 0.5rem; font-size: 0.75rem; width: 110px; display: inline-block; text-align: center;">
                 ${badgeLabel}
               </span>
               <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin: 0; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;" title="${item.name}">${item.name}</h4>

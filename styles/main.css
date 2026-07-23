@@ -25,6 +25,8 @@
   --accent-rose: #fb7185;      /* Compassionate salmon-rose */
   --accent-rose-light: rgba(251, 113, 133, 0.15);
   --accent-amber: #fbbf24;
+  --accent-indigo: #818cf8;    /* Accessible light-indigo for dark mode */
+  --accent-indigo-light: rgba(129, 140, 248, 0.15);
 
   --border-color: rgba(255, 255, 255, 0.08); /* Crisp borders */
   --border-focus: #c084fc;

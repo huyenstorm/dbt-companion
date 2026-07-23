@@ -5,7 +5,7 @@
   <script>
     // Developer Force Cache Reset Hook
     (function() {
-      const resetKey = 'dbt_cache_reset_v52';
+      const resetKey = 'dbt_cache_reset_v53';
       if (!localStorage.getItem(resetKey)) {
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.getRegistrations().then(regs => {
@@ -37,8 +37,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="./styles/main.css?v=52">
-  <link rel="stylesheet" href="./styles/print.css?v=52" media="print">
+  <link rel="stylesheet" href="./styles/main.css?v=53">
+  <link rel="stylesheet" href="./styles/print.css?v=53" media="print">
 </head>
 <body>
 
@@ -81,9 +81,9 @@
 
       <!-- Quick Actions row -->
       <div class="grid-2" style="margin-bottom: 1.25rem;">
-        <div class="card clickable-tile" tabindex="0" role="button" aria-label="Daily Diary Card: Track daily target behaviors, urges, and skills used" style="border-color: var(--accent-teal); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; margin-bottom: 0;" data-dashboard-tile="diary-card">
+        <div class="card clickable-tile" tabindex="0" role="button" aria-label="Daily Diary Card: Track daily target behaviors, urges, and skills used" style="border-color: var(--accent-amber); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; margin-bottom: 0;" data-dashboard-tile="diary-card">
           <div>
-            <strong style="color: var(--accent-teal); display: block; font-size: 1rem;">📝 Daily Diary Card</strong>
+            <strong style="color: var(--accent-amber); display: block; font-size: 1rem;">📝 Daily Diary Card</strong>
             <span style="font-size: 0.8rem; color: var(--text-muted);">Track daily target behaviors, urges, and skills used.</span>
           </div>
           <span style="font-size: 1.25rem;">📅</span>
@@ -144,14 +144,14 @@
       </div>
 
       <!-- Skill & Worksheet Directory Widget -->
-      <div class="card" style="margin-bottom: 1.5rem; border-color: var(--accent-purple); position: relative; z-index: 10;">
-        <h3 style="font-size: 0.95rem; color: var(--accent-purple); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
+      <div class="card" style="margin-bottom: 1.5rem; border-color: var(--accent-indigo); position: relative; z-index: 10;">
+        <h3 style="font-size: 0.95rem; color: var(--accent-indigo); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
           <span>🔍</span> Skill & Worksheet Directory
         </h3>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">Type to search, or open the <span id="btn-browse-visual-dir" style="color: var(--accent-purple); text-decoration: underline; cursor: pointer; font-weight: 600;">📋 Visual Directory</span> to browse by module:</p>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">Type to search, or open the <span id="btn-browse-visual-dir" style="color: var(--accent-indigo); text-decoration: underline; cursor: pointer; font-weight: 600;">📋 Visual Directory</span> to browse by module:</p>
         <div style="position: relative;">
           <input type="text" class="form-control" id="search-worksheets" placeholder="Search: e.g. DEAR MAN, Chain Analysis, Wise Mind, Dime Game, Sleep Hygiene..." autocomplete="off">
-          <div id="search-results" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-secondary); border: 2px solid var(--accent-purple); border-radius: var(--radius-md); max-height: 250px; overflow-y: auto; z-index: 1000 !important; box-shadow: var(--shadow-lg); padding: 0.5rem 0;">
+          <div id="search-results" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-secondary); border: 2px solid var(--accent-indigo); border-radius: var(--radius-md); max-height: 250px; overflow-y: auto; z-index: 1000 !important; box-shadow: var(--shadow-lg); padding: 0.5rem 0;">
             <!-- Populated dynamically via JS -->
           </div>
         </div>
@@ -618,6 +618,6 @@
   </script>
 
   <!-- Application Entry Script -->
-  <script type="module" src="./js/app.js?v=52"></script>
+  <script type="module" src="./js/app.js?v=53"></script>
 </body>
 </html>
