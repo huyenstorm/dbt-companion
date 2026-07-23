@@ -99,6 +99,27 @@ export const DearManModule = {
               <button type="submit" class="btn btn-primary">💾 Save Script WS 4</button>
             </div>
           </form>
+
+          <!-- AI Coach Container -->
+          <div style="background: rgba(192, 132, 252, 0.05); border: 1px solid var(--accent-purple); border-radius: var(--radius-lg); padding: 1.25rem; margin-top: 1.5rem;">
+            <h3 style="font-size: 1rem; font-weight: 700; color: var(--accent-purple); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
+              🤖 Review Script with DBT AI Coach
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+              Let the AI Coach review your draft script against DEAR MAN guidelines, offer improvement suggestions, or roleplay the conversation with you.
+            </p>
+
+            <div id="dm-ai-chat-thread" style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem; max-height: 250px; overflow-y: auto; padding-right: 0.25rem;"></div>
+
+            <button type="button" class="btn btn-secondary" id="btn-dm-ai-coach" style="width: 100%;">
+              💬 Get Feedback on My Script
+            </button>
+
+            <div id="dm-ai-chat-input-container" style="display: none; gap: 0.5rem; margin-top: 0.5rem;">
+              <input type="text" id="dm-ai-chat-input" class="form-control" placeholder="Type your message to AI Coach..." style="flex: 1;">
+              <button type="button" class="btn btn-primary" id="btn-dm-ai-send" style="padding: 0 1.25rem;">Send</button>
+            </div>
+          </div>
         </div>
 
         <!-- Clarifying Priorities (Worksheet 3) -->
@@ -489,6 +510,10 @@ export const DearManModule = {
       await db.saveWorksheet({ type: 'dear_man', title: `DEAR MAN Script: ${data['Objectives']}`, data });
       alert('DEAR MAN / GIVE FAST script saved!');
       dmForm.reset();
+      this.dmChatHistory = [];
+      container.querySelector('#dm-ai-chat-thread').innerHTML = '';
+      container.querySelector('#dm-ai-chat-input-container').style.display = 'none';
+      container.querySelector('#btn-dm-ai-coach').style.display = 'block';
     });
 
     container.querySelector('#btn-copy-dm').addEventListener('click', () => {
@@ -589,6 +614,9 @@ export const DearManModule = {
         Exports.copyForPortal('Practicing Dialectics Homework', new Date(), data);
       });
     }
+
+    this.dmChatHistory = [];
+    this.setupDMAICoach(container);
   },
 
   getDMFormData(container) {
@@ -691,5 +719,147 @@ export const DearManModule = {
       'Sit2 Skills': container.querySelector('#dial-skills2').value,
       'Sit2 Outcomes': out2.join(', ') || 'None'
     };
+  },
+
+  setupDMAICoach(container) {
+    const btnCoach = container.querySelector('#btn-dm-ai-coach');
+    const thread = container.querySelector('#dm-ai-chat-thread');
+    const inputContainer = container.querySelector('#dm-ai-chat-input-container');
+    const inputField = container.querySelector('#dm-ai-chat-input');
+    const btnSend = container.querySelector('#btn-dm-ai-send');
+
+    if (!btnCoach || !thread || !inputContainer || !inputField || !btnSend) return;
+
+    const parseMarkdown = (text) => {
+      return text.replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                 .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                 .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                 .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+                 .replace(/\*(.*)\*/gim, '<em>$1</em>')
+                 .replace(/^\* (.*$)/gim, '<ul><li>$1</li></ul>')
+                 .replace(/<\/ul>\n<ul>/gim, '')
+                 .replace(/\n/g, '<br>');
+    };
+
+    const appendMessage = (role, text) => {
+      const msgDiv = document.createElement('div');
+      msgDiv.style.padding = '0.75rem';
+      msgDiv.style.borderRadius = 'var(--radius-md)';
+      msgDiv.style.fontSize = '0.9rem';
+      if (role === 'user') {
+        msgDiv.style.background = 'var(--bg-secondary)';
+        msgDiv.style.alignSelf = 'flex-end';
+        msgDiv.style.border = '1px solid var(--border-color)';
+        msgDiv.innerHTML = '<strong>You:</strong><br>' + text;
+      } else {
+        msgDiv.style.background = 'rgba(156, 39, 176, 0.1)';
+        msgDiv.style.alignSelf = 'flex-start';
+        msgDiv.style.border = '1px solid rgba(156, 39, 176, 0.2)';
+        msgDiv.innerHTML = '<strong>🤖 AI Coach:</strong><br>' + parseMarkdown(text);
+      }
+      thread.appendChild(msgDiv);
+      thread.scrollTop = thread.scrollHeight;
+    };
+
+    const callAI = async (userMessage) => {
+      const aiEnabled = localStorage.getItem('ai_enabled') === 'true';
+      const aiKey = localStorage.getItem('ai_gemini_key');
+      
+      if (!aiEnabled || !aiKey) {
+        alert("Please enable the AI Coach and set your Google Gemini API Key in settings (🤖) to use this feature.");
+        const settingsBtn = document.getElementById('btn-open-ai-settings');
+        if (settingsBtn) settingsBtn.click();
+        return;
+      }
+
+      const crisisKeywords = ['suicide', 'self-harm', 'kill myself', 'die'];
+      const msgLower = userMessage.toLowerCase();
+      if (crisisKeywords.some(kw => msgLower.includes(kw))) {
+        appendMessage('assistant', "⚠️ **Safety Warning:** It sounds like you might be in crisis. Please call 988 or contact your therapist for Phone Coaching.");
+        return;
+      }
+
+      btnCoach.disabled = true;
+      btnSend.disabled = true;
+      inputField.disabled = true;
+      const loadingId = 'loading-dm-' + Date.now();
+      const loadingDiv = document.createElement('div');
+      loadingDiv.id = loadingId;
+      loadingDiv.style.padding = '0.75rem';
+      loadingDiv.innerHTML = '<em>🤖 AI Coach is typing...</em>';
+      thread.appendChild(loadingDiv);
+      thread.scrollTop = thread.scrollHeight;
+
+      try {
+        const formData = this.getDMFormData(container);
+        const historyArray = this.dmChatHistory;
+        
+        historyArray.push({ role: 'user', parts: [{ text: userMessage }] });
+
+        const systemPrompt = "You are a warm, non-judgmental, logical DBT AI Coach. The user has filled out a DEAR MAN script builder (Worksheet 4) to formulate a request or decline something in an interpersonal relationship. Their objective: \"" + formData.Objectives + "\". Review their current draft lines: Describe (\"" + formData.Describe + "\"), Express (\"" + formData.Express + "\"), Assert (\"" + formData.Assert + "\"), Reinforce (\"" + formData.Reinforce + "\"), Mindful (\"" + formData['Mindful & Appear Confident'] + "\"), Negotiate (\"" + formData.Negotiate + "\"), Validate (\"" + formData['Validate (GIVE)'] + "\"), Easy Manner (\"" + formData['Easy Manner (GIVE)'] + "\"). Provide warm, helpful critiques of how to make their script align better with classic DBT guidelines (non-judgmental facts, assert clearly, reinforce outcomes), or roleplay the conversation with them. Keep responses concise.";
+        
+        const payload = {
+          systemInstruction: { parts: [{ text: systemPrompt }] },
+          contents: [
+            {
+              role: 'user',
+              parts: [{ text: "Here is my current DEAR MAN script data:\n" + JSON.stringify(formData, null, 2) }]
+            },
+            ...historyArray
+          ]
+        };
+
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${aiKey}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        
+        if (data.error) {
+          throw new Error(data.error.message);
+        }
+
+        const aiResponse = data.candidates[0].content.parts[0].text;
+        historyArray.push({ role: 'model', parts: [{ text: aiResponse }] });
+        
+        document.getElementById(loadingId).remove();
+        appendMessage('assistant', aiResponse);
+        
+        inputContainer.style.display = 'flex';
+        btnCoach.style.display = 'none';
+        inputField.value = '';
+        inputField.focus();
+
+      } catch (err) {
+        document.getElementById(loadingId).remove();
+        appendMessage('assistant', "Error connecting to AI Coach: " + err.message);
+      } finally {
+        btnCoach.disabled = false;
+        btnSend.disabled = false;
+        inputField.disabled = false;
+      }
+    };
+
+    btnCoach.addEventListener('click', () => {
+      const msg = "Can you review my drafted DEAR MAN script and provide feedback?";
+      appendMessage('user', msg);
+      callAI(msg);
+    });
+
+    btnSend.addEventListener('click', () => {
+      const val = inputField.value.trim();
+      if (!val) return;
+      appendMessage('user', val);
+      callAI(val);
+    });
+    
+    inputField.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        btnSend.click();
+      }
+    });
   }
 };
