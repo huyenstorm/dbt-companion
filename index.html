@@ -5,7 +5,7 @@
   <script>
     // Developer Force Cache Reset Hook
     (function() {
-      const resetKey = 'dbt_cache_reset_v49';
+      const resetKey = 'dbt_cache_reset_v50';
       if (!localStorage.getItem(resetKey)) {
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.getRegistrations().then(regs => {
@@ -37,8 +37,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="./styles/main.css?v=49">
-  <link rel="stylesheet" href="./styles/print.css?v=49" media="print">
+  <link rel="stylesheet" href="./styles/main.css?v=50">
+  <link rel="stylesheet" href="./styles/print.css?v=50" media="print">
 </head>
 <body>
 
@@ -601,8 +601,8 @@
         </div>
       </div>
 
-      <!-- Grid of Skill Cards -->
-      <div id="dir-skills-grid" class="grid-3" style="gap: 1rem;">
+      <!-- List of Skill Cards -->
+      <div id="dir-skills-grid" style="display: flex; flex-direction: column; gap: 0.75rem;">
         <!-- Filled dynamically by JS -->
       </div>
     </div>
@@ -630,6 +630,6 @@
   </script>
 
   <!-- Application Entry Script -->
-  <script type="module" src="./js/app.js?v=49"></script>
+  <script type="module" src="./js/app.js?v=50"></script>
 </body>
 </html>

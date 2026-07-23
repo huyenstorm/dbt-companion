@@ -709,6 +709,30 @@ class App {
     let searchQuery = '';
     let activeSort = 'alpha';
 
+    const filterTheming = {
+      all: { color: 'var(--accent-purple)', bg: 'rgba(168, 85, 247, 0.08)', activeBg: 'var(--accent-purple)' },
+      mindfulness: { color: 'var(--accent-teal)', bg: 'rgba(20, 184, 166, 0.08)', activeBg: 'var(--accent-teal)' },
+      interpersonal: { color: 'var(--accent-purple)', bg: 'rgba(168, 85, 247, 0.08)', activeBg: 'var(--accent-purple)' },
+      'emotion-regulation': { color: 'var(--accent-blue)', bg: 'rgba(59, 130, 246, 0.08)', activeBg: 'var(--accent-blue)' },
+      'distress-tolerance': { color: 'var(--accent-rose)', bg: 'rgba(244, 63, 94, 0.1)', activeBg: 'var(--accent-rose)' }
+    };
+
+    const applyFilterStyles = () => {
+      filterButtons.forEach(btn => {
+        const filter = btn.dataset.filter;
+        const theme = filterTheming[filter] || filterTheming.all;
+        if (filter === activeFilter) {
+          btn.style.background = theme.activeBg;
+          btn.style.color = '#ffffff';
+          btn.style.borderColor = theme.activeBg;
+        } else {
+          btn.style.background = theme.bg;
+          btn.style.color = theme.color;
+          btn.style.borderColor = theme.color + '40';
+        }
+      });
+    };
+
     const renderLibrary = () => {
       let items = this.searchIndex.filter(item => {
         const matchesFilter = activeFilter === 'all' || item.target === activeFilter;
@@ -738,8 +762,10 @@ class App {
         });
       }
 
+      applyFilterStyles();
+
       if (items.length === 0) {
-        grid.innerHTML = `<div style="grid-column: span 3; text-align: center; padding: 2rem; color: var(--text-muted);">No matching skills found in database.</div>`;
+        grid.innerHTML = `<div style="text-align: center; padding: 2rem; color: var(--text-muted);">No matching skills found in database.</div>`;
         return;
       }
 
@@ -764,14 +790,14 @@ class App {
         }
 
         return `
-          <div class="card clickable-tile" style="border: 1.5px solid var(--border-color); padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between; height: 100%; min-height: 140px; cursor: pointer; transition: transform var(--transition-fast), border-color var(--transition-fast);" data-target="${item.target}" data-deck="${item.deckTarget || ''}">
-            <div>
-              <span class="badge" style="background: rgba(255,255,255,0.06); color: ${badgeColor}; border: 1px solid ${badgeColor}40; margin-bottom: 0.5rem; display: inline-block;">
+          <div class="card clickable-tile" style="border: 2px solid ${badgeColor}; padding: 1rem 1.25rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; cursor: pointer; transition: transform var(--transition-fast), background var(--transition-fast);" data-target="${item.target}" data-deck="${item.deckTarget || ''}">
+            <div style="display: flex; align-items: center; gap: 1rem; min-width: 0; flex: 1;">
+              <span class="badge" style="background: ${badgeColor}15; color: ${badgeColor}; border: 1px solid ${badgeColor}30; flex-shrink: 0; padding: 0.2rem 0.5rem; font-size: 0.75rem;">
                 ${badgeLabel}
               </span>
-              <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--text-primary); line-height: 1.35;">${item.name}</h4>
+              <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin: 0; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;" title="${item.name}">${item.name}</h4>
             </div>
-            <div style="display: flex; justify-content: flex-end; align-items: center; margin-top: 0.75rem; font-size: 0.8rem; font-weight: 600; color: ${badgeColor}; gap: 0.2rem;">
+            <div style="display: flex; align-items: center; font-size: 0.8rem; font-weight: 600; color: ${badgeColor}; gap: 0.25rem; flex-shrink: 0;">
               <span>Open Tool</span> ➔
             </div>
           </div>
@@ -798,13 +824,6 @@ class App {
 
     filterButtons.forEach(btn => {
       btn.addEventListener('click', () => {
-        filterButtons.forEach(b => {
-          b.classList.remove('btn-primary');
-          b.classList.add('btn-secondary');
-        });
-        btn.classList.remove('btn-secondary');
-        btn.classList.add('btn-primary');
-
         activeFilter = btn.dataset.filter;
         renderLibrary();
       });
