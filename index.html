@@ -5,7 +5,7 @@
   <script>
     // Developer Force Cache Reset Hook
     (function() {
-      const resetKey = 'dbt_cache_reset_v45';
+      const resetKey = 'dbt_cache_reset_v46';
       if (!localStorage.getItem(resetKey)) {
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.getRegistrations().then(regs => {
@@ -37,8 +37,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="./styles/main.css?v=45">
-  <link rel="stylesheet" href="./styles/print.css?v=45" media="print">
+  <link rel="stylesheet" href="./styles/main.css?v=46">
+  <link rel="stylesheet" href="./styles/print.css?v=46" media="print">
 </head>
 <body>
 
@@ -88,7 +88,7 @@
           </div>
           <span style="font-size: 1.25rem;">📅</span>
         </div>
-        <div class="card clickable-tile" id="btn-open-safety" tabindex="0" role="button" aria-label="Crisis Safety Plan: View or update your personal coping steps" style="border-color: var(--accent-rose); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; margin-bottom: 0; cursor: pointer; transition: var(--transition-fast);">
+        <div class="card clickable-tile" id="btn-open-safety" tabindex="0" role="button" aria-label="Crisis Safety Plan: View or update your personal coping steps" style="border-color: var(--accent-rose); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; margin-bottom: 0; cursor: pointer; transition: var(--transition-fast);" data-dashboard-tile="safety-plan">
           <div>
             <strong style="color: var(--accent-rose); display: block; font-size: 1rem;">🛡️ Crisis Safety Plan</strong>
             <span style="font-size: 0.8rem; color: var(--text-muted);">View or update your personal coping steps.</span>
@@ -477,22 +477,28 @@
     </div>
   </div>
 
-  <!-- Crisis Safety Plan Modal -->
-  <div class="modal-overlay" id="safety-plan-modal">
-    <div class="modal-card" style="max-width: 600px; max-height: 85vh; overflow-y: auto; position: relative;">
-      <button type="button" class="modal-close-x" style="position: absolute; top: 0.75rem; right: 1rem; background: transparent; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; line-height: 1; padding: 0; z-index: 10;">&times;</button>
-      
-      <h3 style="font-size: 1.15rem; margin-bottom: 0.25rem; color: var(--accent-rose); display: flex; align-items: center; gap: 0.4rem;">
-        <span>🛡️</span> My Crisis Safety Plan
-      </h3>
-      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem;">
-        Fill this out when you are calm, so it is ready to guide you in moments of high distress.
-      </p>
-
-      <!-- Safety Modal Tabs -->
-      <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
-        <button type="button" class="tab-btn active" id="btn-safety-view-tab" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; border-radius: var(--radius-sm);">🛡️ Quick View</button>
-        <button type="button" class="tab-btn" id="btn-safety-edit-tab" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; border-radius: var(--radius-sm);">⚙️ Edit Plan</button>
+  <!-- 6. CRISIS SAFETY PLAN -->
+  <section class="view-section" id="view-safety-plan">
+    <div class="card">
+      <div class="card-header" style="margin-bottom: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+          <div>
+            <h2 class="card-title" style="color: var(--accent-rose);">
+              <span class="badge badge-rose" style="background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); border: 1px solid rgba(244, 63, 94, 0.3);">🛡️ Crisis Coping</span>
+              My Crisis Safety Plan
+            </h2>
+            <p class="card-subtitle">Fill this out when you are calm, so it is ready to guide you in moments of high distress.</p>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <button type="button" class="btn btn-secondary btn-back-dashboard" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
+              ⬅️ Back to Dashboard
+            </button>
+            <div style="display: flex; gap: 0.2rem; background: var(--bg-secondary); padding: 0.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+              <button type="button" class="tab-btn active" id="btn-safety-view-tab" style="padding: 0.3rem 0.6rem; font-size: 0.85rem; border-radius: var(--radius-sm);">🛡️ Quick View</button>
+              <button type="button" class="tab-btn" id="btn-safety-edit-tab" style="padding: 0.3rem 0.6rem; font-size: 0.85rem; border-radius: var(--radius-sm);">⚙️ Edit Plan</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Quick View Pane -->
@@ -553,13 +559,13 @@
         </div>
 
         <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.5rem; border-top: 1px solid var(--border-color); padding-top: 0.75rem;">
-          <button type="button" class="btn btn-secondary" id="btn-close-safety">Close</button>
+          <button type="button" class="btn btn-secondary btn-back-dashboard" style="margin-right: auto;">⬅️ Back to Dashboard</button>
           <button type="button" class="btn btn-secondary" id="btn-print-safety">🖨️ Print / Save PDF</button>
           <button type="submit" class="btn btn-primary" style="background: var(--accent-rose); border-color: var(--accent-rose);">💾 Save Safety Plan</button>
         </div>
       </form>
     </div>
-  </div>
+  </section>
 
   <!-- Register Service Worker for Offline PWA with Auto-Update Hook -->
   <script>
@@ -583,6 +589,6 @@
   </script>
 
   <!-- Application Entry Script -->
-  <script type="module" src="./js/app.js?v=45"></script>
+  <script type="module" src="./js/app.js?v=46"></script>
 </body>
 </html>

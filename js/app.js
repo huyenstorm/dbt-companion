@@ -202,6 +202,10 @@ class App {
       const deckName = activeDeckBtn ? activeDeckBtn.dataset.deckTarget : '';
       history.pushState({ view: viewName, deck: deckName }, '', `#${viewName}${deckName ? '-' + deckName : ''}`);
     }
+
+    if (viewName === 'safety-plan' && typeof this.loadSafetyPlanData === 'function') {
+      this.loadSafetyPlanData();
+    }
   }
 
   setupDeckNav() {
@@ -474,16 +478,12 @@ class App {
     const phoneCoachingCta = document.getElementById('btn-phone-coaching-cta');
     if (phoneCoachingCta) {
       phoneCoachingCta.addEventListener('click', () => {
-        const btnOpenSafety = document.getElementById('btn-open-safety');
-        if (btnOpenSafety) btnOpenSafety.click();
+        this.switchView('safety-plan');
       });
     }
   }
 
   setupSafetyPlan() {
-    const modal = document.getElementById('safety-plan-modal');
-    const btnOpen = document.getElementById('btn-open-safety');
-    const btnClose = document.getElementById('btn-close-safety');
     const btnPrint = document.getElementById('btn-print-safety');
     const form = document.getElementById('safety-plan-form');
     
@@ -626,38 +626,22 @@ class App {
       return contacts;
     };
 
-    if (btnOpen && modal) {
-      btnOpen.addEventListener('click', async () => {
-        const plan = await db.getSetting('safety_plan', {});
-        if (form) {
-          const textareas = form.querySelectorAll('textarea');
-          textareas.forEach(ta => {
-            if (ta.name !== 'trusted_contacts' && ta.name !== 'professionals') {
-              ta.value = plan[ta.name] || '';
-            }
-          });
-          const friends = migrateContacts(plan.trusted_contacts);
-          const pros = migrateContacts(plan.professionals);
-          renderContactRows('safety-contacts-friends-list', friends);
-          renderContactRows('safety-contacts-pros-list', pros);
-        }
-        modal.classList.add('active');
-        switchTab('view');
-      });
-
-      btnOpen.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          btnOpen.click();
-        }
-      });
-    }
-
-    if (btnClose && modal) {
-      btnClose.addEventListener('click', () => {
-        modal.classList.remove('active');
-      });
-    }
+    this.loadSafetyPlanData = async () => {
+      const plan = await db.getSetting('safety_plan', {});
+      if (form) {
+        const textareas = form.querySelectorAll('textarea');
+        textareas.forEach(ta => {
+          if (ta.name !== 'trusted_contacts' && ta.name !== 'professionals') {
+            ta.value = plan[ta.name] || '';
+          }
+        });
+        const friends = migrateContacts(plan.trusted_contacts);
+        const pros = migrateContacts(plan.professionals);
+        renderContactRows('safety-contacts-friends-list', friends);
+        renderContactRows('safety-contacts-pros-list', pros);
+      }
+      switchTab('view');
+    };
 
     if (form) {
       form.addEventListener('submit', async (e) => {
@@ -952,12 +936,6 @@ class App {
     overlays.forEach(overlay => {
       overlay.addEventListener('click', (e) => {
         if (e.target === overlay) {
-          if (overlay.id === 'safety-plan-modal') {
-            const form = document.getElementById('safety-plan-form');
-            if (form && form.style.display !== 'none') {
-              return;
-            }
-          }
           overlay.classList.remove('active');
         }
       });
