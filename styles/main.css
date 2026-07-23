@@ -5,7 +5,9 @@
 :root {
   /* Color Palette - Dark Mode Default (High Contrast ADA Compliant) */
   --bg-primary: #0b0f19;       /* Deep grounding midnight slate */
+  --bg-primary-gradient: radial-gradient(circle at 50% 0%, #17123a 0%, #060913 100%) no-repeat fixed;
   --bg-secondary: #161e2e;     /* Rich navy charcoal */
+  --bg-header: rgba(22, 30, 49, 0.75); /* Frosted dark header */
   --bg-card: #161e2e;          /* Solid cards to guarantee readable contrast and hide background orbs */
   --bg-card-hover: #1f293d;
   --bg-input: #0b0f19;
@@ -45,7 +47,9 @@
 
 [data-theme="light"] {
   --bg-primary: #f8fafc;
+  --bg-primary-gradient: radial-gradient(circle at 50% 0%, #e0f2fe 0%, #f8fafc 100%) no-repeat fixed;
   --bg-secondary: #ffffff;
+  --bg-header: rgba(255, 255, 255, 0.75); /* Frosted light header */
   --bg-card: #ffffff;          /* Solid white cards for light mode */
   --bg-card-hover: #f1f5f9;
   --bg-input: #f8fafc;
@@ -79,7 +83,7 @@
 
 body {
   font-family: var(--font-sans);
-  background: radial-gradient(circle at 50% 0%, #17123a 0%, #060913 100%) no-repeat fixed;
+  background: var(--bg-primary-gradient);
   color: var(--text-primary);
   min-height: 100vh;
   display: flex;
@@ -90,7 +94,7 @@ body {
 
 /* App Header & Navigation */
 .app-header {
-  background: rgba(11, 15, 25, 0.7);
+  background: var(--bg-header);
   border-bottom: 1.5px solid var(--border-color);
   padding: 0.75rem 1.25rem;
   display: flex;
