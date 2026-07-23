@@ -817,22 +817,50 @@ class App {
     const input = document.getElementById('search-worksheets');
     const results = document.getElementById('search-results');
 
-    input.addEventListener('input', (e) => {
-      const query = e.target.value.toLowerCase().trim();
+    const updateList = () => {
+      const query = input.value.toLowerCase().trim();
+      let matches = [];
+      let isBrowsingAll = false;
+
       if (!query) {
-        results.style.display = 'none';
-        return;
+        matches = this.searchIndex;
+        isBrowsingAll = true;
+      } else {
+        matches = this.searchIndex.filter(item => {
+          const nameMatch = item.name.toLowerCase().includes(query);
+          
+          let categoryName = '';
+          if (item.target === 'mindfulness') categoryName = 'mindfulness core mindfulness';
+          else if (item.target === 'interpersonal') categoryName = 'interpersonal effectiveness relationship ie';
+          else if (item.target === 'emotion-regulation') categoryName = 'emotion regulation er';
+          else if (item.target === 'distress-tolerance') categoryName = 'distress tolerance dt crisis';
+          else if (item.target === 'diary-card') categoryName = 'diary card tracker';
+
+          const categoryMatch = categoryName.includes(query);
+          return nameMatch || categoryMatch;
+        });
       }
 
-      const matches = this.searchIndex.filter(item => item.name.toLowerCase().includes(query));
-
       if (matches.length > 0) {
-        results.innerHTML = matches.map(item => `
-          <div class="search-result-item" style="padding: 0.6rem 1rem; cursor: pointer; font-size: 0.85rem; border-bottom: 1px solid var(--border-color); color: var(--text-primary); transition: background var(--transition-fast);" data-target="${item.target}" data-deck-target="${item.deckTarget || ''}">
-            <strong style="color: var(--accent-purple);">${item.name}</strong>
-            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Module: ${item.target.toUpperCase()}</span>
-          </div>
-        `).join('');
+        let headerHtml = isBrowsingAll 
+          ? `<div style="padding: 0.5rem 1rem; font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; border-bottom: 1px solid var(--border-color); background: var(--bg-secondary);">📋 Browse All Skills & Worksheets (${matches.length})</div>`
+          : `<div style="padding: 0.5rem 1rem; font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; border-bottom: 1px solid var(--border-color); background: var(--bg-secondary);">🔍 Search Results (${matches.length})</div>`;
+
+        results.innerHTML = headerHtml + matches.map(item => {
+          let moduleLabel = '';
+          if (item.target === 'mindfulness') moduleLabel = 'Core Mindfulness';
+          else if (item.target === 'interpersonal') moduleLabel = 'Interpersonal Effectiveness';
+          else if (item.target === 'emotion-regulation') moduleLabel = 'Emotion Regulation';
+          else if (item.target === 'distress-tolerance') moduleLabel = 'Distress Tolerance';
+          else if (item.target === 'diary-card') moduleLabel = 'Diary Card';
+
+          return `
+            <div class="search-result-item" style="padding: 0.6rem 1rem; cursor: pointer; font-size: 0.85rem; border-bottom: 1px solid var(--border-color); color: var(--text-primary); transition: background var(--transition-fast);" data-target="${item.target}" data-deck-target="${item.deckTarget || ''}">
+              <strong style="color: var(--accent-purple);">${item.name}</strong>
+              <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Module: ${moduleLabel}</span>
+            </div>
+          `;
+        }).join('');
         results.style.display = 'block';
 
         results.querySelectorAll('.search-result-item').forEach(el => {
@@ -860,7 +888,11 @@ class App {
         results.innerHTML = `<div style="padding: 0.75rem 1rem; font-size: 0.8rem; color: var(--text-muted);">No matching worksheets found.</div>`;
         results.style.display = 'block';
       }
-    });
+    };
+
+    input.addEventListener('input', updateList);
+    input.addEventListener('focus', updateList);
+    input.addEventListener('click', updateList);
 
     document.addEventListener('click', (e) => {
       if (!input.contains(e.target) && !results.contains(e.target)) {
