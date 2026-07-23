@@ -152,6 +152,12 @@ export const ModelOfEmotionsModule = {
               <button type="button" class="btn btn-secondary" id="btn-cf-ai-coach" style="width: 100%; margin-bottom: 1rem;">💬 Get Help from AI Coach</button>
             </div>
 
+            <!-- Worksheet Header Separator -->
+            <div style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-top: 1rem;">
+              <h3 style="font-size: 1.1rem; color: var(--accent-purple); margin: 0 0 0.25rem 0; font-weight: 700;">📋 Check the Facts Worksheet</h3>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">Fill the form out how you'd like</p>
+            </div>
+
             <div class="grid-3">
               <div class="form-group">
                 <label class="form-label">Emotion Name</label>
@@ -249,6 +255,12 @@ export const ModelOfEmotionsModule = {
                 <button type="button" class="btn btn-primary" id="btn-oa-ai-send">Send</button>
               </div>
               <button type="button" class="btn btn-secondary" id="btn-oa-ai-coach" style="width: 100%; margin-bottom: 1rem;">💬 Get Help from AI Coach</button>
+            </div>
+
+            <!-- Worksheet Header Separator -->
+            <div style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-top: 1rem;">
+              <h3 style="font-size: 1.1rem; color: var(--accent-rose); margin: 0 0 0.25rem 0; font-weight: 700;">📋 Opposite Action Worksheet</h3>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">Fill the form out how you'd like</p>
             </div>
 
             <div class="grid-3">
