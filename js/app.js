@@ -710,7 +710,7 @@ class App {
     let activeSort = 'alpha';
 
     const filterTheming = {
-      all: { color: 'var(--accent-indigo)', bg: 'rgba(129, 140, 248, 0.08)', activeBg: 'var(--accent-indigo)' },
+      all: { color: 'var(--text-primary)', bg: 'rgba(255, 255, 255, 0.05)', activeBg: '#64748b' },
       mindfulness: { color: 'var(--accent-teal)', bg: 'rgba(20, 184, 166, 0.08)', activeBg: 'var(--accent-teal)' },
       interpersonal: { color: 'var(--accent-purple)', bg: 'rgba(168, 85, 247, 0.08)', activeBg: 'var(--accent-purple)' },
       'emotion-regulation': { color: 'var(--accent-blue)', bg: 'rgba(59, 130, 246, 0.08)', activeBg: 'var(--accent-blue)' },
@@ -728,7 +728,7 @@ class App {
         } else {
           btn.style.background = theme.bg;
           btn.style.color = theme.color;
-          btn.style.borderColor = theme.color + '40';
+          btn.style.borderColor = theme.color === 'var(--text-primary)' ? 'rgba(255,255,255,0.15)' : theme.color + '40';
         }
       });
     };
@@ -788,7 +788,7 @@ class App {
           badgeColor = 'var(--accent-amber)';
           badgeLabel = 'Diary Card';
         } else {
-          badgeColor = 'var(--accent-indigo)';
+          badgeColor = 'var(--text-muted)';
           badgeLabel = 'Workbook';
         }
 
