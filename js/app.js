@@ -558,6 +558,52 @@ class App {
     const btnAddPro = document.getElementById('btn-safety-add-pro');
     if (btnAddPro) btnAddPro.addEventListener('click', () => addContactRow('safety-contacts-pros-list'));
 
+    const prefillCountry = document.getElementById('safety-prefill-country');
+    if (prefillCountry) {
+      prefillCountry.addEventListener('change', (e) => {
+        const country = e.target.value;
+        if (!country) return;
+
+        const currentContacts = extractContacts('safety-contacts-pros-list');
+        const officialNumbers = {
+          'us': [
+            { name: 'Emergency Services', phone: '911' },
+            { name: 'Suicide & Crisis Lifeline', phone: '988' },
+            { name: 'Crisis Text Line', phone: '741741' }
+          ],
+          'uk': [
+            { name: 'Emergency Services', phone: '999' },
+            { name: 'Samaritans Helpline', phone: '116123' },
+            { name: 'NHS Mental Health', phone: '111' }
+          ],
+          'au': [
+            { name: 'Emergency Services', phone: '000' },
+            { name: 'Lifeline Australia', phone: '131114' },
+            { name: 'Beyond Blue Support', phone: '1300224636' }
+          ],
+          'eu': [
+            { name: 'Emergency Services (EU)', phone: '112' }
+          ]
+        };
+
+        const toAdd = officialNumbers[country] || [];
+        const mergedList = currentContacts.filter(c => !(c.name === 'Contact' && !c.phone));
+
+        toAdd.forEach(newContact => {
+          const exists = mergedList.some(existing => 
+            existing.name.toLowerCase() === newContact.name.toLowerCase() || 
+            existing.phone === newContact.phone
+          );
+          if (!exists) {
+            mergedList.push(newContact);
+          }
+        });
+
+        renderContactRows('safety-contacts-pros-list', mergedList);
+        e.target.value = '';
+      });
+    }
+
     const extractContacts = (containerId) => {
       const container = document.getElementById(containerId);
       if (!container) return [];

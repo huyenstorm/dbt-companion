@@ -502,6 +502,16 @@
 
         <div>
           <label class="form-label" style="font-weight: 700;">5. Professionals & Crisis Hotlines</label>
+          <div style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; background: var(--bg-secondary); padding: 0.4rem 0.6rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+            <span style="font-size: 0.75rem; color: var(--text-muted); flex: 1;">⚡ Pre-fill local emergency/suicide hotlines:</span>
+            <select id="safety-prefill-country" class="form-control" style="width: auto; padding: 0.2rem 0.5rem; font-size: 0.75rem; border-radius: var(--radius-sm); height: auto; min-height: unset; cursor: pointer;">
+              <option value="">-- Prefill Country --</option>
+              <option value="us">🇺🇸 US / Canada (911/988)</option>
+              <option value="uk">🇬🇧 United Kingdom (999/111/116123)</option>
+              <option value="au">🇦🇺 Australia (000/131114)</option>
+              <option value="eu">🇪🇺 European Union (112)</option>
+            </select>
+          </div>
           <div id="safety-contacts-pros-list" style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.5rem;">
             <!-- Dynamic contact input rows populated via JS -->
           </div>
