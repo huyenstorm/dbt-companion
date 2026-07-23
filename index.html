@@ -5,7 +5,7 @@
   <script>
     // Developer Force Cache Reset Hook
     (function() {
-      const resetKey = 'dbt_cache_reset_v34';
+      const resetKey = 'dbt_cache_reset_v35';
       if (!localStorage.getItem(resetKey)) {
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.getRegistrations().then(regs => {
@@ -37,8 +37,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="./styles/main.css?v=34">
-  <link rel="stylesheet" href="./styles/print.css?v=34" media="print">
+  <link rel="stylesheet" href="./styles/main.css?v=35">
+  <link rel="stylesheet" href="./styles/print.css?v=35" media="print">
 </head>
 <body>
 
@@ -74,14 +74,14 @@
 
       <!-- Quick Actions row -->
       <div class="grid-2" style="margin-bottom: 1.25rem;">
-        <div class="card clickable-tile" style="border-color: var(--accent-teal); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; margin-bottom: 0;" data-dashboard-tile="diary-card">
+        <div class="card clickable-tile" tabindex="0" role="button" aria-label="Daily Diary Card: Track daily target behaviors, urges, and skills used" style="border-color: var(--accent-teal); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; margin-bottom: 0;" data-dashboard-tile="diary-card">
           <div>
             <strong style="color: var(--accent-teal); display: block; font-size: 1rem;">📝 Daily Diary Card</strong>
             <span style="font-size: 0.8rem; color: var(--text-muted);">Track daily target behaviors, urges, and skills used.</span>
           </div>
           <span style="font-size: 1.25rem;">📅</span>
         </div>
-        <div class="card" id="btn-open-safety" style="border-color: var(--accent-rose); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; margin-bottom: 0; cursor: pointer; transition: var(--transition-fast);">
+        <div class="card clickable-tile" id="btn-open-safety" tabindex="0" role="button" aria-label="Crisis Safety Plan: View or update your personal coping steps" style="border-color: var(--accent-rose); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; margin-bottom: 0; cursor: pointer; transition: var(--transition-fast);">
           <div>
             <strong style="color: var(--accent-rose); display: block; font-size: 1rem;">🛡️ Crisis Safety Plan</strong>
             <span style="font-size: 0.8rem; color: var(--text-muted);">View or update your personal coping steps.</span>
@@ -158,7 +158,7 @@
       <!-- 4 Core DBT Modules Grid -->
       <div class="dashboard-grid">
         <!-- Module 1: Mindfulness -->
-        <div class="card clickable-tile" style="border-top: 4px solid var(--accent-teal);" data-dashboard-tile="mindfulness">
+        <div class="card clickable-tile" tabindex="0" role="button" aria-label="Core Mindfulness Module: Cultivate presence, observe emotions like waves, and practice radical acceptance" style="border-top: 4px solid var(--accent-teal);" data-dashboard-tile="mindfulness">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 0.5rem;">
             <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--accent-teal);">Core Mindfulness</h3>
             <span style="font-size: 1.2rem;">✨</span>
@@ -169,7 +169,7 @@
         </div>
 
         <!-- Module 2: Interpersonal Effectiveness -->
-        <div class="card clickable-tile" style="border-top: 4px solid var(--accent-blue);" data-dashboard-tile="interpersonal">
+        <div class="card clickable-tile" tabindex="0" role="button" aria-label="Interpersonal Effectiveness Module: Build script boundaries, calculate assertiveness, and practice validation" style="border-top: 4px solid var(--accent-blue);" data-dashboard-tile="interpersonal">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 0.5rem;">
             <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--accent-blue);">Interpersonal Effectiveness</h3>
             <span style="font-size: 1.2rem;">🗣️</span>
@@ -180,7 +180,7 @@
         </div>
 
         <!-- Module 3: Emotion Regulation -->
-        <div class="card clickable-tile" style="border-top: 4px solid var(--accent-purple);" data-dashboard-tile="emotion-regulation">
+        <div class="card clickable-tile" tabindex="0" role="button" aria-label="Emotion Regulation Module: Understand emotions, fit feelings to facts, practice opposite action, and reduce vulnerability" style="border-top: 4px solid var(--accent-purple);" data-dashboard-tile="emotion-regulation">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 0.5rem;">
             <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--accent-purple);">Emotion Regulation</h3>
             <span style="font-size: 1.2rem;">🧠</span>
@@ -191,7 +191,7 @@
         </div>
 
         <!-- Module 4: Distress Tolerance -->
-        <div class="card clickable-tile" style="border-top: 4px solid var(--accent-rose);" data-dashboard-tile="distress-tolerance">
+        <div class="card clickable-tile" tabindex="0" role="button" aria-label="Distress Tolerance Module: Crisis survival skills and radical acceptance" style="border-top: 4px solid var(--accent-rose);" data-dashboard-tile="distress-tolerance">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 0.5rem;">
             <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--accent-rose);">Distress Tolerance</h3>
             <span style="font-size: 1.2rem;">🛡️</span>
@@ -576,6 +576,6 @@
   </script>
 
   <!-- Application Entry Script -->
-  <script type="module" src="./js/app.js?v=34"></script>
+  <script type="module" src="./js/app.js?v=35"></script>
 </body>
 </html>

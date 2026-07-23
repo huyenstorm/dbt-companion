@@ -6,9 +6,9 @@
   /* Color Palette - Dark Mode Default (High Contrast ADA Compliant) */
   --bg-primary: #0b0f19;       /* Deep grounding midnight slate */
   --bg-secondary: #161e2e;     /* Rich navy charcoal */
-  --bg-card: #161e2e;          /* Solid cards to guarantee readable contrast */
-  --bg-card-hover: #1f293d;
-  --bg-input: #0b0f19;
+  --bg-card: rgba(22, 30, 49, 0.75); /* Translucent frosted navy charcoal */
+  --bg-card-hover: rgba(31, 41, 61, 0.85);
+  --bg-input: rgba(11, 15, 25, 0.8);
 
   --text-primary: #f8fafc;
   --text-secondary: #e2e8f0;   /* Bright gray for excellent contrast */
@@ -24,7 +24,7 @@
   --accent-rose-light: rgba(251, 113, 133, 0.15);
   --accent-amber: #fbbf24;
 
-  --border-color: #243049;     /* Defined crisp border lines */
+  --border-color: rgba(255, 255, 255, 0.08); /* Translucent border */
   --border-focus: #c084fc;
 
   --radius-sm: 8px;
@@ -32,9 +32,9 @@
   --radius-lg: 20px;
   --radius-full: 9999px;
 
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.6);
+  --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5);
 
   --font-sans: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
@@ -46,9 +46,9 @@
 [data-theme="light"] {
   --bg-primary: #f8fafc;
   --bg-secondary: #ffffff;
-  --bg-card: #ffffff;
-  --bg-card-hover: #f1f5f9;
-  --bg-input: #f8fafc;
+  --bg-card: rgba(255, 255, 255, 0.75);
+  --bg-card-hover: rgba(241, 245, 249, 0.85);
+  --bg-input: rgba(248, 250, 252, 0.8);
 
   --text-primary: #0f172a;
   --text-secondary: #1e293b;
@@ -64,7 +64,7 @@
   --accent-rose-light: rgba(190, 18, 60, 0.12);
   --accent-amber: #b45309;
 
-  --border-color: #e2e8f0;
+  --border-color: rgba(0, 0, 0, 0.08);
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.08);
@@ -79,7 +79,7 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--bg-primary);
+  background: radial-gradient(circle at 50% 0%, #17123a 0%, #060913 100%) no-repeat fixed;
   color: var(--text-primary);
   min-height: 100vh;
   display: flex;
@@ -90,8 +90,8 @@ body {
 
 /* App Header & Navigation */
 .app-header {
-  background: var(--bg-secondary);
-  border-bottom: 1px solid var(--border-color);
+  background: rgba(11, 15, 25, 0.7);
+  border-bottom: 1.5px solid var(--border-color);
   padding: 0.75rem 1.25rem;
   display: flex;
   align-items: center;
@@ -99,7 +99,8 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .brand-container {
@@ -193,6 +194,8 @@ body {
 /* Card Components */
 .card {
   background: var(--bg-card);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
   border: 1.5px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: 1.35rem;

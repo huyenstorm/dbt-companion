@@ -172,6 +172,13 @@ class App {
           this.switchView(targetView);
         }
       });
+
+      tile.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          tile.click();
+        }
+      });
     });
   }
 
@@ -636,6 +643,13 @@ class App {
         }
         modal.classList.add('active');
         switchTab('view');
+      });
+
+      btnOpen.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          btnOpen.click();
+        }
       });
     }
 
