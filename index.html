@@ -494,14 +494,18 @@
 
         <div>
           <label class="form-label" style="font-weight: 700;">4. Family Members or Friends to Ask for Help</label>
-          <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">(e.g., partner, trusted friend, parent - include names & phone numbers)</span>
-          <textarea class="form-control" name="trusted_contacts" rows="2" placeholder="Who can you call that you trust to help you in a crisis?"></textarea>
+          <div id="safety-contacts-friends-list" style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <!-- Dynamic contact input rows populated via JS -->
+          </div>
+          <button type="button" class="btn btn-secondary" id="btn-safety-add-friend" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; border-color: var(--accent-rose); color: var(--accent-rose);">➕ Add Contact</button>
         </div>
 
         <div>
           <label class="form-label" style="font-weight: 700;">5. Professionals & Crisis Hotlines</label>
-          <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">(e.g., therapist number, psychiatrist, local clinic, 988 Lifeline)</span>
-          <textarea class="form-control" name="professionals" rows="2" placeholder="Therapist contact, Crisis line (988), emergency services"></textarea>
+          <div id="safety-contacts-pros-list" style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <!-- Dynamic contact input rows populated via JS -->
+          </div>
+          <button type="button" class="btn btn-secondary" id="btn-safety-add-pro" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; border-color: var(--accent-rose); color: var(--accent-rose);">➕ Add Professional/Hotline</button>
         </div>
 
         <div>

@@ -502,14 +502,91 @@ class App {
     if (viewTab) viewTab.addEventListener('click', () => switchTab('view'));
     if (editTab) editTab.addEventListener('click', () => switchTab('edit'));
 
+    const migrateContacts = (dataValue) => {
+      if (Array.isArray(dataValue)) return dataValue;
+      if (typeof dataValue === 'string' && dataValue.trim()) {
+        const lines = dataValue.split('\n').filter(l => l.trim());
+        return lines.map(line => {
+          const phoneMatch = line.match(/(?:\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/);
+          const phone = phoneMatch ? phoneMatch[0] : '';
+          let name = line;
+          if (phone) {
+            name = line.replace(phone, '').trim();
+          }
+          name = name.replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, '').trim();
+          if (!name) name = 'Contact';
+          return { name, phone };
+        });
+      }
+      return [];
+    };
+
+    const addContactRow = (containerId, name = '', phone = '') => {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      const row = document.createElement('div');
+      row.className = 'contact-row';
+      row.style.display = 'flex';
+      row.style.gap = '0.5rem';
+      row.style.marginBottom = '0.5rem';
+      
+      row.innerHTML = '<input type="text" class="form-control contact-name" placeholder="Name/Role" value="' + name.replace(/"/g, '&quot;') + '" style="flex: 1;">' +
+        '<input type="tel" class="form-control contact-phone" placeholder="Phone" value="' + phone.replace(/"/g, '&quot;') + '" style="flex: 1;">' +
+        '<button type="button" class="btn btn-sm btn-danger btn-remove-contact" style="padding: 0 0.5rem;">🗑️</button>';
+      
+      container.appendChild(row);
+      
+      row.querySelector('.btn-remove-contact').addEventListener('click', () => {
+        row.remove();
+      });
+    };
+
+    const renderContactRows = (containerId, contacts) => {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = '';
+      if (!contacts || contacts.length === 0) {
+        addContactRow(containerId);
+      } else {
+        contacts.forEach(c => addContactRow(containerId, c.name, c.phone));
+      }
+    };
+
+    const btnAddFriend = document.getElementById('btn-safety-add-friend');
+    if (btnAddFriend) btnAddFriend.addEventListener('click', () => addContactRow('safety-contacts-friends-list'));
+
+    const btnAddPro = document.getElementById('btn-safety-add-pro');
+    if (btnAddPro) btnAddPro.addEventListener('click', () => addContactRow('safety-contacts-pros-list'));
+
+    const extractContacts = (containerId) => {
+      const container = document.getElementById(containerId);
+      if (!container) return [];
+      const rows = container.querySelectorAll('.contact-row');
+      const contacts = [];
+      rows.forEach(row => {
+        const name = row.querySelector('.contact-name').value.trim();
+        const phone = row.querySelector('.contact-phone').value.trim();
+        if (name || phone) {
+          contacts.push({ name: name || 'Contact', phone });
+        }
+      });
+      return contacts;
+    };
+
     if (btnOpen && modal) {
       btnOpen.addEventListener('click', async () => {
         const plan = await db.getSetting('safety_plan', {});
         if (form) {
           const textareas = form.querySelectorAll('textarea');
           textareas.forEach(ta => {
-            ta.value = plan[ta.name] || '';
+            if (ta.name !== 'trusted_contacts' && ta.name !== 'professionals') {
+              ta.value = plan[ta.name] || '';
+            }
           });
+          const friends = migrateContacts(plan.trusted_contacts);
+          const pros = migrateContacts(plan.professionals);
+          renderContactRows('safety-contacts-friends-list', friends);
+          renderContactRows('safety-contacts-pros-list', pros);
         }
         modal.classList.add('active');
         switchTab('view');
@@ -528,8 +605,13 @@ class App {
         const data = {};
         const textareas = form.querySelectorAll('textarea');
         textareas.forEach(ta => {
-          data[ta.name] = ta.value;
+          if (ta.name !== 'trusted_contacts' && ta.name !== 'professionals') {
+            data[ta.name] = ta.value;
+          }
         });
+        
+        data.trusted_contacts = extractContacts('safety-contacts-friends-list');
+        data.professionals = extractContacts('safety-contacts-pros-list');
 
         await db.setSetting('safety_plan', data);
         alert('Crisis Safety Plan successfully saved!');
@@ -538,15 +620,21 @@ class App {
     }
 
     if (btnPrint && form) {
-      btnPrint.addEventListener('click', () => {
+      btnPrint.addEventListener('click', async () => {
+        const plan = await db.getSetting('safety_plan', {});
         const data = {};
-        const textareas = form.querySelectorAll('textarea');
-        textareas.forEach(ta => {
-          data[ta.name] = ta.value || '(Not specified)';
+        ['warning_signs', 'coping_strategies', 'distraction_settings', 'safe_environment'].forEach(key => {
+          data[key] = plan[key] || '(Not specified)';
         });
+        
+        const formatContacts = (contactsList) => {
+          const contacts = migrateContacts(contactsList);
+          if (contacts.length === 0) return '(Not specified)';
+          return contacts.map(c => c.name + (c.phone ? ': ' + c.phone : '')).join('<br>');
+        };
 
+        const docHtml = '<html><head><title>My DBT Crisis Safety Plan</title><style>body {font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;line-height: 1.6;color: #333;padding: 2rem;max-width: 800px;margin: 0 auto;}h1 {color: #e11d48;border-bottom: 2px solid #e11d48;padding-bottom: 0.5rem;margin-bottom: 1.5rem;font-size: 1.8rem;}.section {margin-bottom: 1.5rem;background: #f9fafb;border: 1px solid #e5e7eb;padding: 1.25rem;border-radius: 6px;}.section h3 {margin-top: 0;color: #111827;font-size: 1.05rem;border-bottom: 1px dashed #d1d5db;padding-bottom: 0.25rem;}p {margin: 0.5rem 0 0 0;white-space: pre-wrap;font-size: 0.9rem;color: #374151;}@media print {body { padding: 0; }.section { page-break-inside: avoid; }}</style></head><body><h1>🛡️ My DBT Crisis Safety Plan</h1><p style="font-style: italic; color: #6b7280; margin-bottom: 2rem;">Keep this plan accessible. These are the steps to follow when distress levels are high.</p><div class="section"><h3>1. Warning Signs</h3><p>' + data.warning_signs + '</p></div><div class="section"><h3>2. Internal Coping Strategies</h3><p>' + data.coping_strategies + '</p></div><div class="section"><h3>3. Social Settings & People for Distraction</h3><p>' + data.distraction_settings + '</p></div><div class="section"><h3>4. Family Members or Friends to Ask for Help</h3><p>' + formatContacts(plan.trusted_contacts) + '</p></div><div class="section"><h3>5. Professionals & Crisis Hotlines</h3><p>' + formatContacts(plan.professionals) + '</p></div><div class="section"><h3>6. Making the Environment Safe</h3><p>' + data.safe_environment + '</p></div><script>window.onload = function() {window.print();};</script></body></html>';
         const printWindow = window.open('', '_blank');
-        const docHtml = '<html><head><title>My DBT Crisis Safety Plan</title><style>body {font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;line-height: 1.6;color: #333;padding: 2rem;max-width: 800px;margin: 0 auto;}h1 {color: #e11d48;border-bottom: 2px solid #e11d48;padding-bottom: 0.5rem;margin-bottom: 1.5rem;font-size: 1.8rem;}.section {margin-bottom: 1.5rem;background: #f9fafb;border: 1px solid #e5e7eb;padding: 1.25rem;border-radius: 6px;}.section h3 {margin-top: 0;color: #111827;font-size: 1.05rem;border-bottom: 1px dashed #d1d5db;padding-bottom: 0.25rem;}p {margin: 0.5rem 0 0 0;white-space: pre-wrap;font-size: 0.9rem;color: #374151;}@media print {body { padding: 0; }.section { page-break-inside: avoid; }}</style></head><body><h1>🛡️ My DBT Crisis Safety Plan</h1><p style="font-style: italic; color: #6b7280; margin-bottom: 2rem;">Keep this plan accessible. These are the steps to follow when distress levels are high.</p><div class="section"><h3>1. Warning Signs</h3><p>' + data.warning_signs + '</p></div><div class="section"><h3>2. Internal Coping Strategies</h3><p>' + data.coping_strategies + '</p></div><div class="section"><h3>3. Social Settings & People for Distraction</h3><p>' + data.distraction_settings + '</p></div><div class="section"><h3>4. Family Members or Friends to Ask for Help</h3><p>' + data.trusted_contacts + '</p></div><div class="section"><h3>5. Professionals & Crisis Hotlines</h3><p>' + data.professionals + '</p></div><div class="section"><h3>6. Making the Environment Safe</h3><p>' + data.safe_environment + '</p></div><script>window.onload = function() {window.print();};</script></body></html>';
         printWindow.document.write(docHtml);
         printWindow.document.close();
       });
@@ -569,28 +657,54 @@ class App {
     ];
 
     let html = '';
-    const phoneRegex = /\b(?:\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b/g;
+
+    const migrateContacts = (dataValue) => {
+      if (Array.isArray(dataValue)) return dataValue;
+      if (typeof dataValue === 'string' && dataValue.trim()) {
+        const lines = dataValue.split('\n').filter(l => l.trim());
+        return lines.map(line => {
+          const phoneMatch = line.match(/(?:\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/);
+          const phone = phoneMatch ? phoneMatch[0] : '';
+          let name = line;
+          if (phone) {
+            name = line.replace(phone, '').trim();
+          }
+          name = name.replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, '').trim();
+          if (!name) name = 'Contact';
+          return { name, phone };
+        });
+      }
+      return [];
+    };
 
     fields.forEach(f => {
       html += '<div class="safety-view-section" style="margin-bottom: 1.5rem; background: var(--bg-surface); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color);">';
       html += '<h3 style="margin-top: 0; margin-bottom: 0.5rem; font-size: 1.1rem; color: var(--accent-purple); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">' + f.label + '</h3>';
       
-      let val = plan[f.key] || '(Not specified)';
+      let val = plan[f.key];
       
-      if (f.isContact && val !== '(Not specified)') {
-        const lines = val.split('\n');
-        const processedLines = lines.map(line => {
-          return line.replace(phoneRegex, (match) => {
-            const num = match.replace(/[-.\s()]/g, '');
-            return match + ' ' + 
-              '<a href="tel:' + num + '" class="btn btn-sm btn-secondary" style="display:inline-flex; align-items:center; gap:4px; padding: 2px 8px; font-size: 0.8rem; margin-left: 8px;">📞 Call</a>' +
-              '<a href="sms:' + num + '" class="btn btn-sm btn-secondary" style="display:inline-flex; align-items:center; gap:4px; padding: 2px 8px; font-size: 0.8rem; margin-left: 4px;">💬 Text</a>';
+      if (f.isContact) {
+        const contacts = migrateContacts(val);
+        if (contacts.length === 0) {
+          html += '<div style="white-space: pre-wrap; font-size: 0.95rem; color: var(--text-primary);">(Not specified)</div>';
+        } else {
+          html += '<div style="display: flex; flex-direction: column; gap: 0.75rem;">';
+          contacts.forEach(c => {
+            html += '<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;">';
+            html += '<span style="font-size: 0.95rem; color: var(--text-primary); font-weight: 500;">' + c.name + '</span>';
+            if (c.phone) {
+              html += '<span style="font-size: 0.95rem; color: var(--text-muted);">' + c.phone + '</span>';
+              const num = c.phone.replace(/[-.\s()]/g, '');
+              html += '<a href="tel:' + num + '" class="btn btn-sm btn-secondary" style="display:inline-flex; align-items:center; gap:4px; padding: 2px 8px; font-size: 0.8rem; margin-left: 4px;">📞 Call</a>';
+              html += '<a href="sms:' + num + '" class="btn btn-sm btn-secondary" style="display:inline-flex; align-items:center; gap:4px; padding: 2px 8px; font-size: 0.8rem;">💬 Text</a>';
+            }
+            html += '</div>';
           });
-        });
-        val = processedLines.join('\n');
+          html += '</div>';
+        }
+      } else {
+        html += '<div style="white-space: pre-wrap; font-size: 0.95rem; color: var(--text-primary);">' + (val || '(Not specified)') + '</div>';
       }
-      
-      html += '<div style="white-space: pre-wrap; font-size: 0.95rem; color: var(--text-primary);">' + val + '</div>';
       html += '</div>';
     });
     
@@ -746,6 +860,12 @@ class App {
     overlays.forEach(overlay => {
       overlay.addEventListener('click', (e) => {
         if (e.target === overlay) {
+          if (overlay.id === 'safety-plan-modal') {
+            const form = document.getElementById('safety-plan-form');
+            if (form && form.style.display !== 'none') {
+              return;
+            }
+          }
           overlay.classList.remove('active');
         }
       });

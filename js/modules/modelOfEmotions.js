@@ -139,6 +139,19 @@ export const ModelOfEmotionsModule = {
         <!-- 2. Check the Facts (Worksheet 5) -->
         <div class="moetab-content" id="moe-checkfacts" style="display: none;">
           <form id="check-facts-ws5-form">
+            <div class="ai-coach-section" style="margin-bottom: 1.5rem; border-bottom: 1px dashed var(--border-color); padding-bottom: 1rem;">
+              <h4 style="color: var(--accent-purple); margin-bottom: 0.25rem;">🤖 AI DBT Coach</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Use the AI coach to help you check the facts and find alternative interpretations.</p>
+              
+              <div id="cf-ai-chat-thread" style="max-height: 300px; overflow-y: auto; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem;"></div>
+              
+              <div id="cf-ai-chat-input-container" style="display: none; gap: 0.5rem; margin-bottom: 1rem;">
+                <input type="text" id="cf-ai-chat-input" class="form-control" placeholder="Reply to AI Coach..." style="flex: 1;">
+                <button type="button" class="btn btn-primary" id="btn-cf-ai-send">Send</button>
+              </div>
+              <button type="button" class="btn btn-secondary" id="btn-cf-ai-coach" style="width: 100%; margin-bottom: 1rem;">💬 Get Help from AI Coach</button>
+            </div>
+
             <div class="grid-3">
               <div class="form-group">
                 <label class="form-label">Emotion Name</label>
@@ -215,19 +228,6 @@ export const ModelOfEmotionsModule = {
               </div>
             </div>
 
-            <div class="ai-coach-section" style="margin-top: 2rem; border-top: 1px dashed var(--border-color); padding-top: 1rem;">
-              <h4 style="color: var(--accent-purple); margin-bottom: 0.25rem;">🤖 AI DBT Coach</h4>
-              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Use the AI coach to help you check the facts and find alternative interpretations.</p>
-              
-              <div id="cf-ai-chat-thread" style="max-height: 300px; overflow-y: auto; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem;"></div>
-              
-              <div id="cf-ai-chat-input-container" style="display: none; gap: 0.5rem; margin-bottom: 1rem;">
-                <input type="text" id="cf-ai-chat-input" class="form-control" placeholder="Reply to AI Coach..." style="flex: 1;">
-                <button type="button" class="btn btn-primary" id="btn-cf-ai-send">Send</button>
-              </div>
-              <button type="button" class="btn btn-secondary" id="btn-cf-ai-coach" style="width: 100%; margin-bottom: 1rem;">💬 Get Help from AI Coach</button>
-            </div>
-
             <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1rem;">
               <button type="button" class="btn btn-secondary" id="btn-copy-cf">📋 Copy Worksheet</button>
               <button type="submit" class="btn btn-primary">💾 Save Worksheet 5</button>
@@ -238,6 +238,19 @@ export const ModelOfEmotionsModule = {
         <!-- 3. Opposite Action (Worksheet 7) -->
         <div class="moetab-content" id="moe-opposite" style="display: none;">
           <form id="opposite-action-form">
+            <div class="ai-coach-section" style="margin-bottom: 1.5rem; border-bottom: 1px dashed var(--border-color); padding-bottom: 1rem;">
+              <h4 style="color: var(--accent-purple); margin-bottom: 0.25rem;">🤖 AI DBT Coach</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Use the AI coach to help you evaluate if your emotion is justified and plan opposite action.</p>
+              
+              <div id="oa-ai-chat-thread" style="max-height: 300px; overflow-y: auto; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem;"></div>
+              
+              <div id="oa-ai-chat-input-container" style="display: none; gap: 0.5rem; margin-bottom: 1rem;">
+                <input type="text" id="oa-ai-chat-input" class="form-control" placeholder="Reply to AI Coach..." style="flex: 1;">
+                <button type="button" class="btn btn-primary" id="btn-oa-ai-send">Send</button>
+              </div>
+              <button type="button" class="btn btn-secondary" id="btn-oa-ai-coach" style="width: 100%; margin-bottom: 1rem;">💬 Get Help from AI Coach</button>
+            </div>
+
             <div class="grid-3">
               <div class="form-group">
                 <label class="form-label">Emotion Name</label>
@@ -313,19 +326,6 @@ export const ModelOfEmotionsModule = {
             <div class="form-group">
               <label class="form-label">Aftereffect (How did you feel afterwards?)</label>
               <textarea class="form-control" id="oa-aftereffect" placeholder="Describe aftereffects on your emotions..."></textarea>
-            </div>
-
-            <div class="ai-coach-section" style="margin-top: 2rem; border-top: 1px dashed var(--border-color); padding-top: 1rem;">
-              <h4 style="color: var(--accent-purple); margin-bottom: 0.25rem;">🤖 AI DBT Coach</h4>
-              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Use the AI coach to help you evaluate if your emotion is justified and plan opposite action.</p>
-              
-              <div id="oa-ai-chat-thread" style="max-height: 300px; overflow-y: auto; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem;"></div>
-              
-              <div id="oa-ai-chat-input-container" style="display: none; gap: 0.5rem; margin-bottom: 1rem;">
-                <input type="text" id="oa-ai-chat-input" class="form-control" placeholder="Reply to AI Coach..." style="flex: 1;">
-                <button type="button" class="btn btn-primary" id="btn-oa-ai-send">Send</button>
-              </div>
-              <button type="button" class="btn btn-secondary" id="btn-oa-ai-coach" style="width: 100%; margin-bottom: 1rem;">💬 Get Help from AI Coach</button>
             </div>
 
             <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1rem;">
