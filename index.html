@@ -5,7 +5,7 @@
   <script>
     // Developer Force Cache Reset Hook
     (function() {
-      const resetKey = 'dbt_cache_reset_v50';
+      const resetKey = 'dbt_cache_reset_v51';
       if (!localStorage.getItem(resetKey)) {
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.getRegistrations().then(regs => {
@@ -37,8 +37,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="./styles/main.css?v=50">
-  <link rel="stylesheet" href="./styles/print.css?v=50" media="print">
+  <link rel="stylesheet" href="./styles/main.css?v=51">
+  <link rel="stylesheet" href="./styles/print.css?v=51" media="print">
 </head>
 <body>
 
@@ -481,19 +481,14 @@
     <button class="btn btn-secondary btn-back-dashboard" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.8rem;">← Back to Dashboard</button>
     
     <div class="card">
-      <div class="card-header" style="margin-bottom: 1.25rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-          <div>
-            <h2 class="card-title" style="color: var(--accent-rose);">
-              <span class="badge badge-rose" style="background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); border: 1px solid rgba(244, 63, 94, 0.3);">🛡️ Crisis Coping</span>
-              My Crisis Safety Plan
-            </h2>
-            <p class="card-subtitle">Fill this out when you are calm, so it is ready to guide you in moments of high distress.</p>
-          </div>
-          <div style="display: flex; gap: 0.2rem; background: var(--bg-secondary); padding: 0.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
-            <button type="button" class="tab-btn active" id="btn-safety-view-tab" style="padding: 0.3rem 0.6rem; font-size: 0.85rem; border-radius: var(--radius-sm);">🛡️ Quick View</button>
-            <button type="button" class="tab-btn" id="btn-safety-edit-tab" style="padding: 0.3rem 0.6rem; font-size: 0.85rem; border-radius: var(--radius-sm);">⚙️ Edit Plan</button>
-          </div>
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+        <div>
+          <h2 style="color: var(--accent-rose); margin: 0 0 0.25rem 0; font-size: 1.5rem; font-weight: 800;">🛡️ My Crisis Safety Plan</h2>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Fill this out when you are calm, so it is ready to guide you in moments of high distress.</p>
+        </div>
+        <div style="display: flex; gap: 0.2rem; background: var(--bg-secondary); padding: 0.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); height: fit-content;">
+          <button type="button" class="tab-btn active" id="btn-safety-view-tab" style="padding: 0.3rem 0.6rem; font-size: 0.85rem; border-radius: var(--radius-sm);">🛡️ Quick View</button>
+          <button type="button" class="tab-btn" id="btn-safety-edit-tab" style="padding: 0.3rem 0.6rem; font-size: 0.85rem; border-radius: var(--radius-sm);">⚙️ Edit Plan</button>
         </div>
       </div>
 
@@ -568,15 +563,10 @@
     <button class="btn btn-secondary btn-back-dashboard" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.8rem;">← Back to Dashboard</button>
     
     <div class="card">
-      <div class="card-header" style="margin-bottom: 1.25rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-          <div>
-            <h2 class="card-title">
-              <span class="badge badge-purple">Library</span>
-              Visual Skill & Worksheet Directory
-            </h2>
-            <p class="card-subtitle">Browse, sort, and search all available interactive tools and clinical references.</p>
-          </div>
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem;">
+        <div>
+          <h2 style="color: var(--accent-purple); margin: 0 0 0.25rem 0; font-size: 1.5rem; font-weight: 800;">📚 Visual Skill & Worksheet Directory</h2>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Browse, sort, and search all available interactive tools and clinical references.</p>
         </div>
       </div>
 
@@ -630,6 +620,6 @@
   </script>
 
   <!-- Application Entry Script -->
-  <script type="module" src="./js/app.js?v=50"></script>
+  <script type="module" src="./js/app.js?v=51"></script>
 </body>
 </html>

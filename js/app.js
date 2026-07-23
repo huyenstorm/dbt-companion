@@ -882,7 +882,7 @@ class App {
 
     fields.forEach(f => {
       html += '<div class="safety-view-section" style="margin-bottom: 1.5rem; background: var(--bg-surface); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color);">';
-      html += '<h3 style="margin-top: 0; margin-bottom: 0.5rem; font-size: 1.1rem; color: var(--accent-purple); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">' + f.label + '</h3>';
+      html += '<h3 style="margin-top: 0; margin-bottom: 0.5rem; font-size: 1.1rem; color: var(--accent-rose); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">' + f.label + '</h3>';
       
       let val = plan[f.key];
       

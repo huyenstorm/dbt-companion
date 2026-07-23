@@ -45,19 +45,14 @@ export const DiaryCardModule = {
       <button class="btn btn-secondary btn-back-dashboard" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.8rem;">← Back to Dashboard</button>
       
       <div class="card" id="diary-card-container">
-        <div class="card-header" style="margin-bottom: 1.25rem;">
-          <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-            <div>
-              <h2 class="card-title">
-                <span class="badge badge-purple">Daily & Weekly</span>
-                DBT Diary Card
-              </h2>
-              <p class="card-subtitle">Track daily emotion intensity, target behavior urges, skills used, and habit counters.</p>
-            </div>
-            <button type="button" class="btn btn-secondary" id="btn-dc-toggle-edit" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
-              ${this.state.editMode ? '💾 Done Editing' : '⚙️ Edit Layout'}
-            </button>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem;">
+          <div>
+            <h2 style="color: var(--accent-purple); margin: 0 0 0.25rem 0; font-size: 1.5rem; font-weight: 800;">📓 DBT Diary Card</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Track daily emotion intensity, target behavior urges, skills used, and habit counters.</p>
           </div>
+          <button type="button" class="btn btn-secondary" id="btn-dc-toggle-edit" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; height: auto;">
+            ${this.state.editMode ? '💾 Done Editing' : '⚙️ Edit Layout'}
+          </button>
         </div>
     `;
 
