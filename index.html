@@ -5,7 +5,7 @@
   <script>
     // Developer Force Cache Reset Hook
     (function() {
-      const resetKey = 'dbt_cache_reset_v35';
+      const resetKey = 'dbt_cache_reset_v36';
       if (!localStorage.getItem(resetKey)) {
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.getRegistrations().then(regs => {
@@ -37,10 +37,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="./styles/main.css?v=35">
-  <link rel="stylesheet" href="./styles/print.css?v=35" media="print">
+  <link rel="stylesheet" href="./styles/main.css?v=36">
+  <link rel="stylesheet" href="./styles/print.css?v=36" media="print">
 </head>
 <body>
+
+  <!-- Background Ambient Glow Orbs -->
+  <div class="bg-glow-container" aria-hidden="true">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+  </div>
 
   <!-- Header -->
   <header class="app-header">
@@ -576,6 +583,6 @@
   </script>
 
   <!-- Application Entry Script -->
-  <script type="module" src="./js/app.js?v=35"></script>
+  <script type="module" src="./js/app.js?v=36"></script>
 </body>
 </html>
