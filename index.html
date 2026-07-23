@@ -5,7 +5,7 @@
   <script>
     // Developer Force Cache Reset Hook
     (function() {
-      const resetKey = 'dbt_cache_reset_v48';
+      const resetKey = 'dbt_cache_reset_v49';
       if (!localStorage.getItem(resetKey)) {
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.getRegistrations().then(regs => {
@@ -37,8 +37,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="./styles/main.css?v=48">
-  <link rel="stylesheet" href="./styles/print.css?v=48" media="print">
+  <link rel="stylesheet" href="./styles/main.css?v=49">
+  <link rel="stylesheet" href="./styles/print.css?v=49" media="print">
 </head>
 <body>
 
@@ -374,8 +374,7 @@
     </section>
 
     <!-- 6. GLOBAL DIARY CARD VIEW -->
-    <section class="view-section" id="view-diary-card" style="max-width: 800px; margin: 0 auto;">
-      <button class="btn btn-secondary btn-back-dashboard" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.8rem;">← Back to Dashboard</button>
+    <section class="view-section" id="view-diary-card">
       <!-- Renders Diary Card inside -->
     </section>
 
@@ -478,7 +477,7 @@
   </div>
 
   <!-- 6. CRISIS SAFETY PLAN -->
-  <section class="view-section" id="view-safety-plan" style="max-width: 800px; margin: 0 auto;">
+  <section class="view-section" id="view-safety-plan">
     <button class="btn btn-secondary btn-back-dashboard" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.8rem;">← Back to Dashboard</button>
     
     <div class="card">
@@ -565,7 +564,7 @@
   </section>
 
   <!-- 7. VISUAL SKILLS DIRECTORY -->
-  <section class="view-section" id="view-visual-directory" style="max-width: 800px; margin: 0 auto;">
+  <section class="view-section" id="view-visual-directory">
     <button class="btn btn-secondary btn-back-dashboard" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.8rem;">← Back to Dashboard</button>
     
     <div class="card">
@@ -631,6 +630,6 @@
   </script>
 
   <!-- Application Entry Script -->
-  <script type="module" src="./js/app.js?v=48"></script>
+  <script type="module" src="./js/app.js?v=49"></script>
 </body>
 </html>

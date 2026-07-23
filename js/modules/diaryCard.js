@@ -42,6 +42,8 @@ export const DiaryCardModule = {
     this.loadSettings();
 
     let html = `
+      <button class="btn btn-secondary btn-back-dashboard" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.8rem;">← Back to Dashboard</button>
+      
       <div class="card" id="diary-card-container">
         <div class="card-header" style="margin-bottom: 1.25rem;">
           <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
