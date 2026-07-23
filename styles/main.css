@@ -232,40 +232,40 @@ body {
 
 /* Dark Mode Orbs Colors & Placement */
 .orb-1 {
-  width: 320px;
-  height: 320px;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, rgba(168, 85, 247, 0.08) 50%, transparent 100%);
-  top: -50px;
-  left: -50px;
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.55) 0%, rgba(168, 85, 247, 0.12) 50%, transparent 100%);
+  top: -120px;
+  left: -120px;
 }
 
 .orb-2 {
-  width: 380px;
-  height: 380px;
-  background: radial-gradient(circle, rgba(45, 212, 191, 0.3) 0%, rgba(45, 212, 191, 0.06) 50%, transparent 100%);
-  bottom: -50px;
-  right: -50px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(45, 212, 191, 0.45) 0%, rgba(45, 212, 191, 0.1) 50%, transparent 100%);
+  bottom: -150px;
+  right: -150px;
 }
 
 .orb-3 {
-  width: 280px;
-  height: 280px;
-  background: radial-gradient(circle, rgba(96, 165, 250, 0.28) 0%, rgba(96, 165, 250, 0.05) 50%, transparent 100%);
-  top: 35%;
-  left: -80px;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.4) 0%, rgba(96, 165, 250, 0.08) 50%, transparent 100%);
+  top: 30%;
+  left: -150px;
 }
 
 /* Light Mode Orbs adjustments */
 [data-theme="light"] .orb-1 {
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.16) 0%, transparent 80%);
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.28) 0%, transparent 80%);
 }
 
 [data-theme="light"] .orb-2 {
-  background: radial-gradient(circle, rgba(45, 212, 191, 0.14) 0%, transparent 80%);
+  background: radial-gradient(circle, rgba(45, 212, 191, 0.24) 0%, transparent 80%);
 }
 
 [data-theme="light"] .orb-3 {
-  background: radial-gradient(circle, rgba(96, 165, 250, 0.12) 0%, transparent 80%);
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.22) 0%, transparent 80%);
 }
 
 .card:hover {
