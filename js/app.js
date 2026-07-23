@@ -59,6 +59,7 @@ class App {
     this.setupSearchDirectory();
     this.setupSkillFinder();
     this.setupSafetyPlan();
+    this.setupVisualDirectory();
     this.setupModalDismissalHandlers();
     this.setupAISettings();
     this.renderAllViews();
@@ -205,6 +206,10 @@ class App {
 
     if (viewName === 'safety-plan' && typeof this.loadSafetyPlanData === 'function') {
       this.loadSafetyPlanData();
+    }
+
+    if (viewName === 'visual-directory' && typeof this.renderLibrary === 'function') {
+      this.renderLibrary();
     }
   }
 
@@ -683,6 +688,141 @@ class App {
         printWindow.document.close();
       });
     }
+  }
+
+  setupVisualDirectory() {
+    const btnBrowse = document.getElementById('btn-browse-visual-dir');
+    if (btnBrowse) {
+      btnBrowse.addEventListener('click', () => {
+        this.switchView('visual-directory');
+      });
+    }
+
+    const grid = document.getElementById('dir-skills-grid');
+    const filterButtons = document.querySelectorAll('.dir-filter-btn');
+    const searchInput = document.getElementById('dir-search-input');
+    const sortSelect = document.getElementById('dir-sort-select');
+
+    if (!grid || !sortSelect) return;
+
+    let activeFilter = 'all';
+    let searchQuery = '';
+    let activeSort = 'alpha';
+
+    const renderLibrary = () => {
+      let items = this.searchIndex.filter(item => {
+        const matchesFilter = activeFilter === 'all' || item.target === activeFilter;
+        
+        let categoryName = '';
+        if (item.target === 'mindfulness') categoryName = 'mindfulness core mindfulness';
+        else if (item.target === 'interpersonal') categoryName = 'interpersonal effectiveness relationship ie';
+        else if (item.target === 'emotion-regulation') categoryName = 'emotion regulation er';
+        else if (item.target === 'distress-tolerance') categoryName = 'distress tolerance dt crisis';
+        else if (item.target === 'diary-card') categoryName = 'diary card tracker';
+
+        const matchesSearch = !searchQuery || 
+          item.name.toLowerCase().includes(searchQuery) || 
+          categoryName.includes(searchQuery);
+
+        return matchesFilter && matchesSearch;
+      });
+
+      if (activeSort === 'alpha') {
+        items.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (activeSort === 'module') {
+        const moduleOrder = { 'mindfulness': 1, 'interpersonal': 2, 'emotion-regulation': 3, 'distress-tolerance': 4, 'diary-card': 5 };
+        items.sort((a, b) => {
+          const diff = (moduleOrder[a.target] || 99) - (moduleOrder[b.target] || 99);
+          if (diff !== 0) return diff;
+          return a.name.localeCompare(b.name);
+        });
+      }
+
+      if (items.length === 0) {
+        grid.innerHTML = `<div style="grid-column: span 3; text-align: center; padding: 2rem; color: var(--text-muted);">No matching skills found in database.</div>`;
+        return;
+      }
+
+      grid.innerHTML = items.map(item => {
+        let badgeColor = '';
+        let badgeLabel = '';
+        if (item.target === 'mindfulness') {
+          badgeColor = 'var(--accent-teal)';
+          badgeLabel = 'Mindfulness';
+        } else if (item.target === 'interpersonal') {
+          badgeColor = 'var(--accent-purple)';
+          badgeLabel = 'Interpersonal';
+        } else if (item.target === 'emotion-regulation') {
+          badgeColor = 'var(--accent-blue)';
+          badgeLabel = 'Regulation';
+        } else if (item.target === 'distress-tolerance') {
+          badgeColor = 'var(--accent-rose)';
+          badgeLabel = 'Tolerance';
+        } else {
+          badgeColor = 'var(--text-muted)';
+          badgeLabel = 'Workbook';
+        }
+
+        return `
+          <div class="card clickable-tile" style="border: 1.5px solid var(--border-color); padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between; height: 100%; min-height: 140px; cursor: pointer; transition: transform var(--transition-fast), border-color var(--transition-fast);" data-target="${item.target}" data-deck="${item.deckTarget || ''}">
+            <div>
+              <span class="badge" style="background: rgba(255,255,255,0.06); color: ${badgeColor}; border: 1px solid ${badgeColor}40; margin-bottom: 0.5rem; display: inline-block;">
+                ${badgeLabel}
+              </span>
+              <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--text-primary); line-height: 1.35;">${item.name}</h4>
+            </div>
+            <div style="display: flex; justify-content: flex-end; align-items: center; margin-top: 0.75rem; font-size: 0.8rem; font-weight: 600; color: ${badgeColor}; gap: 0.2rem;">
+              <span>Open Tool</span> ➔
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      grid.querySelectorAll('.clickable-tile').forEach(el => {
+        el.addEventListener('click', () => {
+          const target = el.dataset.target;
+          const deck = el.dataset.deck;
+
+          if (deck) {
+            this.switchView(target, true);
+            const deckBtn = document.querySelector(`#view-${target} .deck-btn[data-deck-target="${deck}"]`);
+            if (deckBtn) deckBtn.click();
+          } else {
+            this.switchView(target);
+          }
+        });
+      });
+    };
+
+    this.renderLibrary = renderLibrary;
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => {
+          b.classList.remove('btn-primary');
+          b.classList.add('btn-secondary');
+        });
+        btn.classList.remove('btn-secondary');
+        btn.classList.add('btn-primary');
+
+        activeFilter = btn.dataset.filter;
+        renderLibrary();
+      });
+    });
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value.toLowerCase().trim();
+        renderLibrary();
+      });
+    }
+
+    sortSelect.addEventListener('change', (e) => {
+      activeSort = e.target.value;
+      renderLibrary();
+    });
+
+    renderLibrary();
   }
 
   async renderSafetyPlanView() {

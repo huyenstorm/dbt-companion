@@ -148,7 +148,7 @@
         <h3 style="font-size: 0.95rem; color: var(--accent-purple); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
           <span>🔍</span> Skill & Worksheet Directory
         </h3>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">Type any skill or worksheet name to open it instantly:</p>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">Type to search, or open the <span id="btn-browse-visual-dir" style="color: var(--accent-purple); text-decoration: underline; cursor: pointer; font-weight: 600;">📋 Visual Directory</span> to browse by module:</p>
         <div style="position: relative;">
           <input type="text" class="form-control" id="search-worksheets" placeholder="Search: e.g. DEAR MAN, Chain Analysis, Wise Mind, Dime Game, Sleep Hygiene..." autocomplete="off">
           <div id="search-results" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-secondary); border: 2px solid var(--accent-purple); border-radius: var(--radius-md); max-height: 250px; overflow-y: auto; z-index: 1000 !important; box-shadow: var(--shadow-lg); padding: 0.5rem 0;">
@@ -564,6 +564,52 @@
           <button type="submit" class="btn btn-primary" style="background: var(--accent-rose); border-color: var(--accent-rose);">💾 Save Safety Plan</button>
         </div>
       </form>
+    </div>
+  </section>
+
+  <!-- 7. VISUAL SKILLS DIRECTORY -->
+  <section class="view-section" id="view-visual-directory">
+    <div class="card">
+      <div class="card-header" style="margin-bottom: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+          <div>
+            <h2 class="card-title">
+              <span class="badge badge-purple">Library</span>
+              Visual Skill & Worksheet Directory
+            </h2>
+            <p class="card-subtitle">Browse, sort, and search all available interactive tools and clinical references.</p>
+          </div>
+          <button type="button" class="btn btn-secondary btn-back-dashboard" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
+            ⬅️ Back to Dashboard
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter & Sort controls -->
+      <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; background: var(--bg-secondary); padding: 1rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); align-items: center; justify-content: space-between;">
+        <!-- Filter Buttons -->
+        <div id="dir-filter-pills" style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+          <button type="button" class="btn btn-primary dir-filter-btn" data-filter="all" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">All</button>
+          <button type="button" class="btn btn-secondary dir-filter-btn" data-filter="mindfulness" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">Core Mindfulness</button>
+          <button type="button" class="btn btn-secondary dir-filter-btn" data-filter="interpersonal" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">Interpersonal Effectiveness</button>
+          <button type="button" class="btn btn-secondary dir-filter-btn" data-filter="emotion-regulation" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">Emotion Regulation</button>
+          <button type="button" class="btn btn-secondary dir-filter-btn" data-filter="distress-tolerance" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">Distress Tolerance</button>
+        </div>
+
+        <!-- Sort Select & Search Box -->
+        <div style="display: flex; gap: 0.75rem; align-items: center; flex: 1; justify-content: flex-end; min-width: 250px;">
+          <input type="text" id="dir-search-input" class="form-control" placeholder="Search library..." style="max-width: 200px; padding: 0.35rem 0.75rem; font-size: 0.8rem; height: auto;">
+          <select id="dir-sort-select" class="form-control" style="max-width: 150px; padding: 0.35rem 0.75rem; font-size: 0.8rem; height: auto; min-height: unset; cursor: pointer;">
+            <option value="alpha">Alphabetical (A-Z)</option>
+            <option value="module">By Module</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Grid of Skill Cards -->
+      <div id="dir-skills-grid" class="grid-3" style="gap: 1rem;">
+        <!-- Filled dynamically by JS -->
+      </div>
     </div>
   </section>
 
