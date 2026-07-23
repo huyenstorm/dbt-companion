@@ -7,7 +7,21 @@ export const Exports = {
     printArea.id = 'print-container';
     
     let fieldsHTML = '';
+    let chatHTML = '';
     for (const [key, value] of Object.entries(fields)) {
+      if (key === 'chat_history') {
+        if (value && Array.isArray(value) && value.length > 0) {
+          chatHTML = `
+            <div class="print-field" style="margin-top: 1.5rem; border-top: 1px dashed #ccc; padding-top: 1rem; page-break-inside: avoid;">
+              <div class="print-field-label" style="font-weight: 700; color: #111; margin-bottom: 0.5rem;">💬 DBT AI Coach Chat Transcript</div>
+              <div style="font-size: 0.85rem; line-height: 1.45; color: #333;">
+                ${value.map(msg => `<strong>${msg.role === 'user' ? 'Client' : 'DBT AI Coach'}:</strong> ${msg.content.replace(/\n/g, '<br>')}`).join('<br><br>')}
+              </div>
+            </div>
+          `;
+        }
+        continue;
+      }
       fieldsHTML += `
         <div class="print-field">
           <div class="print-field-label">${key}</div>
@@ -23,6 +37,7 @@ export const Exports = {
       </div>
       <div class="print-content">
         ${fieldsHTML}
+        ${chatHTML}
       </div>
     `;
 
@@ -37,9 +52,20 @@ export const Exports = {
     text += `Date: ${new Date(date).toLocaleDateString()}\n`;
     text += `--------------------------------------------------\n\n`;
 
+    let chatText = '';
     for (const [key, value] of Object.entries(fields)) {
+      if (key === 'chat_history') {
+        if (value && Array.isArray(value) && value.length > 0) {
+          chatText = `--------------------------------------------------\n`;
+          chatText += `💬 DBT AI COACH CHAT TRANSCRIPT:\n\n`;
+          chatText += value.map(msg => `${msg.role === 'user' ? 'Client' : 'DBT AI Coach'}: ${msg.content}`).join('\n\n') + '\n\n';
+        }
+        continue;
+      }
       text += `▶ ${key.toUpperCase()}:\n${value || 'N/A'}\n\n`;
     }
+    
+    if (chatText) text += chatText;
 
     text += `==================================================\n`;
     text += `Generated via DBT Companion App (Client-Side Privacy Protected)\n`;

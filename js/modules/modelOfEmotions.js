@@ -215,6 +215,19 @@ export const ModelOfEmotionsModule = {
               </div>
             </div>
 
+            <div class="ai-coach-section" style="margin-top: 2rem; border-top: 1px dashed var(--border-color); padding-top: 1rem;">
+              <h4 style="color: var(--accent-purple); margin-bottom: 0.25rem;">🤖 AI DBT Coach</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Use the AI coach to help you check the facts and find alternative interpretations.</p>
+              
+              <div id="cf-ai-chat-thread" style="max-height: 300px; overflow-y: auto; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem;"></div>
+              
+              <div id="cf-ai-chat-input-container" style="display: none; gap: 0.5rem; margin-bottom: 1rem;">
+                <input type="text" id="cf-ai-chat-input" class="form-control" placeholder="Reply to AI Coach..." style="flex: 1;">
+                <button type="button" class="btn btn-primary" id="btn-cf-ai-send">Send</button>
+              </div>
+              <button type="button" class="btn btn-secondary" id="btn-cf-ai-coach" style="width: 100%; margin-bottom: 1rem;">💬 Get Help from AI Coach</button>
+            </div>
+
             <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1rem;">
               <button type="button" class="btn btn-secondary" id="btn-copy-cf">📋 Copy Worksheet</button>
               <button type="submit" class="btn btn-primary">💾 Save Worksheet 5</button>
@@ -300,6 +313,19 @@ export const ModelOfEmotionsModule = {
             <div class="form-group">
               <label class="form-label">Aftereffect (How did you feel afterwards?)</label>
               <textarea class="form-control" id="oa-aftereffect" placeholder="Describe aftereffects on your emotions..."></textarea>
+            </div>
+
+            <div class="ai-coach-section" style="margin-top: 2rem; border-top: 1px dashed var(--border-color); padding-top: 1rem;">
+              <h4 style="color: var(--accent-purple); margin-bottom: 0.25rem;">🤖 AI DBT Coach</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Use the AI coach to help you evaluate if your emotion is justified and plan opposite action.</p>
+              
+              <div id="oa-ai-chat-thread" style="max-height: 300px; overflow-y: auto; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem;"></div>
+              
+              <div id="oa-ai-chat-input-container" style="display: none; gap: 0.5rem; margin-bottom: 1rem;">
+                <input type="text" id="oa-ai-chat-input" class="form-control" placeholder="Reply to AI Coach..." style="flex: 1;">
+                <button type="button" class="btn btn-primary" id="btn-oa-ai-send">Send</button>
+              </div>
+              <button type="button" class="btn btn-secondary" id="btn-oa-ai-coach" style="width: 100%; margin-bottom: 1rem;">💬 Get Help from AI Coach</button>
             </div>
 
             <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1rem;">
@@ -399,6 +425,10 @@ export const ModelOfEmotionsModule = {
       await db.saveWorksheet({ type: 'check_facts_ws5', title: `Check the Facts: ${fields['Emotion Name']}`, data: fields });
       alert('Check the Facts saved!');
       cfForm.reset();
+      this.cfChatHistory = [];
+      container.querySelector('#cf-ai-chat-thread').innerHTML = '';
+      container.querySelector('#cf-ai-chat-input-container').style.display = 'none';
+      container.querySelector('#btn-cf-ai-coach').style.display = 'block';
       this.loadSavedEntries(container);
     });
 
@@ -415,6 +445,10 @@ export const ModelOfEmotionsModule = {
       await db.saveWorksheet({ type: 'opposite_action_ws7', title: `Opposite Action: ${fields['Emotion Name']}`, data: fields });
       alert('Opposite Action saved!');
       oaForm.reset();
+      this.oaChatHistory = [];
+      container.querySelector('#oa-ai-chat-thread').innerHTML = '';
+      container.querySelector('#oa-ai-chat-input-container').style.display = 'none';
+      container.querySelector('#btn-oa-ai-coach').style.display = 'block';
       this.loadSavedEntries(container);
     });
 
@@ -422,6 +456,11 @@ export const ModelOfEmotionsModule = {
       const fields = this.getOAFormData(container);
       Exports.copyForPortal('Opposite Action (WS7)', new Date(), fields);
     });
+
+    this.cfChatHistory = [];
+    this.oaChatHistory = [];
+    this.setupAICoach(container, 'cf', 'Check the Facts');
+    this.setupAICoach(container, 'oa', 'Opposite Action');
   },
 
   getMOEFormData(container) {
@@ -454,7 +493,8 @@ export const ModelOfEmotionsModule = {
       'Catastrophe': container.querySelector('#cf-catastrophe').value,
       'Coping Plan': container.querySelector('#cf-cope').value,
       'Does Emotion Fit Facts': container.querySelector('#cf-fit').value + '/5',
-      'Did to Check Facts': container.querySelector('#cf-check-action').value
+      'Did to Check Facts': container.querySelector('#cf-check-action').value,
+      'chat_history': this.cfChatHistory || []
     };
   },
   
@@ -472,8 +512,151 @@ export const ModelOfEmotionsModule = {
       'Opposite Action': container.querySelector('#oa-opposite').value,
       'What Did You Do': container.querySelector('#oa-did').value,
       'How Did You Do It': container.querySelector('#oa-how').value,
-      'Aftereffect': container.querySelector('#oa-aftereffect').value
+      'Aftereffect': container.querySelector('#oa-aftereffect').value,
+      'chat_history': this.oaChatHistory || []
     };
+  },
+
+  setupAICoach(container, prefix, worksheetName) {
+    const btnCoach = container.querySelector(`#btn-${prefix}-ai-coach`);
+    const thread = container.querySelector(`#${prefix}-ai-chat-thread`);
+    const inputContainer = container.querySelector(`#${prefix}-ai-chat-input-container`);
+    const inputField = container.querySelector(`#${prefix}-ai-chat-input`);
+    const btnSend = container.querySelector(`#btn-${prefix}-ai-send`);
+
+    if (!btnCoach || !thread || !inputContainer || !inputField || !btnSend) return;
+
+    const parseMarkdown = (text) => {
+      return text.replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                 .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                 .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                 .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+                 .replace(/\*(.*)\*/gim, '<em>$1</em>')
+                 .replace(/^\* (.*$)/gim, '<ul><li>$1</li></ul>')
+                 .replace(/<\/ul>\n<ul>/gim, '')
+                 .replace(/\n/g, '<br>');
+    };
+
+    const appendMessage = (role, text) => {
+      const msgDiv = document.createElement('div');
+      msgDiv.style.padding = '0.75rem';
+      msgDiv.style.borderRadius = 'var(--radius-md)';
+      msgDiv.style.fontSize = '0.9rem';
+      if (role === 'user') {
+        msgDiv.style.background = 'var(--bg-secondary)';
+        msgDiv.style.alignSelf = 'flex-end';
+        msgDiv.style.border = '1px solid var(--border-color)';
+        msgDiv.innerHTML = '<strong>You:</strong><br>' + text;
+      } else {
+        msgDiv.style.background = 'rgba(156, 39, 176, 0.1)';
+        msgDiv.style.alignSelf = 'flex-start';
+        msgDiv.style.border = '1px solid rgba(156, 39, 176, 0.2)';
+        msgDiv.innerHTML = '<strong>🤖 AI Coach:</strong><br>' + parseMarkdown(text);
+      }
+      thread.appendChild(msgDiv);
+      thread.scrollTop = thread.scrollHeight;
+    };
+
+    const callAI = async (userMessage) => {
+      const aiEnabled = localStorage.getItem('ai_enabled') === 'true';
+      const aiKey = localStorage.getItem('ai_gemini_key');
+      
+      if (!aiEnabled || !aiKey) {
+        alert("Please enable the AI Coach and set your Google Gemini API Key in settings (🤖) to use this feature.");
+        const settingsBtn = document.getElementById('btn-open-ai-settings');
+        if (settingsBtn) settingsBtn.click();
+        return;
+      }
+
+      const crisisKeywords = ['suicide', 'self-harm', 'kill myself', 'die'];
+      const msgLower = userMessage.toLowerCase();
+      if (crisisKeywords.some(kw => msgLower.includes(kw))) {
+        appendMessage('assistant', "⚠️ **Safety Warning:** It sounds like you might be in crisis. Please call 988 or contact your therapist for Phone Coaching.");
+        return;
+      }
+
+      btnCoach.disabled = true;
+      btnSend.disabled = true;
+      inputField.disabled = true;
+      const loadingId = 'loading-' + Date.now();
+      const loadingDiv = document.createElement('div');
+      loadingDiv.id = loadingId;
+      loadingDiv.style.padding = '0.75rem';
+      loadingDiv.innerHTML = '<em>🤖 AI Coach is typing...</em>';
+      thread.appendChild(loadingDiv);
+      thread.scrollTop = thread.scrollHeight;
+
+      try {
+        const formData = prefix === 'cf' ? this.getCFFormData(container) : this.getOAFormData(container);
+        const historyArray = prefix === 'cf' ? this.cfChatHistory : this.oaChatHistory;
+        
+        historyArray.push({ role: 'user', parts: [{ text: userMessage }] });
+
+        const systemPrompt = "You are a warm, non-judgmental, logical DBT AI Coach. Your goal is to help the user with the " + worksheetName + " worksheet. Emphasize helping users check the facts or validate opposite actions, avoiding assumptions, and maintaining safety protocols. Keep responses concise.";
+        
+        const payload = {
+          systemInstruction: { parts: [{ text: systemPrompt }] },
+          contents: [
+            {
+              role: 'user',
+              parts: [{ text: "Here is my current worksheet data:\n" + JSON.stringify(formData, null, 2) }]
+            },
+            ...historyArray
+          ]
+        };
+
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${aiKey}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        
+        if (data.error) {
+          throw new Error(data.error.message);
+        }
+
+        const aiResponse = data.candidates[0].content.parts[0].text;
+        historyArray.push({ role: 'model', parts: [{ text: aiResponse }] });
+        
+        document.getElementById(loadingId).remove();
+        appendMessage('assistant', aiResponse);
+        
+        inputContainer.style.display = 'flex';
+        btnCoach.style.display = 'none';
+        inputField.value = '';
+        inputField.focus();
+
+      } catch (err) {
+        document.getElementById(loadingId).remove();
+        appendMessage('assistant', "Error connecting to AI Coach: " + err.message);
+      } finally {
+        btnCoach.disabled = false;
+        btnSend.disabled = false;
+        inputField.disabled = false;
+      }
+    };
+
+    btnCoach.addEventListener('click', () => {
+      const msg = "Can you review my worksheet and help me?";
+      appendMessage('user', msg);
+      callAI(msg);
+    });
+
+    btnSend.addEventListener('click', () => {
+      const val = inputField.value.trim();
+      if (!val) return;
+      appendMessage('user', val);
+      callAI(val);
+    });
+    
+    inputField.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        btnSend.click();
+      }
+    });
   },
 
   async loadSavedEntries(container) {

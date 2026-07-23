@@ -60,6 +60,7 @@ class App {
     this.setupSkillFinder();
     this.setupSafetyPlan();
     this.setupModalDismissalHandlers();
+    this.setupAISettings();
     this.renderAllViews();
     this.syncDeckNavVisibility('mindfulness', 'wise-mind');
     this.syncDeckNavVisibility('interpersonal', 'dear-man');
@@ -478,15 +479,40 @@ class App {
     const btnClose = document.getElementById('btn-close-safety');
     const btnPrint = document.getElementById('btn-print-safety');
     const form = document.getElementById('safety-plan-form');
+    
+    const viewTab = document.getElementById('btn-safety-view-tab');
+    const editTab = document.getElementById('btn-safety-edit-tab');
+    const viewPane = document.getElementById('safety-plan-view-pane');
+
+    const switchTab = (tabName) => {
+      if (tabName === 'view') {
+        if (viewTab) viewTab.classList.add('active');
+        if (editTab) editTab.classList.remove('active');
+        if (viewPane) viewPane.style.display = 'block';
+        if (form) form.style.display = 'none';
+        this.renderSafetyPlanView();
+      } else {
+        if (viewTab) viewTab.classList.remove('active');
+        if (editTab) editTab.classList.add('active');
+        if (viewPane) viewPane.style.display = 'none';
+        if (form) form.style.display = 'block';
+      }
+    };
+
+    if (viewTab) viewTab.addEventListener('click', () => switchTab('view'));
+    if (editTab) editTab.addEventListener('click', () => switchTab('edit'));
 
     if (btnOpen && modal) {
       btnOpen.addEventListener('click', async () => {
         const plan = await db.getSetting('safety_plan', {});
-        const textareas = form.querySelectorAll('textarea');
-        textareas.forEach(ta => {
-          ta.value = plan[ta.name] || '';
-        });
+        if (form) {
+          const textareas = form.querySelectorAll('textarea');
+          textareas.forEach(ta => {
+            ta.value = plan[ta.name] || '';
+          });
+        }
         modal.classList.add('active');
+        switchTab('view');
       });
     }
 
@@ -507,7 +533,7 @@ class App {
 
         await db.setSetting('safety_plan', data);
         alert('Crisis Safety Plan successfully saved!');
-        modal.classList.remove('active');
+        switchTab('view');
       });
     }
 
@@ -520,97 +546,95 @@ class App {
         });
 
         const printWindow = window.open('', '_blank');
-        printWindow.document.write(`
-          <html>
-            <head>
-              <title>My DBT Crisis Safety Plan</title>
-              <style>
-                body {
-                  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-                  line-height: 1.6;
-                  color: #333;
-                  padding: 2rem;
-                  max-width: 800px;
-                  margin: 0 auto;
-                }
-                h1 {
-                  color: #e11d48;
-                  border-bottom: 2px solid #e11d48;
-                  padding-bottom: 0.5rem;
-                  margin-bottom: 1.5rem;
-                  font-size: 1.8rem;
-                }
-                .section {
-                  margin-bottom: 1.5rem;
-                  background: #f9fafb;
-                  border: 1px solid #e5e7eb;
-                  padding: 1.25rem;
-                  border-radius: 6px;
-                }
-                .section h3 {
-                  margin-top: 0;
-                  color: #111827;
-                  font-size: 1.05rem;
-                  border-bottom: 1px dashed #d1d5db;
-                  padding-bottom: 0.25rem;
-                }
-                p {
-                  margin: 0.5rem 0 0 0;
-                  white-space: pre-wrap;
-                  font-size: 0.9rem;
-                  color: #374151;
-                }
-                @media print {
-                  body { padding: 0; }
-                  .section { page-break-inside: avoid; }
-                }
-              </style>
-            </head>
-            <body>
-              <h1>🛡️ My DBT Crisis Safety Plan</h1>
-              <p style="font-style: italic; color: #6b7280; margin-bottom: 2rem;">
-                Keep this plan accessible. These are the steps to follow when distress levels are high.
-              </p>
-              
-              <div class="section">
-                <h3>1. Warning Signs</h3>
-                <p>${data.warning_signs}</p>
-              </div>
-              
-              <div class="section">
-                <h3>2. Internal Coping Strategies</h3>
-                <p>${data.coping_strategies}</p>
-              </div>
-              
-              <div class="section">
-                <h3>3. Social Settings & People for Distraction</h3>
-                <p>${data.distraction_settings}</p>
-              </div>
-              
-              <div class="section">
-                <h3>4. Family Members or Friends to Ask for Help</h3>
-                <p>${data.trusted_contacts}</p>
-              </div>
-              
-              <div class="section">
-                <h3>5. Professionals & Crisis Hotlines</h3>
-                <p>${data.professionals}</p>
-              </div>
-              
-              <div class="section">
-                <h3>6. Making the Environment Safe</h3>
-                <p>${data.safe_environment}</p>
-              </div>
-              
-              <script>
-                window.onload = function() {
-                  window.print();
-                };
-              </script>
-            </body>
-          </html>
-        `);
+        const docHtml = '<html><head><title>My DBT Crisis Safety Plan</title><style>body {font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;line-height: 1.6;color: #333;padding: 2rem;max-width: 800px;margin: 0 auto;}h1 {color: #e11d48;border-bottom: 2px solid #e11d48;padding-bottom: 0.5rem;margin-bottom: 1.5rem;font-size: 1.8rem;}.section {margin-bottom: 1.5rem;background: #f9fafb;border: 1px solid #e5e7eb;padding: 1.25rem;border-radius: 6px;}.section h3 {margin-top: 0;color: #111827;font-size: 1.05rem;border-bottom: 1px dashed #d1d5db;padding-bottom: 0.25rem;}p {margin: 0.5rem 0 0 0;white-space: pre-wrap;font-size: 0.9rem;color: #374151;}@media print {body { padding: 0; }.section { page-break-inside: avoid; }}</style></head><body><h1>🛡️ My DBT Crisis Safety Plan</h1><p style="font-style: italic; color: #6b7280; margin-bottom: 2rem;">Keep this plan accessible. These are the steps to follow when distress levels are high.</p><div class="section"><h3>1. Warning Signs</h3><p>' + data.warning_signs + '</p></div><div class="section"><h3>2. Internal Coping Strategies</h3><p>' + data.coping_strategies + '</p></div><div class="section"><h3>3. Social Settings & People for Distraction</h3><p>' + data.distraction_settings + '</p></div><div class="section"><h3>4. Family Members or Friends to Ask for Help</h3><p>' + data.trusted_contacts + '</p></div><div class="section"><h3>5. Professionals & Crisis Hotlines</h3><p>' + data.professionals + '</p></div><div class="section"><h3>6. Making the Environment Safe</h3><p>' + data.safe_environment + '</p></div><script>window.onload = function() {window.print();};</script></body></html>';
+        printWindow.document.write(docHtml);
         printWindow.document.close();
+      });
+    }
+  }
+
+  async renderSafetyPlanView() {
+    const viewPane = document.getElementById('safety-plan-view-pane');
+    if (!viewPane) return;
+    
+    const plan = await db.getSetting('safety_plan', {});
+    
+    const fields = [
+      { key: 'warning_signs', label: '1. Warning Signs' },
+      { key: 'coping_strategies', label: '2. Internal Coping Strategies' },
+      { key: 'distraction_settings', label: '3. Social Settings & People for Distraction' },
+      { key: 'trusted_contacts', label: '4. Family Members or Friends to Ask for Help', isContact: true },
+      { key: 'professionals', label: '5. Professionals & Crisis Hotlines', isContact: true },
+      { key: 'safe_environment', label: '6. Making the Environment Safe' }
+    ];
+
+    let html = '';
+    const phoneRegex = /\b(?:\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b/g;
+
+    fields.forEach(f => {
+      html += '<div class="safety-view-section" style="margin-bottom: 1.5rem; background: var(--bg-surface); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color);">';
+      html += '<h3 style="margin-top: 0; margin-bottom: 0.5rem; font-size: 1.1rem; color: var(--accent-purple); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">' + f.label + '</h3>';
+      
+      let val = plan[f.key] || '(Not specified)';
+      
+      if (f.isContact && val !== '(Not specified)') {
+        const lines = val.split('\n');
+        const processedLines = lines.map(line => {
+          return line.replace(phoneRegex, (match) => {
+            const num = match.replace(/[-.\s()]/g, '');
+            return match + ' ' + 
+              '<a href="tel:' + num + '" class="btn btn-sm btn-secondary" style="display:inline-flex; align-items:center; gap:4px; padding: 2px 8px; font-size: 0.8rem; margin-left: 8px;">📞 Call</a>' +
+              '<a href="sms:' + num + '" class="btn btn-sm btn-secondary" style="display:inline-flex; align-items:center; gap:4px; padding: 2px 8px; font-size: 0.8rem; margin-left: 4px;">💬 Text</a>';
+          });
+        });
+        val = processedLines.join('\n');
+      }
+      
+      html += '<div style="white-space: pre-wrap; font-size: 0.95rem; color: var(--text-primary);">' + val + '</div>';
+      html += '</div>';
+    });
+    
+    viewPane.innerHTML = html;
+  }
+
+  setupAISettings() {
+    const modal = document.getElementById('ai-settings-modal');
+    const btnOpen = document.getElementById('btn-open-ai-settings');
+    const btnClose = document.getElementById('btn-close-ai-settings');
+    const toggle = document.getElementById('ai-enable-toggle');
+    const form = document.getElementById('ai-settings-form');
+
+    if (btnOpen && modal) {
+      btnOpen.addEventListener('click', async () => {
+        const enabled = await db.getSetting('ai_enabled', false);
+        const key = await db.getSetting('ai_gemini_key', '');
+        
+        if (toggle) toggle.checked = enabled;
+        const keyInput = document.getElementById('ai_gemini_key');
+        if (keyInput) keyInput.value = key;
+        
+        modal.classList.add('active');
+      });
+    }
+
+    if (btnClose && modal) {
+      btnClose.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
+    }
+
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const enabled = toggle ? toggle.checked : false;
+        const keyInput = document.getElementById('ai_gemini_key');
+        const key = keyInput ? keyInput.value.trim() : '';
+
+        await db.setSetting('ai_enabled', enabled);
+        await db.setSetting('ai_gemini_key', key);
+        
+        alert('AI Settings successfully saved!');
+        modal.classList.remove('active');
       });
     }
   }
