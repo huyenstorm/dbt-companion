@@ -2,6 +2,27 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
+  <script>
+    // Developer Force Cache Reset Hook
+    (function() {
+      const resetKey = 'dbt_cache_reset_v32';
+      if (!localStorage.getItem(resetKey)) {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(regs => {
+            for (let reg of regs) reg.unregister();
+          });
+        }
+        if ('caches' in window) {
+          caches.keys().then(names => {
+            for (let name of names) caches.delete(name);
+          });
+        }
+        localStorage.setItem(resetKey, 'true');
+        console.log('[Dev] Wiped local service worker caches, auto-reloaded.');
+        setTimeout(() => { location.reload(); }, 500);
+      }
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#a855f7">
   <meta name="description" content="Privacy-first, offline interactive DBT workbook, homework logger, and skills reference companion.">
