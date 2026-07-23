@@ -151,9 +151,12 @@ export const DiaryCardModule = {
           </div>
 
           <!-- Section 1: Individual Emotion Ratings -->
-          <h4 style="color: var(--accent-purple); margin: 1.25rem 0 0.5rem 0; font-size: 0.9rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.25rem;">
-            Individual Emotion Ratings (0 to 5)
-          </h4>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.25rem; margin: 1.25rem 0 0.5rem 0;">
+            <h4 style="color: var(--accent-purple); font-size: 0.9rem; margin: 0; font-weight: bold;">
+              Individual Emotion Ratings (0 to 5)
+            </h4>
+            <button type="button" class="btn-quick-add" data-section="emotions" style="background: transparent; border: none; color: var(--accent-purple); font-size: 1.2rem; cursor: pointer; padding: 0 0.5rem; line-height: 1; font-weight: bold;" title="Quick Add Emotion">+</button>
+          </div>
           <div class="grid-3" style="gap: 0.75rem; margin-bottom: 1rem;">
             ${this.state.emotions.map(emo => `
               <div class="form-group" style="margin-bottom: 0;">
@@ -164,9 +167,12 @@ export const DiaryCardModule = {
           </div>
 
           <!-- Section 2: Target Behaviors & Urges -->
-          <h4 style="color: var(--accent-rose); margin: 1.25rem 0 0.5rem 0; font-size: 0.9rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.25rem;">
-            Target Behaviors & Urges (Rating 0 to 5)
-          </h4>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.25rem; margin: 1.25rem 0 0.5rem 0;">
+            <h4 style="color: var(--accent-rose); font-size: 0.9rem; margin: 0; font-weight: bold;">
+              Target Behaviors & Urges (Rating 0 to 5)
+            </h4>
+            <button type="button" class="btn-quick-add" data-section="behaviors" style="background: transparent; border: none; color: var(--accent-rose); font-size: 1.2rem; cursor: pointer; padding: 0 0.5rem; line-height: 1; font-weight: bold;" title="Quick Add Behavior">+</button>
+          </div>
           <div class="grid-3" style="gap: 0.75rem; margin-bottom: 1rem;">
             ${this.state.behaviors.map(beh => `
               <div class="form-group" style="margin-bottom: 0;">
@@ -177,9 +183,12 @@ export const DiaryCardModule = {
           </div>
 
           <!-- Section 3: DBT Skills Used checkbox grid -->
-          <h4 style="color: var(--accent-teal); margin: 1.25rem 0 0.5rem 0; font-size: 0.9rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.25rem;">
-            DBT Skills Used Today (Check all that apply)
-          </h4>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.25rem; margin: 1.25rem 0 0.5rem 0;">
+            <h4 style="color: var(--accent-teal); font-size: 0.9rem; margin: 0; font-weight: bold;">
+              DBT Skills Used Today (Check all that apply)
+            </h4>
+            <button type="button" class="btn-quick-add" data-section="skills" style="background: transparent; border: none; color: var(--accent-teal); font-size: 1.2rem; cursor: pointer; padding: 0 0.5rem; line-height: 1; font-weight: bold;" title="Quick Add Skill">+</button>
+          </div>
           <div class="grid-3" style="margin-bottom: 1.25rem; background: var(--bg-secondary); padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); gap: 0.5rem 1rem;">
             ${this.state.skills.map(skill => `
               <label style="font-size: 0.85rem; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; display: flex; align-items: center; gap: 0.4rem;" title="${skill}">
@@ -189,9 +198,12 @@ export const DiaryCardModule = {
           </div>
 
           <!-- Section 4: Habit Builders & Breakers Counters -->
-          <h4 style="color: var(--accent-blue); margin: 1.25rem 0 0.5rem 0; font-size: 0.9rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.25rem;">
-            Habit Builders & Breakers Counters
-          </h4>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.25rem; margin: 1.25rem 0 0.5rem 0;">
+            <h4 style="color: var(--accent-blue); font-size: 0.9rem; margin: 0; font-weight: bold;">
+              Habit Builders & Breakers Counters
+            </h4>
+            <button type="button" class="btn-quick-add" data-section="habits" style="background: transparent; border: none; color: var(--accent-blue); font-size: 1.2rem; cursor: pointer; padding: 0 0.5rem; line-height: 1; font-weight: bold;" title="Quick Add Habit Counter">+</button>
+          </div>
           <div class="grid-3" style="gap: 0.75rem; margin-bottom: 1.25rem;">
             ${this.state.habits.map(hab => `
               <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 0.6rem 0.8rem; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: space-between; min-width: 0;">
@@ -286,6 +298,28 @@ export const DiaryCardModule = {
     } else {
       // Bind Normal Mode Actions
       const form = container.querySelector('#diary-card-form');
+      
+      container.querySelectorAll('.btn-quick-add').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const section = btn.dataset.section;
+          let noun = 'Emotion';
+          if (section === 'behaviors') noun = 'Target Behavior';
+          else if (section === 'skills') noun = 'DBT Skill';
+          else if (section === 'habits') noun = 'Habit Counter';
+
+          const val = prompt(`Enter new ${noun} name:`);
+          if (val && val.trim()) {
+            const cleanVal = val.trim();
+            if (this.state[section].includes(cleanVal)) {
+              alert('Item already exists.');
+              return;
+            }
+            this.state[section].push(cleanVal);
+            this.saveSettings();
+            this.render(container);
+          }
+        });
+      });
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const fields = this.getFormData(container);
