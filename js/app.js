@@ -381,17 +381,22 @@ class App {
     const step1 = document.getElementById('sf-step-1');
     const step2 = document.getElementById('sf-step-2');
     const step3 = document.getElementById('sf-step-3');
+    const stepExtremeInter = document.getElementById('sf-step-extreme-inter');
     
     const distressBtns = document.querySelectorAll('.sf-distress-btn');
+    const extremeInterBtns = document.querySelectorAll('.sf-extreme-inter-btn');
     const goalOptions = document.getElementById('sf-goal-options');
     const btnBack = document.getElementById('btn-sf-back');
+    const btnExtremeInterBack = document.getElementById('btn-sf-extreme-inter-back');
     const btnReset = document.getElementById('btn-sf-reset');
     const btnGo = document.getElementById('btn-sf-go');
     
     const recommendTitle = document.getElementById('sf-recommend-title');
     const recommendDesc = document.getElementById('sf-recommend-desc');
+    const sfGoalLabel = document.getElementById('sf-goal-label');
     
     let selectedDistress = '';
+    let selectedExtremeIntent = ''; // 'avoid-urge' or 'reduce-intensity'
     let selectedRecommendation = null;
 
     const goalsByDistress = {
@@ -422,48 +427,88 @@ class App {
       ]
     };
 
+    const renderGoalsList = () => {
+      goalOptions.innerHTML = '';
+      const goals = goalsByDistress[selectedDistress];
+      goals.forEach(g => {
+        const optBtn = document.createElement('button');
+        optBtn.type = 'button';
+        optBtn.className = 'btn btn-secondary sf-goal-btn';
+        optBtn.style.textAlign = 'left';
+        optBtn.style.padding = '0.6rem 0.8rem';
+        optBtn.style.fontSize = '0.8rem';
+        optBtn.textContent = g.label;
+        optBtn.addEventListener('click', () => {
+          selectedRecommendation = { view: g.view, deck: g.deck };
+          recommendTitle.textContent = g.title;
+          recommendDesc.textContent = g.desc;
+          
+          // Show step 3 (Recommendation)
+          step2.style.display = 'none';
+          step3.style.display = 'block';
+        });
+        goalOptions.appendChild(optBtn);
+      });
+    };
+
     distressBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         selectedDistress = btn.dataset.distress;
         
-        // Render goals
-        goalOptions.innerHTML = '';
-        const goals = goalsByDistress[selectedDistress];
-        goals.forEach(g => {
-          const optBtn = document.createElement('button');
-          optBtn.type = 'button';
-          optBtn.className = 'btn btn-secondary sf-goal-btn';
-          optBtn.style.textAlign = 'left';
-          optBtn.style.padding = '0.6rem 0.8rem';
-          optBtn.style.fontSize = '0.8rem';
-          optBtn.textContent = g.label;
-          optBtn.addEventListener('click', () => {
-            selectedRecommendation = { view: g.view, deck: g.deck };
-            recommendTitle.textContent = g.title;
-            recommendDesc.textContent = g.desc;
-            
-            // Show step 3
-            step2.style.display = 'none';
-            step3.style.display = 'block';
-          });
-          goalOptions.appendChild(optBtn);
-        });
+        if (selectedDistress === 'extreme') {
+          // Go to Intermediate selector (Step 1.5)
+          step1.style.display = 'none';
+          stepExtremeInter.style.display = 'block';
+        } else {
+          // Go directly to goals list (Step 2)
+          sfGoalLabel.textContent = '2. What is your immediate goal?';
+          renderGoalsList();
+          step1.style.display = 'none';
+          step2.style.display = 'block';
+        }
+      });
+    });
 
-        // Toggle steps
-        step1.style.display = 'none';
+    extremeInterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedExtremeIntent = btn.dataset.intent;
+        
+        // Update label dynamically for step 3
+        if (selectedExtremeIntent === 'avoid-urge') {
+          sfGoalLabel.textContent = '3. What is your immediate goal to avoid acting on the urge?';
+        } else {
+          sfGoalLabel.textContent = '3. What is your immediate goal to reduce emotional intensity?';
+        }
+        
+        renderGoalsList();
+        stepExtremeInter.style.display = 'none';
         step2.style.display = 'block';
       });
     });
 
+    btnExtremeInterBack.addEventListener('click', () => {
+      stepExtremeInter.style.display = 'none';
+      step1.style.display = 'block';
+      selectedDistress = '';
+      selectedExtremeIntent = '';
+    });
+
     btnBack.addEventListener('click', () => {
       step2.style.display = 'none';
-      step1.style.display = 'block';
+      if (selectedDistress === 'extreme') {
+        stepExtremeInter.style.display = 'block';
+        selectedExtremeIntent = '';
+      } else {
+        step1.style.display = 'block';
+        selectedDistress = '';
+      }
     });
 
     btnReset.addEventListener('click', () => {
       step3.style.display = 'none';
       step1.style.display = 'block';
       selectedDistress = '';
+      selectedExtremeIntent = '';
       selectedRecommendation = null;
     });
 
@@ -472,10 +517,11 @@ class App {
         this.switchView(selectedRecommendation.view);
         this.syncDeckNavVisibility(selectedRecommendation.view, selectedRecommendation.deck);
         
-        // Reset wizard state for next time they come back
+        // Reset wizard state for next time
         step3.style.display = 'none';
         step1.style.display = 'block';
         selectedDistress = '';
+        selectedExtremeIntent = '';
         selectedRecommendation = null;
       }
     });
