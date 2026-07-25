@@ -407,30 +407,30 @@ class App {
         { label: '💪 Calm physical muscle shaking or tension', view: 'distress-tolerance', deck: 'tipp', title: 'TIPP: Paired Muscle Relaxation', desc: 'Tense a muscle group for 5-7 seconds, then release it while saying the word "Relax".', category: 'avoid-urge' }
       ],
       high: [
-        { label: '🛑 Stop myself from acting impulsively on dangerous urges', view: 'distress-tolerance', deck: 'ref-dt-stop', title: 'STOP Skill Guide', desc: 'Stop, Take a step back, Observe, and Proceed mindfully to prevent crisis behavior.' },
-        { label: '🧩 Distract my mind fully from current suffering', view: 'distress-tolerance', deck: 'dt-accepts', title: 'Wise Mind ACCEPTS', desc: 'Use Activities, Contributing, Comparisons, Emotions, Pushing away, Thoughts, and Sensations.' },
-        { label: '🌸 Ground my body using physical senses', view: 'distress-tolerance', deck: 'dt-soothe', title: 'Self-Soothing 5 Senses', desc: 'Calm the nervous system by paying attention to sight, sound, smell, taste, and touch.' },
-        { label: '☀️ Change my cognitive focus to improve my mood', view: 'distress-tolerance', deck: 'dt-improve', title: 'IMPROVE the Moment', desc: 'Use Imagery, Meaning, Prayer, Relaxation, One thing in the moment, Vacation, and Encouragement.' },
-        { label: '⚖️ Assess the cost/benefit of acting on my urge', view: 'distress-tolerance', deck: 'pros-cons-ws3', title: 'Pros & Cons Worksheet', desc: 'List the pros and cons of acting on urges versus resisting urges to align with Wise Mind.' }
+        { label: '🛑 Stop myself from acting impulsively on dangerous urges', view: 'distress-tolerance', deck: 'ref-dt-stop', title: 'STOP Skill Guide', desc: 'Stop, Take a step back, Observe, and Proceed mindfully to prevent crisis behavior.', category: 'avoid-urge' },
+        { label: '🧩 Distract my mind fully from current suffering', view: 'distress-tolerance', deck: 'dt-accepts', title: 'Wise Mind ACCEPTS', desc: 'Use Activities, Contributing, Comparisons, Emotions, Pushing away, Thoughts, and Sensations.', category: 'reduce-intensity' },
+        { label: '🌸 Ground my body using physical senses', view: 'distress-tolerance', deck: 'dt-soothe', title: 'Self-Soothing 5 Senses', desc: 'Calm the nervous system by paying attention to sight, sound, smell, taste, and touch.', category: 'reduce-intensity' },
+        { label: '☀️ Change my cognitive focus to improve my mood', view: 'distress-tolerance', deck: 'dt-improve', title: 'IMPROVE the Moment', desc: 'Use Imagery, Meaning, Prayer, Relaxation, One thing in the moment, Vacation, and Encouragement.', category: 'reduce-intensity' },
+        { label: '⚖️ Assess the cost/benefit of acting on my urge', view: 'distress-tolerance', deck: 'pros-cons-ws3', title: 'Pros & Cons Worksheet', desc: 'List the pros and cons of acting on urges versus resisting urges to align with Wise Mind.', category: 'avoid-urge' }
       ],
       moderate: [
-        { label: '🔍 Check if my emotional intensity fits the actual situation', view: 'emotion-regulation', deck: 'check-facts-ws5', title: 'Check the Facts (Worksheet 5)', desc: 'Inspect if your emotion is justified by the objective details, or if interpretations are distorting it.' },
-        { label: '🔄 Change an unjustified or ineffective feeling', view: 'emotion-regulation', deck: 'opposite-action-ws7', title: 'Opposite Action (Worksheet 7)', desc: 'Act 180-degrees opposite to your emotional urge to alter the brain chemistry of that emotion.' },
-        { label: '🛠️ Solve a problem that has factual justification', view: 'mindfulness', deck: 'problem-solving', title: 'Problem Solving Sequence (Handout 12)', desc: 'Factual situations require logical action steps: brainstorm solutions, weigh pros/cons, and execute.' },
-        { label: '🗣️ Express my needs or boundaries clearly to someone', view: 'interpersonal', deck: 'dear-man', title: 'DEAR MAN Builder (Worksheet 4)', desc: 'Describe, Express, Assert, and Reinforce to state your wishes clearly while appearing confident.' }
+        { label: '🔍 Check if my emotional intensity fits the actual situation', view: 'emotion-regulation', deck: 'check-facts-ws5', title: 'Check the Facts (Worksheet 5)', desc: 'Inspect if your emotion is justified by the objective details, or if interpretations are distorting it.', category: 'reduce-intensity' },
+        { label: '🔄 Change an unjustified or ineffective feeling', view: 'emotion-regulation', deck: 'opposite-action-ws7', title: 'Opposite Action (Worksheet 7)', desc: 'Act 180-degrees opposite to your emotional urge to alter the brain chemistry of that emotion.', category: 'reduce-intensity' },
+        { label: '🛠️ Solve a problem that has factual justification', view: 'mindfulness', deck: 'problem-solving', title: 'Problem Solving Sequence (Handout 12)', desc: 'Factual situations require logical action steps: brainstorm solutions, weigh pros/cons, and execute.', category: 'reduce-intensity' },
+        { label: '🗣️ Express my needs or boundaries clearly to someone', view: 'interpersonal', deck: 'dear-man', title: 'DEAR MAN Builder (Worksheet 4)', desc: 'Describe, Express, Assert, and Reinforce to state your wishes clearly while appearing confident.', category: 'avoid-urge' }
       ],
       low: [
-        { label: '👥 Keep my relationship positive during a request', view: 'interpersonal', deck: 'ref-ie-give', title: 'Relationship: GIVE (Handout 6)', desc: 'Use a Gentle approach, act Interested, Validate the other person, and maintain an Easy manner.' },
-        { label: '🛡️ Protect my self-respect and stick to my values', view: 'interpersonal', deck: 'ref-ie-fast', title: 'Self-Respect: FAST (Handout 7)', desc: 'Be Fair, No apologies, Stick to values, and be Truthful during interpersonal requests.' },
-        { label: '✨ Practice grounding / quiet my active mind', view: 'mindfulness', deck: 'wise-mind', title: 'Wise Mind Alignment Wizard', desc: 'Enter the center of awareness, align logic and emotion, and identify your wise path forward.' },
-        { label: '💭 Observe thoughts without getting swept away by them', view: 'distress-tolerance', deck: 'mindfulness-thoughts-ws12', title: 'Mindfulness of Thoughts (Worksheet 12)', desc: 'Practice cognitive defusion and watch thoughts arise and pass like leaves floating down a stream.' }
+        { label: '👥 Keep my relationship positive during a request', view: 'interpersonal', deck: 'ref-ie-give', title: 'Relationship: GIVE (Handout 6)', desc: 'Use a Gentle approach, act Interested, Validate the other person, and maintain an Easy manner.', category: 'avoid-urge' },
+        { label: '🛡️ Protect my self-respect and stick to my values', view: 'interpersonal', deck: 'ref-ie-fast', title: 'Self-Respect: FAST (Handout 7)', desc: 'Be Fair, No apologies, Stick to values, and be Truthful during interpersonal requests.', category: 'avoid-urge' },
+        { label: '✨ Practice grounding / quiet my active mind', view: 'mindfulness', deck: 'wise-mind', title: 'Wise Mind Alignment Wizard', desc: 'Enter the center of awareness, align logic and emotion, and identify your wise path forward.', category: 'reduce-intensity' },
+        { label: '💭 Observe thoughts without getting swept away by them', view: 'distress-tolerance', deck: 'mindfulness-thoughts-ws12', title: 'Mindfulness of Thoughts (Worksheet 12)', desc: 'Practice cognitive defusion and watch thoughts arise and pass like leaves floating down a stream.', category: 'reduce-intensity' }
       ]
     };
 
     const renderGoalsList = () => {
       goalOptions.innerHTML = '';
       let goals = goalsByDistress[selectedDistress];
-      if (selectedDistress === 'extreme' && selectedExtremeIntent) {
+      if (selectedExtremeIntent) {
         goals = goals.filter(g => g.category === selectedExtremeIntent);
       }
       
@@ -459,17 +459,17 @@ class App {
       btn.addEventListener('click', () => {
         selectedDistress = btn.dataset.distress;
         
-        if (selectedDistress === 'extreme') {
-          // Go to Intermediate selector (Step 1.5)
-          step1.style.display = 'none';
-          stepExtremeInter.style.display = 'block';
+        // Dynamically tailor the intent button text based on distress level
+        const btnUrge = document.querySelector('.sf-extreme-inter-btn[data-intent="avoid-urge"]');
+        if (selectedDistress === 'extreme' || selectedDistress === 'high') {
+          btnUrge.innerHTML = '🛑 Not act on crisis urge';
         } else {
-          // Go directly to goals list (Step 2)
-          sfGoalLabel.textContent = '2. What is your immediate goal?';
-          renderGoalsList();
-          step1.style.display = 'none';
-          step2.style.display = 'block';
+          btnUrge.innerHTML = '🛑 Not act on emotional urge';
         }
+        
+        // Go to Intermediate selector (Step 1.5)
+        step1.style.display = 'none';
+        stepExtremeInter.style.display = 'block';
       });
     });
 
@@ -499,13 +499,8 @@ class App {
 
     btnBack.addEventListener('click', () => {
       step2.style.display = 'none';
-      if (selectedDistress === 'extreme') {
-        stepExtremeInter.style.display = 'block';
-        selectedExtremeIntent = '';
-      } else {
-        step1.style.display = 'block';
-        selectedDistress = '';
-      }
+      stepExtremeInter.style.display = 'block';
+      selectedExtremeIntent = '';
     });
 
     btnReset.addEventListener('click', () => {
