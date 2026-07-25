@@ -401,10 +401,10 @@ class App {
 
     const goalsByDistress = {
       extreme: [
-        { label: '💧 Reduce physical heat/arousal immediately (cold face splash)', view: 'distress-tolerance', deck: 'tipp', title: 'TIPP: Temperature Reset', desc: 'Splash your face with ice-cold water while holding your breath to activate the mammalian dive reflex.' },
-        { label: '🏃 Release intense pent-up physical panic/energy', view: 'distress-tolerance', deck: 'tipp', title: 'TIPP: Intense Exercise', desc: 'Engage in brief, high-intensity exercise (e.g., jumping jacks, sprints) to burn off the panic.' },
-        { label: '💨 Slow down racing thoughts and heart rate', view: 'distress-tolerance', deck: 'tipp', title: 'TIPP: Paced Breathing', desc: 'Breathe deeply from the stomach. Inhale for 4 seconds, exhale for 8 seconds, to trigger parasympathetic relaxation.' },
-        { label: '💪 Calm physical muscle shaking or tension', view: 'distress-tolerance', deck: 'tipp', title: 'TIPP: Paired Muscle Relaxation', desc: 'Tense a muscle group for 5-7 seconds, then release it while saying the word "Relax".' }
+        { label: '💧 Reduce physical heat/arousal immediately (cold face splash)', view: 'distress-tolerance', deck: 'tipp', title: 'TIPP: Temperature Reset', desc: 'Splash your face with ice-cold water while holding your breath to activate the mammalian dive reflex.', category: 'reduce-intensity' },
+        { label: '🏃 Release intense pent-up physical panic/energy', view: 'distress-tolerance', deck: 'tipp', title: 'TIPP: Intense Exercise', desc: 'Engage in brief, high-intensity exercise (e.g., jumping jacks, sprints) to burn off the panic.', category: 'reduce-intensity' },
+        { label: '💨 Slow down racing thoughts and heart rate', view: 'distress-tolerance', deck: 'tipp', title: 'TIPP: Paced Breathing', desc: 'Breathe deeply from the stomach. Inhale for 4 seconds, exhale for 8 seconds, to trigger parasympathetic relaxation.', category: 'avoid-urge' },
+        { label: '💪 Calm physical muscle shaking or tension', view: 'distress-tolerance', deck: 'tipp', title: 'TIPP: Paired Muscle Relaxation', desc: 'Tense a muscle group for 5-7 seconds, then release it while saying the word "Relax".', category: 'avoid-urge' }
       ],
       high: [
         { label: '🛑 Stop myself from acting impulsively on dangerous urges', view: 'distress-tolerance', deck: 'ref-dt-stop', title: 'STOP Skill Guide', desc: 'Stop, Take a step back, Observe, and Proceed mindfully to prevent crisis behavior.' },
@@ -429,7 +429,11 @@ class App {
 
     const renderGoalsList = () => {
       goalOptions.innerHTML = '';
-      const goals = goalsByDistress[selectedDistress];
+      let goals = goalsByDistress[selectedDistress];
+      if (selectedDistress === 'extreme' && selectedExtremeIntent) {
+        goals = goals.filter(g => g.category === selectedExtremeIntent);
+      }
+      
       goals.forEach(g => {
         const optBtn = document.createElement('button');
         optBtn.type = 'button';
