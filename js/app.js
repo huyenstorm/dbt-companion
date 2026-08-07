@@ -45,7 +45,10 @@ class App {
       { name: 'Opposite Action vs. Problem Solving Reference (Handout 9)', target: 'emotion-regulation', deckTarget: 'ref-er-deciding' },
       { name: 'Problem Solving Sequence Reference (Handout 12)', target: 'emotion-regulation', deckTarget: 'ref-er-problemsolving' },
       { name: 'STOP Skill Guide Reference (Handout 4)', target: 'distress-tolerance', deckTarget: 'ref-dt-stop' },
-      { name: 'Radical Acceptance Guide Reference (Handout 9)', target: 'distress-tolerance', deckTarget: 'ref-dt-radical' }
+      { name: 'Radical Acceptance Guide Reference (Handout 9)', target: 'distress-tolerance', deckTarget: 'ref-dt-radical' },
+      { name: 'Doing Mind vs Being Mind Reference', target: 'mindfulness', deckTarget: 'mindfulness-ref-doing-being' },
+      { name: 'Emotion Mind vs Logical Mind Reference (Wise Mind)', target: 'mindfulness', deckTarget: 'mindfulness-ref-states' },
+      { name: 'HALT Vulnerability Checklist Reference', target: 'emotion-regulation', deckTarget: 'ref-halt' }
     ];
     this.init();
   }
@@ -62,6 +65,7 @@ class App {
     this.setupVisualDirectory();
     this.setupModalDismissalHandlers();
     this.setupAISettings();
+    this.setupMindfulnessRefTabs();
     this.renderAllViews();
     this.syncDeckNavVisibility('mindfulness', 'wise-mind');
     this.syncDeckNavVisibility('interpersonal', 'dear-man');
@@ -241,8 +245,20 @@ class App {
 
     // 1. Core Mindfulness
     if (moduleName === 'mindfulness') {
-      if (wsContainer) wsContainer.style.display = targetKey === 'mindfulness-ref' ? 'none' : 'block';
-      if (simpleRefPanel) simpleRefPanel.style.display = targetKey === 'mindfulness-ref' ? 'block' : 'none';
+      const isRef = targetKey.startsWith('mindfulness-ref');
+      if (wsContainer) wsContainer.style.display = isRef ? 'none' : 'block';
+      if (simpleRefPanel) simpleRefPanel.style.display = isRef ? 'block' : 'none';
+
+      if (isRef && simpleRefPanel) {
+        let subTab = 'minf-states';
+        if (targetKey === 'mindfulness-ref-doing-being') {
+          subTab = 'minf-doing-being';
+        } else if (targetKey === 'mindfulness-ref-skills') {
+          subTab = 'minf-skills';
+        }
+        const tabBtn = simpleRefPanel.querySelector(`.nav-tabs .tab-btn[data-minftab="${subTab}"]`);
+        if (tabBtn) tabBtn.click();
+      }
 
       const wmMap = {
         'wise-mind': 'wm-align',
@@ -1158,6 +1174,26 @@ class App {
     });
   }
 
+  setupMindfulnessRefTabs() {
+    // Event delegation or direct binding for mindfulness-specific reference tab selector
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.tab-btn[data-minftab]');
+      if (!btn) return;
+      const parent = btn.closest('#panel-mindfulness-ref');
+      if (!parent) return;
+
+      const tabs = parent.querySelectorAll('.tab-btn[data-minftab]');
+      const contents = parent.querySelectorAll('.minftab-content');
+
+      tabs.forEach(t => t.classList.remove('active'));
+      contents.forEach(c => c.style.display = 'none');
+
+      btn.classList.add('active');
+      const target = parent.querySelector('#' + btn.dataset.minftab);
+      if (target) target.style.display = 'block';
+    });
+  }
+
   renderAllViews() {
     // 1. Core Mindfulness
     WiseMindModule.render(document.getElementById('mindfulness-worksheets-container'));
@@ -1194,7 +1230,7 @@ class App {
     ReferencesModule.render(erRefContainer);
     erRefContainer.querySelectorAll('.nav-tabs .tab-btn').forEach(btn => {
       const tab = btn.dataset.reftab;
-      const isEr = tab.startsWith('ref-er-') || tab === 'ref-emotions' || tab === 'ref-opposite-action' || tab === 'ref-sleep';
+      const isEr = tab.startsWith('ref-er-') || tab === 'ref-emotions' || tab === 'ref-opposite-action' || tab === 'ref-sleep' || tab === 'ref-halt';
       btn.style.display = isEr ? 'inline-block' : 'none';
     });
     const defaultErTab = erRefContainer.querySelector('.nav-tabs .tab-btn[data-reftab="ref-emotions"]');

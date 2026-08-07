@@ -25,6 +25,7 @@ export const ReferencesModule = {
           <button class="tab-btn" data-reftab="ref-ie-fast">🛡️ FAST (Handout 7)</button>
           <button class="tab-btn" data-reftab="ref-er-deciding">⚖️ Deciding Opposite Action (Handout 9)</button>
           <button class="tab-btn" data-reftab="ref-er-problemsolving">🧩 Problem Solving Sequence (Handout 12)</button>
+          <button class="tab-btn" data-reftab="ref-halt">🚨 HALT Vulnerability Check</button>
         </div>
 
         <!-- Emotion Dictionary -->
@@ -597,6 +598,56 @@ export const ReferencesModule = {
             <div style="margin-bottom: 1rem;">
               <strong style="display: block; color: var(--accent-teal); font-size: 1rem;">7. Evaluate the results of using the solution.</strong>
               <p style="font-size: 0.85rem; color: var(--text-secondary);">It worked? YAY! It didn't work? Go back to Step 5 and choose a new solution to try.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- HALT Vulnerability Check -->
+        <div class="reftab-content" id="ref-halt" style="display: none;">
+          <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); line-height: 1.6;">
+            <h3 style="color: var(--accent-rose); font-size: 1.25rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+              HALT Vulnerability Check
+            </h3>
+            <p style="font-style: italic; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+              A quick self-check to reduce vulnerability to Emotion Mind, urges, or impulsive actions.
+            </p>
+
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+              When emotional intensity is high, or you feel a sudden surge in urges/impulses, stop and ask yourself: <strong>"Am I experiencing any of the HALT factors?"</strong> High physiological and social vulnerability makes it extremely difficult to remain in Wise Mind.
+            </p>
+
+            <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
+              <div style="background: rgba(239, 68, 68, 0.04); border-left: 4px solid var(--accent-rose); padding: 0.75rem 1rem; border-radius: var(--radius-sm);">
+                <strong style="color: var(--accent-rose); display: block; font-size: 1rem; margin-bottom: 0.25rem;">🍔 H - Hungry</strong>
+                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.4rem;">
+                  Have you eaten in the last 4-5 hours? Low blood sugar mimics anxiety, speeds up racing thoughts, and fuels irritability.
+                </p>
+                <span style="font-size: 0.75rem; color: var(--text-muted); font-style: italic;"><strong>Wise action:</strong> Eat a balanced snack or meal immediately. Avoid excessive caffeine or sugar crashes.</span>
+              </div>
+
+              <div style="background: rgba(249, 115, 22, 0.04); border-left: 4px solid var(--accent-amber); padding: 0.75rem 1rem; border-radius: var(--radius-sm);">
+                <strong style="color: var(--accent-amber); display: block; font-size: 1rem; margin-bottom: 0.25rem;">⚡ A - Angry</strong>
+                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.4rem;">
+                  Are you holding onto resentment, frustration, or irritation? Anger triggers fight-or-flight, driving impulsive reactions.
+                </p>
+                <span style="font-size: 0.75rem; color: var(--text-muted); font-style: italic;"><strong>Wise action:</strong> Do a quick Opposite Action check (e.g. gentle avoidance, time out) or validate your feelings.</span>
+              </div>
+
+              <div style="background: rgba(59, 130, 246, 0.04); border-left: 4px solid var(--accent-blue); padding: 0.75rem 1rem; border-radius: var(--radius-sm);">
+                <strong style="color: var(--accent-blue); display: block; font-size: 1rem; margin-bottom: 0.25rem;">👥 L - Lonely</strong>
+                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.4rem;">
+                  Do you feel isolated, disconnected, or misunderstood? Loneliness activates threat networks in the brain and heightens pain.
+                </p>
+                <span style="font-size: 0.75rem; color: var(--text-muted); font-style: italic;"><strong>Wise action:</strong> Reach out to a support contact, send a message, or practice the GIVE skill to connect.</span>
+              </div>
+
+              <div style="background: rgba(168, 85, 247, 0.04); border-left: 4px solid var(--accent-purple); padding: 0.75rem 1rem; border-radius: var(--radius-sm);">
+                <strong style="color: var(--accent-purple); display: block; font-size: 1rem; margin-bottom: 0.25rem;">🌙 T - Tired</strong>
+                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.4rem;">
+                  Are you physically exhausted or sleep-deprived? Sleep deficit reduces prefrontal cortex function, making emotional regulation near impossible.
+                </p>
+                <span style="font-size: 0.75rem; color: var(--text-muted); font-style: italic;"><strong>Wise action:</strong> Take a 15-minute rest, do a Paced Breathing session, or follow the Sleep Hygiene Protocol.</span>
+              </div>
             </div>
           </div>
         </div>

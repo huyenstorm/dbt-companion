@@ -5,7 +5,7 @@
   <script>
     // Developer Force Cache Reset Hook
     (function() {
-      const resetKey = 'dbt_cache_reset_v59';
+      const resetKey = 'dbt_cache_reset_v60';
       if (!localStorage.getItem(resetKey)) {
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.getRegistrations().then(regs => {
@@ -37,8 +37,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="./styles/main.css?v=59">
-  <link rel="stylesheet" href="./styles/print.css?v=59" media="print">
+  <link rel="stylesheet" href="./styles/main.css?v=60">
+  <link rel="stylesheet" href="./styles/print.css?v=60" media="print">
 </head>
 <body>
 
@@ -241,7 +241,8 @@
           </div>
           <div class="nav-column">
             <div class="nav-column-title">References</div>
-            <button class="deck-btn" data-deck-target="mindfulness-ref">States of Mind Reference</button>
+            <button class="deck-btn" data-deck-target="mindfulness-ref-states">🧠 States of Mind Reference</button>
+            <button class="deck-btn" data-deck-target="mindfulness-ref-doing-being">✨ Doing Mind vs Being Mind</button>
           </div>
         </div>
 
@@ -250,22 +251,110 @@
 
         <!-- References Container -->
         <div id="panel-mindfulness-ref" class="module-section-active-card" style="display: none;">
-          <div style="background: var(--bg-secondary); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); line-height: 1.6;">
-            <h3 style="color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">The States of Mind</h3>
-            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">
-              Our minds operate in three distinct states:
+          <!-- Custom sub-tabs for Mindfulness Ref -->
+          <div class="nav-tabs" style="background: transparent; border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem; display: flex; flex-wrap: wrap; gap: 0.5rem; padding-bottom: 0.5rem;">
+            <button class="tab-btn active" data-minftab="minf-states" style="padding: 0.35rem 0.7rem; font-size: 0.8rem; border-radius: var(--radius-sm);">🧠 Emotion Mind vs Logical Mind</button>
+            <button class="tab-btn" data-minftab="minf-doing-being" style="padding: 0.35rem 0.7rem; font-size: 0.8rem; border-radius: var(--radius-sm);">✨ Doing Mind vs Being Mind</button>
+            <button class="tab-btn" data-minftab="minf-skills" style="padding: 0.35rem 0.7rem; font-size: 0.8rem; border-radius: var(--radius-sm);">🌱 What & How Skills</button>
+          </div>
+
+          <!-- Tab Content 1: Emotion vs Logical Mind (Wise Mind) -->
+          <div class="minftab-content" id="minf-states" style="background: var(--bg-secondary); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); line-height: 1.6;">
+            <h3 style="color: var(--accent-teal); font-size: 1.25rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+              The States of Mind (Reasonable, Emotion, and Wise Mind)
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem; font-style: italic;">
+              Our minds operate in three main states. Effective living requires recognizing which state is active.
             </p>
-            <ul style="padding-left: 1.2rem; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-              <li><strong>Reasonable Mind:</strong> Cool, rational, factual, and task-focused. It ignores emotional factors and operates on logic.</li>
-              <li><strong>Emotion Mind:</strong> Hot, mood-driven, impulsive, and urgent. It distorts facts to match current feelings and drives reactiveness.</li>
-              <li><strong>Wise Mind:</strong> The intuitive synthesis of both. It honors your emotions while checking the facts, identifying the middle path of wisdom.</li>
-            </ul>
-            <h3 style="color: var(--accent-teal); font-size: 1.1rem; margin-bottom: 0.5rem;">Mindfulness 'What' Skills</h3>
-            <p style="font-size: 0.85rem; color: var(--text-secondary);">
-              <strong>Observe:</strong> Just notice physical sensations, thoughts, and emotions without label.<br>
-              <strong>Describe:</strong> Put words on your experience. Label facts only (e.g. 'I feel my heart racing', not 'I'm dying').<br>
-              <strong>Participate:</strong> Throw yourself fully into the current activity. Focus 100% on the now.
+
+            <div style="display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+              <div style="background: rgba(96, 165, 250, 0.05); border: 1px solid var(--accent-blue); border-radius: var(--radius-md); padding: 1rem;">
+                <strong style="color: var(--accent-blue); display: block; font-size: 0.95rem; margin-bottom: 0.25rem;">🧊 Reasonable Mind (Logical Mind)</strong>
+                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                  Cool, rational, factual, and analytical. Focuses on details, plans, rules, and objective information.
+                </p>
+                <span style="font-size: 0.75rem; color: var(--text-muted);"><strong>Example:</strong> Measuring ingredients for a recipe, solving a math equation, planning logistics.</span>
+              </div>
+
+              <div style="background: rgba(244, 63, 94, 0.04); border: 1px solid var(--accent-rose); border-radius: var(--radius-md); padding: 1rem;">
+                <strong style="color: var(--accent-rose); display: block; font-size: 0.95rem; margin-bottom: 0.25rem;">🔥 Emotion Mind</strong>
+                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                  Hot, mood-driven, reactive, and urgent. Thoughts and behaviors are ruled by feelings. Facts are often ignored or distorted.
+                </p>
+                <span style="font-size: 0.75rem; color: var(--text-muted);"><strong>Example:</strong> Hitting send on an angry email in the heat of the moment, impulse buying out of sadness.</span>
+              </div>
+
+              <div style="background: rgba(168, 85, 247, 0.05); border: 1px solid var(--accent-purple); border-radius: var(--radius-md); padding: 1rem;">
+                <strong style="color: var(--accent-purple); display: block; font-size: 0.95rem; margin-bottom: 0.25rem;">✨ Wise Mind (The Synthesis)</strong>
+                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                  The calm overlap between logical mind and emotion mind. It honors your emotions while checking the facts, leading to intuitive wisdom and effective decisions.
+                </p>
+                <span style="font-size: 0.75rem; color: var(--text-muted);"><strong>Practice:</strong> Taking a slow, deep breath, observing both cold facts and raw urges, and choosing the middle path.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab Content 2: Doing Mind vs Being Mind -->
+          <div class="minftab-content" id="minf-doing-being" style="display: none; background: var(--bg-secondary); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); line-height: 1.6;">
+            <h3 style="color: var(--accent-teal); font-size: 1.25rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+              Doing Mind vs. Being Mind
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem; font-style: italic;">
+              Another key mindfulness spectrum: balancing task-oriented action with presence-oriented acceptance.
             </p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1rem; min-width: 0;">
+              <!-- Doing Mind -->
+              <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem;">
+                <strong style="color: var(--accent-teal); display: block; font-size: 0.95rem; margin-bottom: 0.5rem; border-bottom: 1px dashed var(--border-color); padding-bottom: 0.25rem;">🏁 Doing Mind (Goal-Oriented)</strong>
+                <ul style="padding-left: 1.2rem; font-size: 0.8rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.5rem;">
+                  <li><strong>Focus:</strong> Getting things done, changing situations, achieving results.</li>
+                  <li><strong>Perspective:</strong> Compares "how things are" with "how we want them to be."</li>
+                  <li><strong>Mindset:</strong> Active, analytical, evaluative, planning, and busy.</li>
+                  <li><strong>Warning:</strong> Continuous "doing" without pausing can lead to exhaustion, rumination, and burnout.</li>
+                </ul>
+              </div>
+
+              <!-- Being Mind -->
+              <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem;">
+                <strong style="color: var(--accent-blue); display: block; font-size: 0.95rem; margin-bottom: 0.5rem; border-bottom: 1px dashed var(--border-color); padding-bottom: 0.25rem;">🌸 Being Mind (Process-Oriented)</strong>
+                <ul style="padding-left: 1.2rem; font-size: 0.8rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.5rem;">
+                  <li><strong>Focus:</strong> Experiencing the present moment as it is, letting go of goals.</li>
+                  <li><strong>Perspective:</strong> Accepts reality without trying to change, modify, or judge it.</li>
+                  <li><strong>Mindset:</strong> Still, receptive, focusing on sensory qualities and presence.</li>
+                  <li><strong>Benefit:</strong> Relieves chronic stress, calms the nervous system, and opens space for gratitude.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div style="background: rgba(168, 85, 247, 0.05); border: 1px solid var(--accent-purple); border-radius: var(--radius-md); padding: 1rem; font-size: 0.8rem; color: var(--text-secondary);">
+              <strong>✨ Mindful Mind (The Middle Path):</strong> Balanced living involves alternating between Doing Mind and Being Mind. Use "Doing Mind" when concrete tasks need attention, and switch to "Being Mind" to rest, appreciate life, and recover.
+            </div>
+          </div>
+
+          <!-- Tab Content 3: What & How Skills Summary -->
+          <div class="minftab-content" id="minf-skills" style="display: none; background: var(--bg-secondary); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); line-height: 1.6;">
+            <h3 style="color: var(--accent-teal); font-size: 1.25rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+              The What and How Skills (Worksheet 4 & 5)
+            </h3>
+
+            <div style="margin-bottom: 1.25rem;">
+              <strong style="display: block; color: var(--accent-teal); font-size: 1.05rem; margin-bottom: 0.4rem;">What Skills (What you do to practice mindfulness):</strong>
+              <ul style="padding-left: 1.2rem; font-size: 0.85rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.35rem;">
+                <li><strong>1. Observe:</strong> Notice physical sensations, thoughts, and emotions without labeling. Be a wordless witness.</li>
+                <li><strong>2. Describe:</strong> Put words on your experience. Label facts only (e.g. "I feel my heart racing", not "I'm dying").</li>
+                <li><strong>3. Participate:</strong> Throw yourself fully into the current activity. Focus 100% on the now, losing self-consciousness.</li>
+              </ul>
+            </div>
+
+            <div>
+              <strong style="display: block; color: var(--accent-blue); font-size: 1.05rem; margin-bottom: 0.4rem;">How Skills (How you practice mindfulness):</strong>
+              <ul style="padding-left: 1.2rem; font-size: 0.85rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.35rem;">
+                <li><strong>1. Non-Judgmentally:</strong> See but don't evaluate as good or bad. Just stick to the facts.</li>
+                <li><strong>2. One-Mindfully:</strong> Focus on one thing in the moment. Do one thing at a time with full attention.</li>
+                <li><strong>3. Effectively:</strong> Do what works rather than what is right or fair. Let go of stubbornness.</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -628,6 +717,6 @@
   </script>
 
   <!-- Application Entry Script -->
-  <script type="module" src="./js/app.js?v=59"></script>
+  <script type="module" src="./js/app.js?v=60"></script>
 </body>
 </html>
