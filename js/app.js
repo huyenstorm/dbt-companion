@@ -64,6 +64,7 @@ class App {
     this.setupSkillFinder();
     this.setupSafetyPlan();
     this.setupVisualDirectory();
+    this.setupWorksheetsRepository();
     this.setupModalDismissalHandlers();
     this.setupAISettings();
     this.setupMindfulnessRefTabs();
@@ -217,8 +218,8 @@ class App {
       this.renderLibrary();
     }
 
-    if (viewName === 'dashboard') {
-      this.loadRecentSavedWorksheets();
+    if (viewName === 'saved-worksheets') {
+      this.renderSavedWorksheetsRepository();
     }
   }
 
@@ -1251,9 +1252,24 @@ class App {
     DiaryCardModule.render(document.getElementById('view-diary-card'));
   }
 
-  async loadRecentSavedWorksheets() {
-    const listContainer = document.getElementById('dashboard-recent-saved-list');
+  setupWorksheetsRepository() {
+    const searchInput = document.getElementById('repo-search');
+    const moduleFilter = document.getElementById('repo-filter-module');
+
+    if (searchInput) {
+      searchInput.addEventListener('input', () => this.renderSavedWorksheetsRepository());
+    }
+    if (moduleFilter) {
+      moduleFilter.addEventListener('change', () => this.renderSavedWorksheetsRepository());
+    }
+  }
+
+  async renderSavedWorksheetsRepository() {
+    const listContainer = document.getElementById('repo-saved-list');
     if (!listContainer) return;
+
+    const query = (document.getElementById('repo-search')?.value || '').toLowerCase().trim();
+    const selectedModule = document.getElementById('repo-filter-module')?.value || 'all';
 
     const entries = await db.getWorksheets();
     const worksheets = entries.filter(x => x.type !== 'diary_card');
@@ -1262,8 +1278,6 @@ class App {
       listContainer.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem;">No saved worksheets yet.</p>`;
       return;
     }
-
-    const recent = worksheets.slice(0, 5);
 
     const typeMeta = {
       'wise_mind': { label: 'Wise Mind Alignment', target: 'mindfulness', color: 'var(--accent-teal)' },
@@ -1303,19 +1317,40 @@ class App {
       'mindful_thoughts_ws12': { label: 'Mindful Thoughts (WS 12)', target: 'distress-tolerance', color: 'var(--accent-rose)' }
     };
 
-    listContainer.innerHTML = recent.map(item => {
+    const filtered = worksheets.filter(item => {
+      const meta = typeMeta[item.type] || { label: 'Worksheet', target: 'other', color: 'var(--text-muted)' };
+      
+      if (selectedModule !== 'all' && meta.target !== selectedModule) {
+        return false;
+      }
+
+      if (query) {
+        const titleMatch = (item.title || '').toLowerCase().includes(query);
+        const contentMatch = JSON.stringify(item.data).toLowerCase().includes(query);
+        return titleMatch || contentMatch;
+      }
+
+      return true;
+    });
+
+    if (!filtered.length) {
+      listContainer.innerHTML = `<p style="color: var(--text-muted); font-size: 0.9rem;">No matching worksheets found.</p>`;
+      return;
+    }
+
+    listContainer.innerHTML = filtered.map(item => {
       const meta = typeMeta[item.type] || { label: 'Worksheet', color: 'var(--text-muted)' };
       return `
-        <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 0.75rem 1rem; border-radius: var(--radius-md); margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; font-size: 0.85rem;">
+        <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 0.85rem 1rem; border-radius: var(--radius-md); margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; font-size: 0.85rem;">
           <div>
             <span class="badge" style="background: transparent; border: 1px solid ${meta.color}; color: ${meta.color}; font-size: 0.7rem; margin-bottom: 0.15rem; display: inline-block;">${meta.label}</span>
-            <strong style="color: var(--text-primary); display: block;">${item.title}</strong>
+            <strong style="color: var(--text-primary); display: block; font-size: 0.9rem;">${item.title}</strong>
             <span style="font-size: 0.75rem; color: var(--text-muted);">${new Date(item.createdAt).toLocaleString()}</span>
           </div>
-          <div style="display: flex; gap: 0.35rem;">
-            <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="window.dashboardViewSaved('${item.id}', '${item.type}')">👁️ View</button>
-            <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="window.dashboardCopySaved('${item.id}')">📋 Copy</button>
-            <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="window.dashboardDeleteSaved('${item.id}')">🗑️</button>
+          <div style="display: flex; gap: 0.4rem;">
+            <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.dashboardViewSaved('${item.id}', '${item.type}')">👁️ View</button>
+            <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.dashboardCopySaved('${item.id}')">📋 Copy</button>
+            <button class="btn btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.dashboardDeleteSaved('${item.id}')">🗑️</button>
           </div>
         </div>
       `;
@@ -1361,7 +1396,7 @@ class App {
     window.dashboardDeleteSaved = async (id) => {
       if (confirm('Delete this worksheet entry?')) {
         await db.deleteWorksheet(id);
-        this.loadRecentSavedWorksheets();
+        this.renderSavedWorksheetsRepository();
       }
     };
   }

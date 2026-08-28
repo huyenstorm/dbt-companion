@@ -5,7 +5,7 @@
   <script>
     // Developer Force Cache Reset Hook
     (function() {
-      const resetKey = 'dbt_cache_reset_v63';
+      const resetKey = 'dbt_cache_reset_v64';
       if (!localStorage.getItem(resetKey)) {
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.getRegistrations().then(regs => {
@@ -37,8 +37,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="./styles/main.css?v=63">
-  <link rel="stylesheet" href="./styles/print.css?v=63" media="print">
+  <link rel="stylesheet" href="./styles/main.css?v=64">
+  <link rel="stylesheet" href="./styles/print.css?v=64" media="print">
 </head>
 <body>
 
@@ -80,7 +80,7 @@
       </div>
 
       <!-- Quick Actions row -->
-      <div class="grid-2" style="margin-bottom: 1.25rem;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
         <div class="card clickable-tile" tabindex="0" role="button" aria-label="Daily Diary Card: Track daily target behaviors, urges, and skills used" style="border-color: var(--accent-amber); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; margin-bottom: 0;" data-dashboard-tile="diary-card">
           <div>
             <strong style="color: var(--accent-amber); display: block; font-size: 1rem;">📝 Daily Diary Card</strong>
@@ -94,6 +94,13 @@
             <span style="font-size: 0.8rem; color: var(--text-muted);">View or update your personal coping steps.</span>
           </div>
           <span style="font-size: 1.25rem;">🚨</span>
+        </div>
+        <div class="card clickable-tile" tabindex="0" role="button" aria-label="Saved Worksheets Library: Access and resume your saved homework logs" style="border-color: var(--accent-purple); display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; margin-bottom: 0; cursor: pointer; transition: var(--transition-fast);" data-dashboard-tile="saved-worksheets">
+          <div>
+            <strong style="color: var(--accent-purple); display: block; font-size: 1rem;">📁 Saved Worksheets Library</strong>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Browse, search, print, or resume your saved worksheets.</span>
+          </div>
+          <span style="font-size: 1.25rem;">📂</span>
         </div>
       </div>
 
@@ -167,16 +174,7 @@
         </div>
       </div>
 
-      <!-- Recent Saved Worksheets & Logs History Widget -->
-      <div class="card" style="margin-bottom: 1.5rem; border: 1px solid var(--border-color);">
-        <h3 style="font-size: 1.05rem; color: var(--text-primary); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
-          <span>📋</span> Recent Saved Worksheets & Homework
-        </h3>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.0rem;">Quickly view, print, copy, or resume editing your recently saved logs:</p>
-        <div id="dashboard-recent-saved-list">
-          <p style="color: var(--text-muted); font-size: 0.85rem;">No saved worksheets yet.</p>
-        </div>
-      </div>
+
 
       <!-- Core Skills Modules Heading -->
       <h3 style="font-size: 1.1rem; color: var(--text-primary); margin: 2rem 0 1rem 0; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.4rem;">
@@ -609,6 +607,37 @@
       </div>
     </section>
 
+    <!-- 8. SAVED WORKSHEETS REPOSITORY VIEW -->
+    <section class="view-section" id="view-saved-worksheets">
+      <button class="btn btn-secondary btn-back-dashboard" style="margin-bottom: 1rem; padding: 0.4rem 0.8rem; font-size: 0.8rem;">← Back to Dashboard</button>
+      
+      <div class="card">
+        <h2 style="color: var(--accent-purple); margin-bottom: 0.25rem;">📁 Saved Worksheets Library</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Browse, search, print, copy, or resume editing any of your saved logs across all modules.</p>
+
+        <!-- Search and Filter Bar -->
+        <div style="display: flex; gap: 0.75rem; margin-bottom: 1.25rem; flex-wrap: wrap; align-items: center;">
+          <div style="flex: 1; min-width: 200px;">
+            <input type="text" class="form-control" id="repo-search" placeholder="Search by title, situation, behavior..." style="height: 38px;">
+          </div>
+          <div style="width: 180px;">
+            <select class="form-control" id="repo-filter-module" style="height: 38px;">
+              <option value="all">All Modules</option>
+              <option value="mindfulness">Core Mindfulness</option>
+              <option value="interpersonal">Interpersonal</option>
+              <option value="emotion-regulation">Emotion Regulation</option>
+              <option value="distress-tolerance">Distress Tolerance</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- List of Saved Worksheets -->
+        <div id="repo-saved-list">
+          <p style="color: var(--text-muted); font-size: 0.9rem;">No saved entries yet.</p>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- Mobile Bottom Navigation Bar -->
@@ -728,6 +757,6 @@
   </script>
 
   <!-- Application Entry Script -->
-  <script type="module" src="./js/app.js?v=63"></script>
+  <script type="module" src="./js/app.js?v=64"></script>
 </body>
 </html>
