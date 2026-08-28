@@ -545,10 +545,10 @@ textarea.form-control {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.7);
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
-  z-index: 200;
+  z-index: 2000;
   padding: 1rem;
   backdrop-filter: blur(4px);
   opacity: 0;
@@ -557,6 +557,7 @@ textarea.form-control {
 }
 
 .modal-overlay.active {
+  display: flex;
   opacity: 1;
   pointer-events: auto;
 }

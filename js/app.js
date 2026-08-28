@@ -1,15 +1,15 @@
 /* Main Application Router & Controller (Fully Clickable Tiles & 2-Column Sidebar Selectors) */
 import { db } from './db.js';
 import { Exports } from './exports.js';
-import { ModelOfEmotionsModule } from './modules/modelOfEmotions.js?v=66';
-import { ChainAnalysisModule } from './modules/chainAnalysis.js?v=66';
-import { WiseMindModule } from './modules/wiseMind.js?v=66';
-import { DearManModule } from './modules/dearman.js?v=66';
-import { DimeGameModule } from './modules/dimeGame.js?v=66';
-import { AbcPleaseModule } from './modules/abcPlease.js?v=66';
-import { DistressToleranceModule } from './modules/distressTolerance.js?v=66';
-import { DiaryCardModule } from './modules/diaryCard.js?v=66';
-import { ReferencesModule } from './modules/references.js?v=66';
+import { ModelOfEmotionsModule } from './modules/modelOfEmotions.js?v=67';
+import { ChainAnalysisModule } from './modules/chainAnalysis.js?v=67';
+import { WiseMindModule } from './modules/wiseMind.js?v=67';
+import { DearManModule } from './modules/dearman.js?v=67';
+import { DimeGameModule } from './modules/dimeGame.js?v=67';
+import { AbcPleaseModule } from './modules/abcPlease.js?v=67';
+import { DistressToleranceModule } from './modules/distressTolerance.js?v=67';
+import { DiaryCardModule } from './modules/diaryCard.js?v=67';
+import { ReferencesModule } from './modules/references.js?v=67';
 
 class App {
   constructor() {
@@ -1127,6 +1127,7 @@ class App {
 
     if (btnExport) {
       btnExport.addEventListener('click', async () => {
+        alert('Generating backup file... Your browser will now prompt you to download a JSON backup file. Please save this file to a secure place (such as iCloud, Google Drive, or your local Files app).');
         const jsonStr = await db.exportJSONBackup();
         const blob = new Blob([jsonStr], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
@@ -1381,25 +1382,25 @@ class App {
       if (!meta) return;
 
       if (meta.target === 'mindfulness') {
-        import('./modules/wiseMind.js?v=66').then(m => {
+        import('./modules/wiseMind.js?v=67').then(m => {
           m.WiseMindModule.showDetailModal(item);
         });
       } else if (meta.target === 'interpersonal') {
-        import('./modules/dearman.js?v=66').then(m => {
+        import('./modules/dearman.js?v=67').then(m => {
           m.DearManModule.showDetailModal(item);
         });
       } else if (meta.target === 'emotion-regulation') {
         if (type === 'model_of_emotions' || type === 'check_facts_ws5' || type === 'opposite_action_ws7') {
-          import('./modules/modelOfEmotions.js?v=66').then(m => {
+          import('./modules/modelOfEmotions.js?v=67').then(m => {
             m.ModelOfEmotionsModule.showDetailModal(item);
           });
         } else {
-          import('./modules/abcPlease.js?v=66').then(m => {
+          import('./modules/abcPlease.js?v=67').then(m => {
             m.AbcPleaseModule.showDetailModal(item);
           });
         }
       } else if (meta.target === 'distress-tolerance') {
-        import('./modules/chainAnalysis.js?v=66').then(m => {
+        import('./modules/chainAnalysis.js?v=67').then(m => {
           m.ChainAnalysisModule.showDetailModal(item);
         });
       }

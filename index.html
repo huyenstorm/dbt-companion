@@ -6,7 +6,7 @@
     // Programmatic URL ?reset=true support and Developer Force Cache Reset Hook
     (function() {
       const hasResetParam = window.location.search.includes('reset=true');
-      const resetKey = 'dbt_cache_reset_v66';
+      const resetKey = 'dbt_cache_reset_v67';
       
       if (hasResetParam || !localStorage.getItem(resetKey)) {
         const promises = [];
@@ -104,8 +104,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="./styles/main.css?v=66">
-  <link rel="stylesheet" href="./styles/print.css?v=66" media="print">
+  <link rel="stylesheet" href="./styles/main.css?v=67">
+  <link rel="stylesheet" href="./styles/print.css?v=67" media="print">
 </head>
 <body>
 
@@ -814,7 +814,7 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=66')
+        navigator.serviceWorker.register('./sw.js?v=67')
           .then(reg => {
             reg.addEventListener('updatefound', () => {
               const newWorker = reg.installing;
@@ -832,6 +832,6 @@
   </script>
 
   <!-- Application Entry Script -->
-  <script type="module" src="./js/app.js?v=66"></script>
+  <script type="module" src="./js/app.js?v=67"></script>
 </body>
 </html>
