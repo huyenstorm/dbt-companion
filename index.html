@@ -6,7 +6,7 @@
     // Programmatic URL ?reset=true support and Developer Force Cache Reset Hook
     (function() {
       const hasResetParam = window.location.search.includes('reset=true');
-      const resetKey = 'dbt_cache_reset_v64';
+      const resetKey = 'dbt_cache_reset_v65';
       
       if (hasResetParam || !localStorage.getItem(resetKey)) {
         if ('serviceWorker' in navigator) {
@@ -89,8 +89,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="./styles/main.css?v=64">
-  <link rel="stylesheet" href="./styles/print.css?v=64" media="print">
+  <link rel="stylesheet" href="./styles/main.css?v=65">
+  <link rel="stylesheet" href="./styles/print.css?v=65" media="print">
 </head>
 <body>
 
@@ -809,6 +809,6 @@
   </script>
 
   <!-- Application Entry Script -->
-  <script type="module" src="./js/app.js?v=64"></script>
+  <script type="module" src="./js/app.js?v=65"></script>
 </body>
 </html>
