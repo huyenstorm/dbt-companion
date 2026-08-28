@@ -1,15 +1,15 @@
 /* Main Application Router & Controller (Fully Clickable Tiles & 2-Column Sidebar Selectors) */
 import { db } from './db.js';
 import { Exports } from './exports.js';
-import { ModelOfEmotionsModule } from './modules/modelOfEmotions.js';
-import { ChainAnalysisModule } from './modules/chainAnalysis.js';
-import { WiseMindModule } from './modules/wiseMind.js';
-import { DearManModule } from './modules/dearman.js';
-import { DimeGameModule } from './modules/dimeGame.js';
-import { AbcPleaseModule } from './modules/abcPlease.js';
-import { DistressToleranceModule } from './modules/distressTolerance.js';
-import { DiaryCardModule } from './modules/diaryCard.js';
-import { ReferencesModule } from './modules/references.js';
+import { ModelOfEmotionsModule } from './modules/modelOfEmotions.js?v=65';
+import { ChainAnalysisModule } from './modules/chainAnalysis.js?v=65';
+import { WiseMindModule } from './modules/wiseMind.js?v=65';
+import { DearManModule } from './modules/dearman.js?v=65';
+import { DimeGameModule } from './modules/dimeGame.js?v=65';
+import { AbcPleaseModule } from './modules/abcPlease.js?v=65';
+import { DistressToleranceModule } from './modules/distressTolerance.js?v=65';
+import { DiaryCardModule } from './modules/diaryCard.js?v=65';
+import { ReferencesModule } from './modules/references.js?v=65';
 
 class App {
   constructor() {
@@ -1367,25 +1367,25 @@ class App {
       if (!meta) return;
 
       if (meta.target === 'mindfulness') {
-        import('./modules/wiseMind.js').then(m => {
+        import('./modules/wiseMind.js?v=65').then(m => {
           m.WiseMindModule.showDetailModal(item);
         });
       } else if (meta.target === 'interpersonal') {
-        import('./modules/dearman.js').then(m => {
+        import('./modules/dearman.js?v=65').then(m => {
           m.DearManModule.showDetailModal(item);
         });
       } else if (meta.target === 'emotion-regulation') {
         if (type === 'model_of_emotions' || type === 'check_facts_ws5' || type === 'opposite_action_ws7') {
-          import('./modules/modelOfEmotions.js').then(m => {
+          import('./modules/modelOfEmotions.js?v=65').then(m => {
             m.ModelOfEmotionsModule.showDetailModal(item);
           });
         } else {
-          import('./modules/abcPlease.js').then(m => {
+          import('./modules/abcPlease.js?v=65').then(m => {
             m.AbcPleaseModule.showDetailModal(item);
           });
         }
       } else if (meta.target === 'distress-tolerance') {
-        import('./modules/chainAnalysis.js').then(m => {
+        import('./modules/chainAnalysis.js?v=65').then(m => {
           m.ChainAnalysisModule.showDetailModal(item);
         });
       }
