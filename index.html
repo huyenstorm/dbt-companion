@@ -9,30 +9,37 @@
       const resetKey = 'dbt_cache_reset_v65';
       
       if (hasResetParam || !localStorage.getItem(resetKey)) {
+        const promises = [];
+        
         if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.getRegistrations().then(regs => {
-            for (let reg of regs) {
-              reg.unregister();
-            }
-          });
+          promises.push(
+            navigator.serviceWorker.getRegistrations().then(regs => {
+              return Promise.all(regs.map(reg => reg.unregister()));
+            })
+          );
         }
         if ('caches' in window) {
-          caches.keys().then(names => {
-            for (let name of names) {
-              caches.delete(name);
-            }
-          });
-        }
-        localStorage.setItem(resetKey, 'true');
-        console.log('[Dev] Clearing local PWA cache. Reloading page...');
-        
-        if (hasResetParam) {
-          // Clear query params to prevent reload loop
-          const cleanUrl = window.location.origin + window.location.pathname + window.location.hash;
-          window.history.replaceState({}, document.title, cleanUrl);
+          promises.push(
+            caches.keys().then(names => {
+              return Promise.all(names.map(name => caches.delete(name)));
+            })
+          );
         }
         
-        setTimeout(() => { location.reload(true); }, 300);
+        Promise.all(promises).then(() => {
+          localStorage.setItem(resetKey, 'true');
+          console.log('[Dev] Wiped PWA cache and SW successfully.');
+          
+          if (hasResetParam) {
+            const cleanUrl = window.location.origin + window.location.pathname + window.location.hash;
+            window.history.replaceState({}, document.title, cleanUrl);
+          }
+          
+          setTimeout(() => { location.reload(true); }, 100);
+        }).catch(() => {
+          localStorage.setItem(resetKey, 'true');
+          location.reload(true);
+        });
       }
     })();
   </script>
@@ -791,7 +798,7 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
+        navigator.serviceWorker.register('./sw.js?v=65')
           .then(reg => {
             reg.addEventListener('updatefound', () => {
               const newWorker = reg.installing;
