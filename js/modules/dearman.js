@@ -1162,19 +1162,4 @@ export const DearManModule = {
       document.querySelectorAll('.dial-out2').forEach(chk => chk.checked = out2.includes(chk.value));
     }
   }
-
-    btnSend.addEventListener('click', () => {
-      const val = inputField.value.trim();
-      if (!val) return;
-      appendMessage('user', val);
-      callAI(val);
-    });
-    
-    inputField.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        btnSend.click();
-      }
-    });
-  }
 };
