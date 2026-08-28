@@ -1064,6 +1064,7 @@ export const ChainAnalysisModule = {
 
   async loadSavedEntries(container) {
     const listContainer = container.querySelector('#dt-saved-list');
+    if (!listContainer) return;
     const entries = await db.getWorksheets();
     
     // Filter to Distress Tolerance worksheets
@@ -1075,19 +1076,40 @@ export const ChainAnalysisModule = {
       return;
     }
 
+    const typeLabels = {
+      'chain_analysis': 'Chain Analysis (WS 2)',
+      'stop_ws2': 'STOP Skill (WS 4)',
+      'pros_cons_ws3': 'Pros & Cons (WS 3)',
+      'tip_ws4': 'TIPP Skills (WS 4)',
+      'accepts_ws5': 'ACCEPTS (WS 5)',
+      'soothe_ws6': 'Self-Soothe (WS 6)',
+      'improve_ws7': 'IMPROVE (WS 7)',
+      'radical_acc_ws9': 'Radical Acceptance (WS 9)',
+      'turning_mind_ws10': 'Turning the Mind (WS 10)',
+      'half_smile_ws11': 'Half-Smiling (WS 11)',
+      'mindful_thoughts_ws12': 'Mindful Thoughts (WS 12)'
+    };
+
     listContainer.innerHTML = dtEntries.map(item => `
-      <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 0.85rem; border-radius: var(--radius-md); margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center;">
+      <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 0.85rem; border-radius: var(--radius-md); margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
         <div>
-          <strong style="color: var(--accent-rose); display: block;">${item.title}</strong>
+          <span class="badge badge-rose" style="font-size: 0.7rem; margin-bottom: 0.25rem; display: inline-block;">${typeLabels[item.type] || 'Worksheet'}</span>
+          <strong style="color: var(--accent-rose); display: block; font-size: 0.9rem;">${item.title}</strong>
           <span style="font-size: 0.75rem; color: var(--text-muted);">${new Date(item.createdAt).toLocaleString()}</span>
         </div>
         <div style="display: flex; gap: 0.4rem;">
+          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.viewSavedDT('${item.id}')">👁️ View</button>
           <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.copySavedDT('${item.id}')">📋 Copy</button>
           <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.printSavedDT('${item.id}')">🖨️ Print</button>
           <button class="btn btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.deleteDT('${item.id}')">🗑️</button>
         </div>
       </div>
     `).join('');
+
+    window.viewSavedDT = (id) => {
+      const item = dtEntries.find(x => x.id === id);
+      if (item) this.showDetailModal(item);
+    };
 
     window.copySavedDT = (id) => {
       const item = dtEntries.find(x => x.id === id);
@@ -1100,10 +1122,274 @@ export const ChainAnalysisModule = {
     };
 
     window.deleteDT = async (id) => {
-      if (confirm('Delete this crisis survival entry?')) {
+      if (confirm('Delete this worksheet entry?')) {
         await db.deleteWorksheet(id);
         this.loadSavedEntries(container);
       }
     };
+  },
+
+  showDetailModal(item) {
+    let modal = document.getElementById('dt-detail-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'dt-detail-modal';
+      modal.className = 'modal-overlay';
+      document.body.appendChild(modal);
+    }
+
+    let fieldsHTML = '';
+    for (const [key, value] of Object.entries(item.data)) {
+      fieldsHTML += `
+        <div style="margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem;">
+          <strong style="color: var(--accent-rose); font-size: 0.8rem; text-transform: uppercase; display: block;">${key}</strong>
+          <div style="font-size: 0.85rem; color: var(--text-primary); white-space: pre-wrap; margin-top: 0.15rem;">${value || 'N/A'}</div>
+        </div>
+      `;
+    }
+
+    modal.innerHTML = `
+      <div class="modal-card" style="max-width: 600px; max-height: 85vh; display: flex; flex-direction: column; padding: 1.5rem; position: relative;">
+        <button type="button" class="modal-close-x" style="position: absolute; top: 0.75rem; right: 1rem; background: transparent; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; line-height: 1; padding: 0; z-index: 10;">&times;</button>
+        <h3 style="font-size: 1.15rem; margin-bottom: 0.25rem; color: var(--accent-rose); display: flex; align-items: center; gap: 0.4rem;">
+          📋 Saved Worksheet Details
+        </h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem;">
+          <strong>Title:</strong> ${item.title}<br>
+          <strong>Saved At:</strong> ${new Date(item.createdAt).toLocaleString()}
+        </p>
+
+        <div style="flex: 1; overflow-y: auto; padding-right: 0.25rem; margin-bottom: 1rem;">
+          ${fieldsHTML}
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end; border-top: 1px solid var(--border-color); padding-top: 0.75rem;">
+          <button class="btn btn-secondary" id="btn-close-dt-modal">Close</button>
+          <button class="btn btn-secondary" id="btn-modal-dt-copy">📋 Copy</button>
+          <button class="btn btn-secondary" id="btn-modal-dt-print">🖨️ Print</button>
+          <button class="btn btn-primary" id="btn-modal-dt-load">✏️ Edit / Load</button>
+        </div>
+      </div>
+    `;
+
+    modal.classList.add('active');
+
+    const closeBtn = modal.querySelector('#btn-close-dt-modal');
+    const closeX = modal.querySelector('.modal-close-x');
+    const closeModal = () => modal.classList.remove('active');
+    closeBtn.addEventListener('click', closeModal);
+    closeX.addEventListener('click', closeModal);
+
+    modal.querySelector('#btn-modal-dt-copy').addEventListener('click', () => {
+      Exports.copyForPortal(item.title, item.createdAt, item.data);
+    });
+    modal.querySelector('#btn-modal-dt-print').addEventListener('click', () => {
+      Exports.printWorksheet(item.title, item.createdAt, item.data);
+    });
+    modal.querySelector('#btn-modal-dt-load').addEventListener('click', () => {
+      this.loadEntryIntoForm(item);
+      closeModal();
+    });
+  },
+
+  loadEntryIntoForm(item) {
+    const typeTabMap = {
+      'chain_analysis': 'dt-chain',
+      'stop_ws2': 'dt-stop',
+      'pros_cons_ws3': 'dt-proscons',
+      'tip_ws4': 'dt-tip',
+      'accepts_ws5': 'dt-accepts-ws',
+      'soothe_ws6': 'dt-soothe-ws',
+      'improve_ws7': 'dt-improve-ws',
+      'radical_acc_ws9': 'dt-radical-acc',
+      'turning_mind_ws10': 'dt-turning-mind',
+      'half_smile_ws11': 'dt-half-smile',
+      'mindful_thoughts_ws12': 'dt-mindful-thoughts'
+    };
+    const tabKey = typeTabMap[item.type];
+    if (tabKey) {
+      const tabBtn = document.querySelector(`.nav-tabs .tab-btn[data-dttab="${tabKey}"]`);
+      if (tabBtn) tabBtn.click();
+    }
+
+    if (item.type === 'chain_analysis') {
+      document.getElementById('ca-behavior').value = item.data['Problem Behavior'] || '';
+      document.getElementById('ca-intensity').value = (item.data['Intensity Level'] || '').replace('/100', '');
+      document.getElementById('ca-prompting-event').value = item.data['Prompting Event'] || '';
+      document.getElementById('ca-vulnerabilities').value = item.data['Vulnerabilities'] || '';
+      document.getElementById('ca-links').value = item.data['Chain of Links'] || '';
+      document.getElementById('ca-consequences').value = item.data['Consequences'] || '';
+      document.getElementById('ca-skill-repairs').value = item.data['Skill Repair Points'] || '';
+      document.getElementById('ca-prevention').value = item.data['Prevention Plan'] || '';
+    } else if (item.type === 'stop_ws2') {
+      document.getElementById('stop-s1-before').value = item.data['S1 Before'] || '';
+      document.getElementById('stop-s1-after').value = item.data['S1 After'] || '';
+      document.getElementById('stop-s1-prompt').value = item.data['S1 Prompt'] || '';
+      document.getElementById('stop-s1-behavior').value = item.data['S1 Behavior'] || '';
+      document.getElementById('stop-s1-outcome').value = item.data['S1 Outcome'] || '';
+      document.getElementById('stop-s1-effect').value = item.data['S1 Effect'] || '';
+
+      const s1Checks = (item.data['S1 Checks'] || '').split(', ');
+      document.querySelectorAll('.stop-s1-check').forEach(chk => chk.checked = s1Checks.includes(chk.value));
+
+      document.getElementById('stop-s2-before').value = item.data['S2 Before'] || '';
+      document.getElementById('stop-s2-after').value = item.data['S2 After'] || '';
+      document.getElementById('stop-s2-prompt').value = item.data['S2 Prompt'] || '';
+      document.getElementById('stop-s2-behavior').value = item.data['S2 Behavior'] || '';
+      document.getElementById('stop-s2-outcome').value = item.data['S2 Outcome'] || '';
+      document.getElementById('stop-s2-effect').value = item.data['S2 Effect'] || '';
+
+      const s2Checks = (item.data['S2 Checks'] || '').split(', ');
+      document.querySelectorAll('.stop-s2-check').forEach(chk => chk.checked = s2Checks.includes(chk.value));
+    } else if (item.type === 'pros_cons_ws3') {
+      document.getElementById('pc-behavior').value = item.data['Behavior'] || '';
+      
+      const populateInputs = (selector, valuesStr) => {
+        const vals = (valuesStr || '').split(', ');
+        const inputs = document.querySelectorAll(selector);
+        inputs.forEach((input, index) => {
+          input.value = vals[index] || '';
+        });
+      };
+      populateInputs('.pc-pro-act', item.data['Pros Act']);
+      populateInputs('.pc-con-act', item.data['Cons Act']);
+      populateInputs('.pc-pro-res', item.data['Pros Res']);
+      populateInputs('.pc-con-res', item.data['Cons Res']);
+    } else if (item.type === 'tip_ws4') {
+      document.getElementById('tip-situation').value = item.data['Situation'] || '';
+      
+      const setArousalDistress = (abId, aaId, dtbId, dtaId, descId, arousalVal, distressVal, descVal) => {
+        const aParts = (arousalVal || '').split('->');
+        document.getElementById(abId).value = aParts[0] || '';
+        document.getElementById(aaId).value = aParts[1] || '';
+
+        const dParts = (distressVal || '').split('->');
+        document.getElementById(dtbId).value = dParts[0] || '';
+        document.getElementById(dtaId).value = dParts[1] || '';
+
+        document.getElementById(descId).value = descVal || '';
+      };
+
+      setArousalDistress('tip-t-ab', 'tip-t-aa', 'tip-t-dtb', 'tip-t-dta', 'tip-t-desc', item.data['T Arousal'], item.data['T Distress'], item.data['T Desc']);
+      setArousalDistress('tip-i-ab', 'tip-i-aa', 'tip-i-dtb', 'tip-i-dta', 'tip-i-desc', item.data['I Arousal'], item.data['I Distress'], item.data['I Desc']);
+      setArousalDistress('tip-p1-ab', 'tip-p1-aa', 'tip-p1-dtb', 'tip-p1-dta', 'tip-p1-desc', item.data['P1 Arousal'], item.data['P1 Distress'], item.data['P1 Desc']);
+      setArousalDistress('tip-p2-ab', 'tip-p2-aa', 'tip-p2-dtb', 'tip-p2-dta', 'tip-p2-desc', item.data['P2 Arousal'], item.data['P2 Distress'], item.data['P2 Desc']);
+    } else if (item.type === 'accepts_ws5') {
+      document.getElementById('acc-prompting').value = item.data['Prompting'] || '';
+      document.getElementById('acc-before').value = (item.data['Distress Before'] || '').replace('/100', '');
+      document.getElementById('acc-after').value = (item.data['Distress After'] || '').replace('/100', '');
+      document.getElementById('acc-desc').value = item.data['Skills Described'] || '';
+      document.getElementById('acc-outcome').value = item.data['Outcome'] || '';
+      document.getElementById('acc-effect').value = (item.data['Effectiveness'] || '').replace('/5', '');
+
+      const checks = (item.data['Skills Checked'] || '').split(', ');
+      document.querySelectorAll('.acc-check').forEach(chk => chk.checked = checks.includes(chk.value));
+    } else if (item.type === 'soothe_ws6') {
+      document.getElementById('soothe-prompting').value = item.data['Prompting'] || '';
+      document.getElementById('soothe-before').value = (item.data['Distress Before'] || '').replace('/100', '');
+      document.getElementById('soothe-after').value = (item.data['Distress After'] || '').replace('/100', '');
+      document.getElementById('soothe-desc').value = item.data['Skills Described'] || '';
+      document.getElementById('soothe-outcome').value = item.data['Outcome'] || '';
+      document.getElementById('soothe-effect').value = (item.data['Effectiveness'] || '').replace('/5', '');
+
+      const checks = (item.data['Senses Checked'] || '').split(', ');
+      document.querySelectorAll('.soothe-check').forEach(chk => chk.checked = checks.includes(chk.value));
+    } else if (item.type === 'improve_ws7') {
+      document.getElementById('imp-prompting').value = item.data['Prompting'] || '';
+      document.getElementById('imp-before').value = (item.data['Distress Before'] || '').replace('/100', '');
+      document.getElementById('imp-after').value = (item.data['Distress After'] || '').replace('/100', '');
+      document.getElementById('imp-desc').value = item.data['Skills Described'] || '';
+      document.getElementById('imp-outcome').value = item.data['Outcome'] || '';
+      document.getElementById('imp-effect').value = (item.data['Effectiveness'] || '').replace('/5', '');
+
+      const checks = (item.data['Skills Checked'] || '').split(', ');
+      document.querySelectorAll('.imp-check').forEach(chk => chk.checked = checks.includes(chk.value));
+    } else if (item.type === 'radical_acc_ws9') {
+      const getValAndRate = (sourceStr) => {
+        const match = (sourceStr || '').match(/^(.*?)\s*\((.*?)\)$/);
+        return match ? [match[1], match[2]] : ['', ''];
+      };
+
+      const [imp1Val, imp1Rate] = getValAndRate(item.data['Imp1']);
+      document.getElementById('ra-imp1').value = imp1Val;
+      document.getElementById('ra-imp1-rate').value = imp1Rate;
+
+      const [imp2Val, imp2Rate] = getValAndRate(item.data['Imp2']);
+      document.getElementById('ra-imp2').value = imp2Val;
+      document.getElementById('ra-imp2-rate').value = imp2Rate;
+
+      const [less1Val, less1Rate] = getValAndRate(item.data['Less1']);
+      document.getElementById('ra-less1').value = less1Val;
+      document.getElementById('ra-less1-rate').value = less1Rate;
+
+      const [less2Val, less2Rate] = getValAndRate(item.data['Less2']);
+      document.getElementById('ra-less2').value = less2Val;
+      document.getElementById('ra-less2-rate').value = less2Rate;
+
+      document.getElementById('ra-details').value = item.data['Details'] || '';
+      document.getElementById('ra-rate-after').value = item.data['Rate After'] || '';
+
+      const checks = (item.data['Checks'] || '').split(', ');
+      document.querySelectorAll('.ra-check').forEach(chk => chk.checked = checks.includes(chk.value));
+    } else if (item.type === 'turning_mind_ws10') {
+      document.getElementById('tm-acc-before').value = item.data['Acc Before'] || '';
+      document.getElementById('tm-acc-after').value = item.data['Acc After'] || '';
+      document.getElementById('tm-observe').value = item.data['Observe'] || '';
+      document.getElementById('tm-commit').value = item.data['Commit'] || '';
+      document.getElementById('tm-plan').value = item.data['Plan'] || '';
+      document.getElementById('tm-will-rating').value = item.data['Will Rating'] || '';
+      document.getElementById('tm-eff-behavior').value = item.data['Eff Behavior'] || '';
+      document.getElementById('tm-notice-will').value = item.data['Notice Will'] || '';
+      document.getElementById('tm-practiced-acc').value = item.data['Practiced Acc'] || '';
+      document.getElementById('tm-willing-actions').value = item.data['Willing Actions'] || '';
+    } else if (item.type === 'half_smile_ws11') {
+      const parseDescAndEffect = (sourceStr) => {
+        const match = (sourceStr || '').match(/^(.*?)\s*\((.*?)\)$/);
+        return match ? [match[1], match[2]] : ['', ''];
+      };
+
+      const [s1Desc, s1Effect] = parseDescAndEffect(item.data['S1']);
+      document.getElementById('hs-s1-desc').value = s1Desc;
+      document.getElementById('hs-s1-effect').value = s1Effect;
+
+      const [s2Desc, s2Effect] = parseDescAndEffect(item.data['S2']);
+      document.getElementById('hs-s2-desc').value = s2Desc;
+      document.getElementById('hs-s2-effect').value = s2Effect;
+
+      const [s3Desc, s3Effect] = parseDescAndEffect(item.data['S3']);
+      document.getElementById('hs-s3-desc').value = s3Desc;
+      document.getElementById('hs-s3-effect').value = s3Effect;
+
+      const checks = (item.data['Checks'] || '').split(', ');
+      document.querySelectorAll('.hs-check').forEach(chk => chk.checked = checks.includes(chk.value));
+    } else if (item.type === 'mindful_thoughts_ws12') {
+      const parseDescAndEffect = (sourceStr) => {
+        const match = (sourceStr || '').match(/^(.*?)\s*\((.*?)\)$/);
+        return match ? [match[1], match[2]] : ['', ''];
+      };
+
+      const [t1Desc, t1Effect] = parseDescAndEffect(item.data['T1']);
+      document.getElementById('mt-t1-desc').value = t1Desc;
+      document.getElementById('mt-t1-effect').value = t1Effect;
+
+      const [t2Desc, t2Effect] = parseDescAndEffect(item.data['T2']);
+      document.getElementById('mt-t2-desc').value = t2Desc;
+      document.getElementById('mt-t2-effect').value = t2Effect;
+
+      const [t3Desc, t3Effect] = parseDescAndEffect(item.data['T3']);
+      document.getElementById('mt-t3-desc').value = t3Desc;
+      document.getElementById('mt-t3-effect').value = t3Effect;
+
+      document.getElementById('mt-mon').value = item.data['Mon'] || '';
+      document.getElementById('mt-tue').value = item.data['Tue'] || '';
+      document.getElementById('mt-wed').value = item.data['Wed'] || '';
+      document.getElementById('mt-thu').value = item.data['Thu'] || '';
+      document.getElementById('mt-fri').value = item.data['Fri'] || '';
+      document.getElementById('mt-sat').value = item.data['Sat'] || '';
+      document.getElementById('mt-sun').value = item.data['Sun'] || '';
+
+      const checks = (item.data['Checks'] || '').split(', ');
+      document.querySelectorAll('.mt-check').forEach(chk => chk.checked = checks.includes(chk.value));
+    }
   }
 };

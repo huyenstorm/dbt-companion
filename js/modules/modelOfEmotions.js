@@ -684,19 +684,32 @@ export const ModelOfEmotionsModule = {
       return;
     }
 
+    const typeLabels = {
+      'model_of_emotions': 'Model of Emotions (WS 4)',
+      'check_facts_ws5': 'Check the Facts (WS 5)',
+      'opposite_action_ws7': 'Opposite Action (WS 7)'
+    };
+
     listContainer.innerHTML = erEntries.map(item => `
-      <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 0.85rem; border-radius: var(--radius-md); margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center;">
+      <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 0.85rem; border-radius: var(--radius-md); margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
         <div>
-          <strong style="color: var(--accent-purple); display: block;">${item.title}</strong>
+          <span class="badge badge-purple" style="font-size: 0.7rem; margin-bottom: 0.25rem; display: inline-block;">${typeLabels[item.type] || 'Worksheet'}</span>
+          <strong style="color: var(--accent-purple); display: block; font-size: 0.9rem;">${item.title}</strong>
           <span style="font-size: 0.75rem; color: var(--text-muted);">${new Date(item.createdAt).toLocaleString()}</span>
         </div>
         <div style="display: flex; gap: 0.4rem;">
+          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.viewSavedER('${item.id}')">👁️ View</button>
           <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.copySavedER('${item.id}')">📋 Copy</button>
           <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.printSavedER('${item.id}')">🖨️ Print</button>
           <button class="btn btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.deleteER('${item.id}')">🗑️</button>
         </div>
       </div>
     `).join('');
+
+    window.viewSavedER = (id) => {
+      const item = erEntries.find(x => x.id === id);
+      if (item) this.showDetailModal(item);
+    };
 
     window.copySavedER = (id) => {
       const item = erEntries.find(x => x.id === id);
@@ -714,5 +727,194 @@ export const ModelOfEmotionsModule = {
         this.loadSavedEntries(container);
       }
     };
+  },
+
+  showDetailModal(item) {
+    let modal = document.getElementById('er-detail-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'er-detail-modal';
+      modal.className = 'modal-overlay';
+      document.body.appendChild(modal);
+    }
+
+    let fieldsHTML = '';
+    let chatHTML = '';
+    for (const [key, value] of Object.entries(item.data)) {
+      if (key === 'chat_history') {
+        if (value && Array.isArray(value) && value.length > 0) {
+          chatHTML = `
+            <div style="margin-top: 1.25rem; border-top: 1px dashed var(--border-color); padding-top: 1rem;">
+              <strong style="color: var(--accent-purple); font-size: 0.9rem; display: block; margin-bottom: 0.5rem;">🤖 DBT AI Coach Chat History:</strong>
+              <div style="font-size: 0.8rem; line-height: 1.45; max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem; background: var(--bg-secondary); padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                ${value.map(msg => `<strong>${msg.role === 'user' ? 'You' : 'AI Coach'}:</strong> ${msg.parts[0].text.replace(/\n/g, '<br>')}`).join('<br><br>')}
+              </div>
+            </div>
+          `;
+        }
+        continue;
+      }
+      fieldsHTML += `
+        <div style="margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem;">
+          <strong style="color: var(--accent-purple); font-size: 0.8rem; text-transform: uppercase; display: block;">${key}</strong>
+          <div style="font-size: 0.85rem; color: var(--text-primary); white-space: pre-wrap; margin-top: 0.15rem;">${value || 'N/A'}</div>
+        </div>
+      `;
+    }
+
+    modal.innerHTML = `
+      <div class="modal-card" style="max-width: 600px; max-height: 85vh; display: flex; flex-direction: column; padding: 1.5rem; position: relative;">
+        <button type="button" class="modal-close-x" style="position: absolute; top: 0.75rem; right: 1rem; background: transparent; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; line-height: 1; padding: 0; z-index: 10;">&times;</button>
+        <h3 style="font-size: 1.15rem; margin-bottom: 0.25rem; color: var(--accent-purple); display: flex; align-items: center; gap: 0.4rem;">
+          📋 Saved Worksheet Details
+        </h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem;">
+          <strong>Title:</strong> ${item.title}<br>
+          <strong>Saved At:</strong> ${new Date(item.createdAt).toLocaleString()}
+        </p>
+
+        <div style="flex: 1; overflow-y: auto; padding-right: 0.25rem; margin-bottom: 1rem;">
+          ${fieldsHTML}
+          ${chatHTML}
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end; border-top: 1px solid var(--border-color); padding-top: 0.75rem;">
+          <button class="btn btn-secondary" id="btn-close-er-modal">Close</button>
+          <button class="btn btn-secondary" id="btn-modal-er-copy">📋 Copy</button>
+          <button class="btn btn-secondary" id="btn-modal-er-print">🖨️ Print</button>
+          <button class="btn btn-primary" id="btn-modal-er-load">✏️ Edit / Load</button>
+        </div>
+      </div>
+    `;
+
+    modal.classList.add('active');
+
+    const closeBtn = modal.querySelector('#btn-close-er-modal');
+    const closeX = modal.querySelector('.modal-close-x');
+    const closeModal = () => modal.classList.remove('active');
+    closeBtn.addEventListener('click', closeModal);
+    closeX.addEventListener('click', closeModal);
+
+    modal.querySelector('#btn-modal-er-copy').addEventListener('click', () => {
+      Exports.copyForPortal(item.title, item.createdAt, item.data);
+    });
+    modal.querySelector('#btn-modal-er-print').addEventListener('click', () => {
+      Exports.printWorksheet(item.title, item.createdAt, item.data);
+    });
+    modal.querySelector('#btn-modal-er-load').addEventListener('click', () => {
+      this.loadEntryIntoForm(item);
+      closeModal();
+    });
+  },
+
+  loadEntryIntoForm(item) {
+    const typeTabMap = {
+      'model_of_emotions': 'moe-tab',
+      'check_facts_ws5': 'cf-tab',
+      'opposite_action_ws7': 'oa-tab'
+    };
+    const tabKey = typeTabMap[item.type];
+    if (tabKey) {
+      const tabBtn = document.querySelector(`.nav-tabs .tab-btn[data-moetab="${tabKey}"]`);
+      if (tabBtn) tabBtn.click();
+    }
+
+    if (item.type === 'model_of_emotions') {
+      document.getElementById('moe-emotion').value = item.data['Primary Emotion'] || '';
+      document.getElementById('moe-intensity').value = (item.data['Intensity Level'] || '').replace('/100', '');
+      document.getElementById('moe-vulnerabilities').value = item.data['Vulnerabilities'] || '';
+      document.getElementById('moe-prompting-event').value = item.data['Prompting Event'] || '';
+      document.getElementById('moe-interpretations').value = item.data['Interpretations'] || '';
+      document.getElementById('moe-sensations').value = item.data['Physical Sensations'] || '';
+      document.getElementById('moe-action-urge').value = item.data['Action Urge'] || '';
+      document.getElementById('moe-facelanguage').value = item.data['Face and Body Language'] || '';
+      document.getElementById('moe-said').value = item.data['What I SAID'] || '';
+      document.getElementById('moe-did').value = item.data['What I DID'] || '';
+      document.getElementById('moe-after-effects').value = item.data['After-effects'] || '';
+    } else if (item.type === 'check_facts_ws5') {
+      document.getElementById('cf-emotion').value = item.data['Emotion Name'] || '';
+      document.getElementById('cf-before').value = (item.data['Intensity Before'] || '').replace('/100', '');
+      document.getElementById('cf-after').value = (item.data['Intensity After'] || '').replace('/100', '');
+      document.getElementById('cf-prompting').value = item.data['Prompting Event'] || '';
+      document.getElementById('cf-prompting-rewrite').value = item.data['Prompting Event Rewrite'] || '';
+      document.getElementById('cf-interpret').value = item.data['Interpretations'] || '';
+      document.getElementById('cf-interpret-rewrite').value = item.data['Interpretations Rewrite'] || '';
+      document.getElementById('cf-threat').value = item.data['Threat'] || '';
+      document.getElementById('cf-threat-rewrite').value = item.data['Threat Rewrite'] || '';
+      document.getElementById('cf-catastrophe').value = item.data['Catastrophe'] || '';
+      document.getElementById('cf-cope').value = item.data['Coping Plan'] || '';
+      document.getElementById('cf-fit').value = (item.data['Does Emotion Fit Facts'] || '').replace('/5', '');
+      document.getElementById('cf-check-action').value = item.data['Did to Check Facts'] || '';
+
+      if (item.data['chat_history']) {
+        this.cfChatHistory = JSON.parse(JSON.stringify(item.data['chat_history']));
+        const thread = document.getElementById('cf-ai-chat-thread');
+        if (thread) {
+          thread.innerHTML = '';
+          this.cfChatHistory.forEach(msg => {
+            const msgDiv = document.createElement('div');
+            msgDiv.style.padding = '0.75rem';
+            msgDiv.style.borderRadius = 'var(--radius-md)';
+            msgDiv.style.fontSize = '0.9rem';
+            if (msg.role === 'user') {
+              msgDiv.style.background = 'var(--bg-secondary)';
+              msgDiv.style.alignSelf = 'flex-end';
+              msgDiv.style.border = '1px solid var(--border-color)';
+              msgDiv.innerHTML = '<strong>You:</strong><br>' + msg.parts[0].text;
+            } else {
+              msgDiv.style.background = 'rgba(156, 39, 176, 0.1)';
+              msgDiv.style.alignSelf = 'flex-start';
+              msgDiv.style.border = '1px solid rgba(156, 39, 176, 0.2)';
+              msgDiv.innerHTML = '<strong>🤖 AI Coach:</strong><br>' + msg.parts[0].text.replace(/\n/g, '<br>');
+            }
+            thread.appendChild(msgDiv);
+          });
+          document.getElementById('cf-ai-chat-input-container').style.display = 'flex';
+          document.getElementById('btn-cf-ai-coach').style.display = 'none';
+        }
+      }
+    } else if (item.type === 'opposite_action_ws7') {
+      document.getElementById('oa-emotion').value = item.data['Emotion Name'] || '';
+      document.getElementById('oa-before').value = (item.data['Intensity Before'] || '').replace('/100', '');
+      document.getElementById('oa-after').value = (item.data['Intensity After'] || '').replace('/100', '');
+      document.getElementById('oa-prompting').value = item.data['Prompting Event'] || '';
+      document.getElementById('oa-justified').value = item.data['Is Justified'] || '';
+      document.getElementById('oa-choice').value = item.data['Choice'] || '';
+      document.getElementById('oa-facts-justify').value = item.data['Facts Justifying'] || '';
+      document.getElementById('oa-facts-not-justify').value = item.data['Facts Not Justifying'] || '';
+      document.getElementById('oa-urges').value = item.data['Action Urges'] || '';
+      document.getElementById('oa-opposite').value = item.data['Opposite Action'] || '';
+      document.getElementById('oa-did').value = item.data['What Did You Do'] || '';
+      document.getElementById('oa-how').value = item.data['How Did You Do It'] || '';
+      document.getElementById('oa-aftereffect').value = item.data['Aftereffect'] || '';
+
+      if (item.data['chat_history']) {
+        this.oaChatHistory = JSON.parse(JSON.stringify(item.data['chat_history']));
+        const thread = document.getElementById('oa-ai-chat-thread');
+        if (thread) {
+          thread.innerHTML = '';
+          this.oaChatHistory.forEach(msg => {
+            const msgDiv = document.createElement('div');
+            msgDiv.style.padding = '0.75rem';
+            msgDiv.style.borderRadius = 'var(--radius-md)';
+            msgDiv.style.fontSize = '0.9rem';
+            if (msg.role === 'user') {
+              msgDiv.style.background = 'var(--bg-secondary)';
+              msgDiv.style.alignSelf = 'flex-end';
+              msgDiv.style.border = '1px solid var(--border-color)';
+              msgDiv.innerHTML = '<strong>You:</strong><br>' + msg.parts[0].text;
+            } else {
+              msgDiv.style.background = 'rgba(156, 39, 176, 0.1)';
+              msgDiv.style.alignSelf = 'flex-start';
+              msgDiv.style.border = '1px solid rgba(156, 39, 176, 0.2)';
+              msgDiv.innerHTML = '<strong>🤖 AI Coach:</strong><br>' + msg.parts[0].text.replace(/\n/g, '<br>');
+            }
+            thread.appendChild(msgDiv);
+          });
+          document.getElementById('oa-ai-chat-input-container').style.display = 'flex';
+          document.getElementById('btn-oa-ai-coach').style.display = 'none';
+        }
+      }
+    }
   }
 };

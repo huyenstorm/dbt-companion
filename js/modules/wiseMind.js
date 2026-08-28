@@ -278,9 +278,17 @@ export const WiseMindModule = {
           </form>
         </div>
       </div>
+
+      <div class="card" style="margin-top: 1.5rem;">
+        <h3 class="card-title" style="margin-bottom: 1rem;">Saved Mindfulness & Problem Solving Logs</h3>
+        <div id="wm-saved-list">
+          <p style="color: var(--text-muted); font-size: 0.9rem;">No saved entries yet.</p>
+        </div>
+      </div>
     `;
 
     this.attachEvents(container);
+    this.loadSavedEntries(container);
   },
 
   attachEvents(container) {
@@ -309,6 +317,7 @@ export const WiseMindModule = {
       await db.saveWorksheet({ type: 'wise_mind', title: `Wise Mind: ${data.Situation}`, data });
       alert('Wise Mind entry saved!');
       wmForm.reset();
+      this.loadSavedEntries(container);
     });
 
     const ws3Form = container.querySelector('#ws3-form');
@@ -318,6 +327,7 @@ export const WiseMindModule = {
       await db.saveWorksheet({ type: 'wise_mind_practice_ws3', title: `Wise Mind Practice (WS 3)`, data });
       alert('Wise Mind Practice Worksheet 3 saved!');
       ws3Form.reset();
+      this.loadSavedEntries(container);
     });
 
     const ws4Form = container.querySelector('#ws4-form');
@@ -327,6 +337,7 @@ export const WiseMindModule = {
       await db.saveWorksheet({ type: 'what_skills_ws4', title: `WHAT Skills (WS 4)`, data });
       alert('WHAT Skills Worksheet 4 saved!');
       ws4Form.reset();
+      this.loadSavedEntries(container);
     });
 
     const ws5Form = container.querySelector('#ws5-form');
@@ -336,6 +347,7 @@ export const WiseMindModule = {
       await db.saveWorksheet({ type: 'how_skills_ws5', title: `HOW Skills (WS 5)`, data });
       alert('HOW Skills Worksheet 5 saved!');
       ws5Form.reset();
+      this.loadSavedEntries(container);
     });
 
     const mceForm = container.querySelector('#mce-form');
@@ -345,6 +357,7 @@ export const WiseMindModule = {
       await db.saveWorksheet({ type: 'mindfulness_emotion_ws15', title: `Mindfulness of Emotion WS15: ${data['Target Emotion']}`, data });
       alert('Mindfulness of Emotion Worksheet 15 saved!');
       mceForm.reset();
+      this.loadSavedEntries(container);
     });
 
     const psForm = container.querySelector('#solve-form');
@@ -354,6 +367,7 @@ export const WiseMindModule = {
       await db.saveWorksheet({ type: 'problem_solving_handout12', title: `Problem Solving: ${data.Goal}`, data });
       alert('Problem Solving entry saved!');
       psForm.reset();
+      this.loadSavedEntries(container);
     });
 
     container.querySelector('#btn-copy-wm').addEventListener('click', () => {
@@ -447,5 +461,207 @@ export const WiseMindModule = {
       'PROS & CONS of Selection': container.querySelector('#ps-pro-con').value,
       'Action & Evaluation': container.querySelector('#ps-evaluate').value
     };
+  },
+
+  async loadSavedEntries(container) {
+    const listContainer = container.querySelector('#wm-saved-list');
+    if (!listContainer) return;
+    const entries = await db.getWorksheets();
+    
+    const wmTypes = ['wise_mind', 'wise_mind_practice_ws3', 'what_skills_ws4', 'how_skills_ws5', 'mindfulness_emotion_ws15', 'problem_solving_handout12'];
+    const wmEntries = entries.filter(x => wmTypes.includes(x.type));
+
+    if (!wmEntries.length) {
+      listContainer.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem;">No saved worksheets yet.</p>`;
+      return;
+    }
+
+    const typeLabels = {
+      'wise_mind': 'Wise Mind Alignment',
+      'wise_mind_practice_ws3': 'Wise Mind Practice (WS 3)',
+      'what_skills_ws4': 'WHAT Skills (WS 4)',
+      'how_skills_ws5': 'HOW Skills (WS 5)',
+      'mindfulness_emotion_ws15': 'Mindfulness of Emotion (WS 15)',
+      'problem_solving_handout12': 'Problem Solving (Handout 12)'
+    };
+
+    listContainer.innerHTML = wmEntries.map(item => `
+      <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 0.85rem; border-radius: var(--radius-md); margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+        <div>
+          <span class="badge badge-teal" style="font-size: 0.7rem; margin-bottom: 0.25rem; display: inline-block;">${typeLabels[item.type] || 'Worksheet'}</span>
+          <strong style="color: var(--accent-teal); display: block; font-size: 0.9rem;">${item.title}</strong>
+          <span style="font-size: 0.75rem; color: var(--text-muted);">${new Date(item.createdAt).toLocaleString()}</span>
+        </div>
+        <div style="display: flex; gap: 0.4rem;">
+          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.viewSavedWM('${item.id}')">👁️ View</button>
+          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.copySavedWM('${item.id}')">📋 Copy</button>
+          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.printSavedWM('${item.id}')">🖨️ Print</button>
+          <button class="btn btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.deleteWM('${item.id}')">🗑️</button>
+        </div>
+      </div>
+    `).join('');
+
+    window.viewSavedWM = (id) => {
+      const item = wmEntries.find(x => x.id === id);
+      if (item) this.showDetailModal(item);
+    };
+
+    window.copySavedWM = (id) => {
+      const item = wmEntries.find(x => x.id === id);
+      if (item) Exports.copyForPortal(item.title, item.createdAt, item.data);
+    };
+
+    window.printSavedWM = (id) => {
+      const item = wmEntries.find(x => x.id === id);
+      if (item) Exports.printWorksheet(item.title, item.createdAt, item.data);
+    };
+
+    window.deleteWM = async (id) => {
+      if (confirm('Delete this worksheet entry?')) {
+        await db.deleteWorksheet(id);
+        this.loadSavedEntries(container);
+      }
+    };
+  },
+
+  showDetailModal(item) {
+    let modal = document.getElementById('wm-detail-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'wm-detail-modal';
+      modal.className = 'modal-overlay';
+      document.body.appendChild(modal);
+    }
+
+    let fieldsHTML = '';
+    for (const [key, value] of Object.entries(item.data)) {
+      fieldsHTML += `
+        <div style="margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem;">
+          <strong style="color: var(--accent-teal); font-size: 0.8rem; text-transform: uppercase; display: block;">${key}</strong>
+          <div style="font-size: 0.85rem; color: var(--text-primary); white-space: pre-wrap; margin-top: 0.15rem;">${value || 'N/A'}</div>
+        </div>
+      `;
+    }
+
+    modal.innerHTML = `
+      <div class="modal-card" style="max-width: 600px; max-height: 85vh; display: flex; flex-direction: column; padding: 1.5rem; position: relative;">
+        <button type="button" class="modal-close-x" style="position: absolute; top: 0.75rem; right: 1rem; background: transparent; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; line-height: 1; padding: 0; z-index: 10;">&times;</button>
+        <h3 style="font-size: 1.15rem; margin-bottom: 0.25rem; color: var(--accent-teal); display: flex; align-items: center; gap: 0.4rem;">
+          📋 Saved Worksheet Details
+        </h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem;">
+          <strong>Title:</strong> ${item.title}<br>
+          <strong>Saved At:</strong> ${new Date(item.createdAt).toLocaleString()}
+        </p>
+
+        <div style="flex: 1; overflow-y: auto; padding-right: 0.25rem; margin-bottom: 1rem;">
+          ${fieldsHTML}
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end; border-top: 1px solid var(--border-color); padding-top: 0.75rem;">
+          <button class="btn btn-secondary" id="btn-close-wm-modal">Close</button>
+          <button class="btn btn-secondary" id="btn-modal-wm-copy">📋 Copy</button>
+          <button class="btn btn-secondary" id="btn-modal-wm-print">🖨️ Print</button>
+          <button class="btn btn-primary" id="btn-modal-wm-load">✏️ Edit / Load</button>
+        </div>
+      </div>
+    `;
+
+    modal.classList.add('active');
+
+    const closeBtn = modal.querySelector('#btn-close-wm-modal');
+    const closeX = modal.querySelector('.modal-close-x');
+    const closeModal = () => modal.classList.remove('active');
+    closeBtn.addEventListener('click', closeModal);
+    closeX.addEventListener('click', closeModal);
+
+    modal.querySelector('#btn-modal-wm-copy').addEventListener('click', () => {
+      Exports.copyForPortal(item.title, item.createdAt, item.data);
+    });
+    modal.querySelector('#btn-modal-wm-print').addEventListener('click', () => {
+      Exports.printWorksheet(item.title, item.createdAt, item.data);
+    });
+    modal.querySelector('#btn-modal-wm-load').addEventListener('click', () => {
+      this.loadEntryIntoForm(item);
+      closeModal();
+    });
+  },
+
+  loadEntryIntoForm(item) {
+    const typeTabMap = {
+      'wise_mind': 'wm-align',
+      'wise_mind_practice_ws3': 'wm-ws3',
+      'what_skills_ws4': 'wm-ws4',
+      'how_skills_ws5': 'wm-ws5',
+      'mindfulness_emotion_ws15': 'wm-mce',
+      'problem_solving_handout12': 'wm-solve'
+    };
+    const tabKey = typeTabMap[item.type];
+    if (tabKey) {
+      const tabBtn = document.querySelector(`.nav-tabs .tab-btn[data-wm="${tabKey}"]`);
+      if (tabBtn) tabBtn.click();
+    }
+
+    if (item.type === 'wise_mind') {
+      document.getElementById('wm-situation').value = item.data['Situation'] || '';
+      document.getElementById('wm-emotion-mind').value = item.data['Emotion Mind'] || '';
+      document.getElementById('wm-reasonable-mind').value = item.data['Reasonable Mind'] || '';
+      document.getElementById('wm-wise-mind').value = item.data['Wise Mind Synthesis'] || '';
+    } else if (item.type === 'wise_mind_practice_ws3') {
+      document.getElementById('ws3-situations').value = item.data['Situations and Practice'] || '';
+      document.getElementById('ws3-rating').value = item.data['Effectiveness Rating'] || '';
+      document.getElementById('ws3-wise-things').value = item.data['Wise Things to Do/Say'] || '';
+      
+      const exercises = (item.data['Exercises Checked'] || '').split(', ');
+      document.querySelectorAll('.ws3-check').forEach(chk => {
+        chk.checked = exercises.includes(chk.value);
+      });
+    } else if (item.type === 'what_skills_ws4') {
+      document.getElementById('ws4-situations').value = item.data['Situations and Practice'] || '';
+      document.getElementById('ws4-help').value = item.data['How it Helped'] || '';
+      document.getElementById('ws4-wise-things').value = item.data['Wise Things to Do/Say'] || '';
+      
+      const skills = (item.data['WHAT Skills Used'] || '').split(', ');
+      document.querySelectorAll('.ws4-check').forEach(chk => {
+        chk.checked = skills.includes(chk.value);
+      });
+      
+      const effects = (item.data['Effects'] || '').split(', ');
+      document.querySelectorAll('.ws4-effect-check').forEach(chk => {
+        chk.checked = effects.includes(chk.value);
+      });
+    } else if (item.type === 'how_skills_ws5') {
+      document.getElementById('ws5-situations').value = item.data['Situations and Practice'] || '';
+      document.getElementById('ws5-help').value = item.data['How it Helped'] || '';
+      document.getElementById('ws5-wise-things').value = item.data['Wise Things to Do/Say'] || '';
+      
+      const skills = (item.data['HOW Skills Used'] || '').split(', ');
+      document.querySelectorAll('.ws5-check').forEach(chk => {
+        chk.checked = skills.includes(chk.value);
+      });
+      
+      const effects = (item.data['Effects'] || '').split(', ');
+      document.querySelectorAll('.ws5-effect-check').forEach(chk => {
+        chk.checked = effects.includes(chk.value);
+      });
+    } else if (item.type === 'mindfulness_emotion_ws15') {
+      document.getElementById('mce-emotion').value = item.data['Target Emotion'] || '';
+      document.getElementById('mce-before').value = (item.data['Intensity Before'] || '').replace('/100', '');
+      document.getElementById('mce-after').value = (item.data['Intensity After'] || '').replace('/100', '');
+      document.getElementById('mce-situation').value = item.data['Situation'] || '';
+      document.getElementById('mce-comments').value = item.data['Description / Comments'] || '';
+      
+      const steps = (item.data['Mindfulness Steps Practiced'] || '').split(', ');
+      document.querySelectorAll('.mce-check').forEach(chk => {
+        chk.checked = steps.includes(chk.value);
+      });
+    } else if (item.type === 'problem_solving_handout12') {
+      document.getElementById('ps-situation').value = item.data['Situation'] || '';
+      document.getElementById('ps-check-facts').checked = item.data['Checked Facts'] === 'YES';
+      document.getElementById('ps-goal').value = item.data['Goal'] || '';
+      document.getElementById('ps-solutions').value = item.data['Brainstormed Solutions'] || '';
+      document.getElementById('ps-pro-con').value = item.data['PROS & CONS of Selection'] || '';
+      document.getElementById('ps-evaluate').value = item.data['Action & Evaluation'] || '';
+    }
   }
 };

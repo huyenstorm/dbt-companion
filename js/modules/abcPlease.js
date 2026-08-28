@@ -600,19 +600,34 @@ export const AbcPleaseModule = {
       return;
     }
 
+    const typeLabels = {
+      'values_to_actions_ws11': 'Values to Actions (WS 11)',
+      'reduce_vuln_ws9': 'Reducing Vulnerability (WS 9)',
+      'pleasant_events_ws10': 'Pleasant Events (WS 10)',
+      'mastery_ws12': 'Build Mastery & Cope (WS 12)',
+      'please_ws14': 'PLEASE Log (WS 14)'
+    };
+
     listContainer.innerHTML = erEntries.map(item => `
-      <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 0.85rem; border-radius: var(--radius-md); margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center;">
+      <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 0.85rem; border-radius: var(--radius-md); margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
         <div>
-          <strong style="color: var(--accent-purple); display: block;">${item.title}</strong>
+          <span class="badge badge-purple" style="font-size: 0.7rem; margin-bottom: 0.25rem; display: inline-block;">${typeLabels[item.type] || 'Worksheet'}</span>
+          <strong style="color: var(--accent-purple); display: block; font-size: 0.9rem;">${item.title}</strong>
           <span style="font-size: 0.75rem; color: var(--text-muted);">${new Date(item.createdAt).toLocaleString()}</span>
         </div>
         <div style="display: flex; gap: 0.4rem;">
+          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.viewSavedABC('${item.id}')">👁️ View</button>
           <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.copySavedABC('${item.id}')">📋 Copy</button>
           <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.printSavedABC('${item.id}')">🖨️ Print</button>
           <button class="btn btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.deleteABC('${item.id}')">🗑️</button>
         </div>
       </div>
     `).join('');
+
+    window.viewSavedABC = (id) => {
+      const item = erEntries.find(x => x.id === id);
+      if (item) this.showDetailModal(item);
+    };
 
     window.copySavedABC = (id) => {
       const item = erEntries.find(x => x.id === id);
@@ -630,5 +645,241 @@ export const AbcPleaseModule = {
         this.loadSavedEntries(container);
       }
     };
+  },
+
+  showDetailModal(item) {
+    let modal = document.getElementById('abc-detail-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'abc-detail-modal';
+      modal.className = 'modal-overlay';
+      document.body.appendChild(modal);
+    }
+
+    let fieldsHTML = '';
+    for (const [key, value] of Object.entries(item.data)) {
+      if (key === 'PLEASE Weekly' || key === 'Diary') {
+        let rowsHTML = '';
+        try {
+          const parsed = JSON.parse(value);
+          Object.keys(parsed).forEach(day => {
+            const val = parsed[day];
+            const details = typeof val === 'object' 
+              ? Object.entries(val).map(([k, v]) => `<strong>${k}:</strong> ${v}`).join(' | ')
+              : val;
+            rowsHTML += `<div><strong>${day}:</strong> ${details}</div>`;
+          });
+        } catch(e) {
+          rowsHTML = value;
+        }
+        fieldsHTML += `
+          <div style="margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem;">
+            <strong style="color: var(--accent-purple); font-size: 0.8rem; text-transform: uppercase; display: block;">${key}</strong>
+            <div style="font-size: 0.85rem; color: var(--text-primary); margin-top: 0.15rem;">${rowsHTML}</div>
+          </div>
+        `;
+        continue;
+      }
+      fieldsHTML += `
+        <div style="margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem;">
+          <strong style="color: var(--accent-purple); font-size: 0.8rem; text-transform: uppercase; display: block;">${key}</strong>
+          <div style="font-size: 0.85rem; color: var(--text-primary); white-space: pre-wrap; margin-top: 0.15rem;">${value || 'N/A'}</div>
+        </div>
+      `;
+    }
+
+    modal.innerHTML = `
+      <div class="modal-card" style="max-width: 600px; max-height: 85vh; display: flex; flex-direction: column; padding: 1.5rem; position: relative;">
+        <button type="button" class="modal-close-x" style="position: absolute; top: 0.75rem; right: 1rem; background: transparent; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; line-height: 1; padding: 0; z-index: 10;">&times;</button>
+        <h3 style="font-size: 1.15rem; margin-bottom: 0.25rem; color: var(--accent-purple); display: flex; align-items: center; gap: 0.4rem;">
+          📋 Saved Worksheet Details
+        </h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem;">
+          <strong>Title:</strong> ${item.title}<br>
+          <strong>Saved At:</strong> ${new Date(item.createdAt).toLocaleString()}
+        </p>
+
+        <div style="flex: 1; overflow-y: auto; padding-right: 0.25rem; margin-bottom: 1rem;">
+          ${fieldsHTML}
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end; border-top: 1px solid var(--border-color); padding-top: 0.75rem;">
+          <button class="btn btn-secondary" id="btn-close-abc-modal">Close</button>
+          <button class="btn btn-secondary" id="btn-modal-abc-copy">📋 Copy</button>
+          <button class="btn btn-secondary" id="btn-modal-abc-print">🖨️ Print</button>
+          <button class="btn btn-primary" id="btn-modal-abc-load">✏️ Edit / Load</button>
+        </div>
+      </div>
+    `;
+
+    modal.classList.add('active');
+
+    const closeBtn = modal.querySelector('#btn-close-abc-modal');
+    const closeX = modal.querySelector('.modal-close-x');
+    const closeModal = () => modal.classList.remove('active');
+    closeBtn.addEventListener('click', closeModal);
+    closeX.addEventListener('click', closeModal);
+
+    modal.querySelector('#btn-modal-abc-copy').addEventListener('click', () => {
+      Exports.copyForPortal(item.title, item.createdAt, item.data);
+    });
+    modal.querySelector('#btn-modal-abc-print').addEventListener('click', () => {
+      Exports.printWorksheet(item.title, item.createdAt, item.data);
+    });
+    modal.querySelector('#btn-modal-abc-load').addEventListener('click', () => {
+      this.loadEntryIntoForm(item);
+      closeModal();
+    });
+  },
+
+  loadEntryIntoForm(item) {
+    const typeTabMap = {
+      'values_to_actions_ws11': 'abc-values',
+      'reduce_vuln_ws9': 'abc-reduce',
+      'pleasant_events_ws10': 'abc-pleasant',
+      'mastery_ws12': 'abc-mastery',
+      'please_ws14': 'abc-please'
+    };
+    const tabKey = typeTabMap[item.type];
+    if (tabKey) {
+      const tabBtn = document.querySelector(`.nav-tabs .tab-btn[data-subtab="${tabKey}"]`);
+      if (tabBtn) tabBtn.click();
+    }
+
+    if (item.type === 'values_to_actions_ws11') {
+      const avoidRating = item.data['Avoidance Rating'] || '';
+      const avoidMatch = avoidRating.match(/Past:\s*(\d+).*?Now:\s*(\d+)/);
+      if (avoidMatch) {
+        document.getElementById('v2a-avoid-past').value = avoidMatch[1];
+        document.getElementById('v2a-avoid-now').value = avoidMatch[2];
+      }
+      document.getElementById('v2a-avoid-plan').value = item.data['Cope Ahead Avoidance Plan'] || '';
+      document.getElementById('v2a-value').value = item.data['Value'] || '';
+      
+      const impRating = item.data['Importance/Priority'] || '';
+      const impMatch = impRating.match(/Importance:\s*(\d+).*?Priority:\s*(\d+)/);
+      if (impMatch) {
+        document.getElementById('v2a-importance').value = impMatch[1];
+        document.getElementById('v2a-priority').value = impMatch[2];
+      }
+      document.getElementById('v2a-goals').value = item.data['Goals list'] || '';
+      document.getElementById('v2a-goal-active').value = item.data['Active Goal'] || '';
+      
+      const steps = item.data['Action Steps'] || '';
+      const stepsMatch = steps.match(/Step 1:\s*(.*)\nStep 2:\s*(.*)\nStep 3:\s*(.*)\nStep 4:\s*(.*)/);
+      if (stepsMatch) {
+        document.getElementById('v2a-step1').value = stepsMatch[1];
+        document.getElementById('v2a-step2').value = stepsMatch[2];
+        document.getElementById('v2a-step3').value = stepsMatch[3];
+        document.getElementById('v2a-step4').value = stepsMatch[4];
+      }
+      document.getElementById('v2a-taken').value = item.data['Step Taken'] || '';
+      document.getElementById('v2a-outcome').value = item.data['Result/Outcome'] || '';
+      document.getElementById('v2a-rel-prob').value = item.data['Relation Problem'] || '';
+      document.getElementById('v2a-rel-goal').value = item.data['Relation Goal'] || '';
+      
+      const relSteps = item.data['Relation Steps'] || '';
+      const relMatch = relSteps.match(/Step 1:\s*(.*)\nStep 2:\s*(.*)\nStep 3:\s*(.*)\nStep 4:\s*(.*)/);
+      if (relMatch) {
+        document.getElementById('v2a-rel-step1').value = relMatch[1];
+        document.getElementById('v2a-rel-step2').value = relMatch[2];
+        document.getElementById('v2a-rel-step3').value = relMatch[3];
+        document.getElementById('v2a-rel-step4').value = relMatch[4];
+      }
+      document.getElementById('v2a-rel-action').value = item.data['Relation Action'] || '';
+      document.getElementById('v2a-rel-outcome').value = item.data['Relation Outcome'] || '';
+
+      const reasons = (item.data['Avoidance Reasons'] || '').split(', ');
+      document.querySelectorAll('.avoid-reason').forEach(chk => {
+        chk.checked = reasons.includes(chk.value);
+      });
+    } else if (item.type === 'reduce_vuln_ws9') {
+      document.getElementById('rv-a-st-desc').value = item.data['A - Short Term Desc'] || '';
+      document.getElementById('rv-a-lt-desc').value = item.data['A - Long Term'] || '';
+      document.getElementById('rv-b-plan-desc').value = item.data['B - Plan Desc'] || '';
+      document.getElementById('rv-b-diff-desc').value = item.data['B - Difficult Desc'] || '';
+      document.getElementById('rv-c-sit').value = item.data['C - Situation'] || '';
+      document.getElementById('rv-c-cope').value = item.data['C - Coping'] || '';
+      document.getElementById('rv-c-cope-new').value = item.data['C - New Coping'] || '';
+
+      const stDays = (item.data['A - Short Term Days'] || '').split(', ');
+      document.querySelectorAll('.rv-a-st-day').forEach(chk => chk.checked = stDays.includes(chk.value));
+
+      const planDays = (item.data['B - Plan Days'] || '').split(', ');
+      document.querySelectorAll('.rv-b-plan-day').forEach(chk => chk.checked = planDays.includes(chk.value));
+
+      const diffDays = (item.data['B - Difficult Days'] || '').split(', ');
+      document.querySelectorAll('.rv-b-diff-day').forEach(chk => chk.checked = diffDays.includes(chk.value));
+
+      if (item.data['PLEASE Weekly']) {
+        try {
+          const pleaseLog = JSON.parse(item.data['PLEASE Weekly']);
+          Object.keys(pleaseLog).forEach(day => {
+            const val = pleaseLog[day] || '';
+            const match = val.match(/PL:\s*(.*?),\s*E:\s*(.*?),\s*A:\s*(.*?),\s*S:\s*(.*?),\s*E:\s*(.*)/);
+            if (match) {
+              document.querySelector(`.rv-pl[data-day="${day}"]`).value = match[1];
+              document.querySelector(`.rv-e1[data-day="${day}"]`).value = match[2];
+              document.querySelector(`.rv-a[data-day="${day}"]`).value = match[3];
+              document.querySelector(`.rv-s[data-day="${day}"]`).value = match[4];
+              document.querySelector(`.rv-e2[data-day="${day}"]`).value = match[5];
+            }
+          });
+        } catch(e) {
+          console.error('Error parsing PLEASE Weekly:', e);
+        }
+      }
+    } else if (item.type === 'pleasant_events_ws10') {
+      if (item.data['Diary']) {
+        try {
+          const diary = JSON.parse(item.data['Diary']);
+          Object.keys(diary).forEach(day => {
+            document.querySelector(`.pe-plan[data-day="${day}"]`).value = diary[day]['Plan'] || '';
+            document.querySelector(`.pe-done[data-day="${day}"]`).value = diary[day]['Done'] || '';
+            document.querySelector(`.pe-mind[data-day="${day}"]`).value = diary[day]['Mind'] || '';
+            document.querySelector(`.pe-worry[data-day="${day}"]`).value = diary[day]['Worry'] || '';
+            document.querySelector(`.pe-int[data-day="${day}"]`).value = diary[day]['Intensity'] || '';
+            document.querySelector(`.pe-comm[data-day="${day}"]`).value = diary[day]['Comments'] || '';
+          });
+        } catch(e) {
+          console.error('Error parsing Pleasant Events Diary:', e);
+        }
+      }
+    } else if (item.type === 'mastery_ws12') {
+      document.getElementById('cope-sit1').value = item.data['Situation 1'] || '';
+      document.getElementById('cope-desc1').value = item.data['Coping Rehearsal 1'] || '';
+      document.getElementById('cope-help1').checked = item.data['Rehearsal 1 Helpful'] === 'YES';
+      document.getElementById('cope-sit2').value = item.data['Situation 2'] || '';
+      document.getElementById('cope-desc2').value = item.data['Coping Rehearsal 2'] || '';
+      document.getElementById('cope-help2').checked = item.data['Rehearsal 2 Helpful'] === 'YES';
+
+      const planLines = (item.data['Weekly Mastery Plan'] || '').split('\n');
+      planLines.forEach(line => {
+        const match = line.match(/^(\w+)\s+Plan:\s*(.*?)\s*\|\s*Done:\s*(.*)$/);
+        if (match) {
+          const day = match[1];
+          document.querySelector(`.mas-plan[data-day="${day}"]`).value = match[2];
+          document.querySelector(`.mas-done[data-day="${day}"]`).value = match[3];
+        }
+      });
+    } else if (item.type === 'please_ws14') {
+      const pleaseLines = (item.data['Weekly PLEASE Log'] || '').split('\n');
+      pleaseLines.forEach(line => {
+        const match = line.match(/^(\w+):\s*PL:\s*(.*?)\s*\(H:\s*(.*?)\)\s*\|\s*E:\s*(.*?)\s*\(H:\s*(.*?)\)\s*\|\s*A:\s*(.*?)\s*\(H:\s*(.*?)\)\s*\|\s*S:\s*(.*?)\s*\(H:\s*(.*?)\)\s*\|\s*Ex:\s*(.*?)\s*\(H:\s*(.*?)\)$/);
+        if (match) {
+          const day = match[1];
+          document.querySelector(`.pl-ill[data-day="${day}"]`).value = match[2];
+          document.querySelector(`.pl-ill-h[data-day="${day}"]`).checked = match[3] === 'YES';
+          document.querySelector(`.pl-eat[data-day="${day}"]`).value = match[4];
+          document.querySelector(`.pl-eat-h[data-day="${day}"]`).checked = match[5] === 'YES';
+          document.querySelector(`.pl-sub[data-day="${day}"]`).value = match[6];
+          document.querySelector(`.pl-sub-h[data-day="${day}"]`).checked = match[7] === 'YES';
+          document.querySelector(`.pl-slp[data-day="${day}"]`).value = match[8];
+          document.querySelector(`.pl-slp-h[data-day="${day}"]`).checked = match[9] === 'YES';
+          document.querySelector(`.pl-exe[data-day="${day}"]`).value = match[10];
+          document.querySelector(`.pl-exe-h[data-day="${day}"]`).checked = match[11] === 'YES';
+        }
+      });
+    }
   }
 };
