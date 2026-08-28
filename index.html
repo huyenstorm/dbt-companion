@@ -6,7 +6,7 @@
     // Programmatic URL ?reset=true support and Developer Force Cache Reset Hook
     (function() {
       const hasResetParam = window.location.search.includes('reset=true');
-      const resetKey = 'dbt_cache_reset_v65';
+      const resetKey = 'dbt_cache_reset_v66';
       
       if (hasResetParam || !localStorage.getItem(resetKey)) {
         const promises = [];
@@ -46,6 +46,9 @@
   <script>
     // Global Error Reporter to show errors on screen
     window.onerror = function(message, source, lineno, colno, error) {
+      if (message && message.includes('USER_CANCELLED')) return true;
+      if (error && error.message === 'USER_CANCELLED') return true;
+
       const div = document.createElement('div');
       div.style.position = 'fixed';
       div.style.top = '0';
@@ -65,6 +68,11 @@
     };
     
     window.addEventListener('unhandledrejection', function(event) {
+      if (event.reason === 'USER_CANCELLED' || event.reason?.message === 'USER_CANCELLED') {
+        event.preventDefault();
+        return;
+      }
+
       const div = document.createElement('div');
       div.style.position = 'fixed';
       div.style.top = '0';
@@ -96,8 +104,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="./styles/main.css?v=65">
-  <link rel="stylesheet" href="./styles/print.css?v=65" media="print">
+  <link rel="stylesheet" href="./styles/main.css?v=66">
+  <link rel="stylesheet" href="./styles/print.css?v=66" media="print">
 </head>
 <body>
 
@@ -688,6 +696,14 @@
               <option value="distress-tolerance">Distress Tolerance</option>
             </select>
           </div>
+          <div style="width: 160px;">
+            <select class="form-control" id="repo-sort-by" style="height: 38px;">
+              <option value="date-desc">Newest Date</option>
+              <option value="date-asc">Oldest Date</option>
+              <option value="name-asc">Name (A-Z)</option>
+              <option value="name-desc">Name (Z-A)</option>
+            </select>
+          </div>
         </div>
 
         <!-- List of Saved Worksheets -->
@@ -798,7 +814,7 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=65')
+        navigator.serviceWorker.register('./sw.js?v=66')
           .then(reg => {
             reg.addEventListener('updatefound', () => {
               const newWorker = reg.installing;
@@ -816,6 +832,6 @@
   </script>
 
   <!-- Application Entry Script -->
-  <script type="module" src="./js/app.js?v=65"></script>
+  <script type="module" src="./js/app.js?v=66"></script>
 </body>
 </html>

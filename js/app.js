@@ -1,15 +1,15 @@
 /* Main Application Router & Controller (Fully Clickable Tiles & 2-Column Sidebar Selectors) */
 import { db } from './db.js';
 import { Exports } from './exports.js';
-import { ModelOfEmotionsModule } from './modules/modelOfEmotions.js?v=65';
-import { ChainAnalysisModule } from './modules/chainAnalysis.js?v=65';
-import { WiseMindModule } from './modules/wiseMind.js?v=65';
-import { DearManModule } from './modules/dearman.js?v=65';
-import { DimeGameModule } from './modules/dimeGame.js?v=65';
-import { AbcPleaseModule } from './modules/abcPlease.js?v=65';
-import { DistressToleranceModule } from './modules/distressTolerance.js?v=65';
-import { DiaryCardModule } from './modules/diaryCard.js?v=65';
-import { ReferencesModule } from './modules/references.js?v=65';
+import { ModelOfEmotionsModule } from './modules/modelOfEmotions.js?v=66';
+import { ChainAnalysisModule } from './modules/chainAnalysis.js?v=66';
+import { WiseMindModule } from './modules/wiseMind.js?v=66';
+import { DearManModule } from './modules/dearman.js?v=66';
+import { DimeGameModule } from './modules/dimeGame.js?v=66';
+import { AbcPleaseModule } from './modules/abcPlease.js?v=66';
+import { DistressToleranceModule } from './modules/distressTolerance.js?v=66';
+import { DiaryCardModule } from './modules/diaryCard.js?v=66';
+import { ReferencesModule } from './modules/references.js?v=66';
 
 class App {
   constructor() {
@@ -170,7 +170,6 @@ class App {
       tile.addEventListener('click', () => {
         const targetView = tile.dataset.dashboardTile;
         const targetDeckBtn = tile.dataset.sub;
-        alert('Click tile clicked. Target view: ' + targetView);
 
         if (targetDeckBtn) {
           this.switchView(targetView, true);
@@ -191,7 +190,6 @@ class App {
   }
 
   switchView(viewName, isPopState = false) {
-    alert('switchView called for: ' + viewName);
     const sections = document.querySelectorAll('.view-section');
     const mobileBtns = document.querySelectorAll('.mobile-nav-btn');
 
@@ -199,7 +197,6 @@ class App {
     mobileBtns.forEach(b => b.classList.remove('active'));
 
     const activeSection = document.getElementById(`view-${viewName}`);
-    alert('Found active section ' + `view-${viewName}` + ': ' + !!activeSection);
     if (activeSection) activeSection.classList.add('active');
 
     const activeMobileBtn = document.querySelector(`.mobile-nav-btn[data-view="${viewName}"]`);
@@ -1258,12 +1255,16 @@ class App {
   setupWorksheetsRepository() {
     const searchInput = document.getElementById('repo-search');
     const moduleFilter = document.getElementById('repo-filter-module');
+    const sortSelect = document.getElementById('repo-sort-by');
 
     if (searchInput) {
       searchInput.addEventListener('input', () => this.renderSavedWorksheetsRepository());
     }
     if (moduleFilter) {
       moduleFilter.addEventListener('change', () => this.renderSavedWorksheetsRepository());
+    }
+    if (sortSelect) {
+      sortSelect.addEventListener('change', () => this.renderSavedWorksheetsRepository());
     }
   }
 
@@ -1273,6 +1274,7 @@ class App {
 
     const query = (document.getElementById('repo-search')?.value || '').toLowerCase().trim();
     const selectedModule = document.getElementById('repo-filter-module')?.value || 'all';
+    const sortBy = document.getElementById('repo-sort-by')?.value || 'date-desc';
 
     const entries = await db.getWorksheets();
     const worksheets = entries.filter(x => x.type !== 'diary_card');
@@ -1320,7 +1322,7 @@ class App {
       'mindful_thoughts_ws12': { label: 'Mindful Thoughts (WS 12)', target: 'distress-tolerance', color: 'var(--accent-rose)' }
     };
 
-    const filtered = worksheets.filter(item => {
+    let filtered = worksheets.filter(item => {
       const meta = typeMeta[item.type] || { label: 'Worksheet', target: 'other', color: 'var(--text-muted)' };
       
       if (selectedModule !== 'all' && meta.target !== selectedModule) {
@@ -1329,12 +1331,24 @@ class App {
 
       if (query) {
         const titleMatch = (item.title || '').toLowerCase().includes(query);
+        const dateMatch = new Date(item.createdAt).toLocaleString().toLowerCase().includes(query);
         const contentMatch = JSON.stringify(item.data).toLowerCase().includes(query);
-        return titleMatch || contentMatch;
+        return titleMatch || dateMatch || contentMatch;
       }
 
       return true;
     });
+
+    // Handle Sorting
+    if (sortBy === 'date-desc') {
+      filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    } else if (sortBy === 'date-asc') {
+      filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+    } else if (sortBy === 'name-asc') {
+      filtered.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+    } else if (sortBy === 'name-desc') {
+      filtered.sort((a, b) => (b.title || '').localeCompare(a.title || ''));
+    }
 
     if (!filtered.length) {
       listContainer.innerHTML = `<p style="color: var(--text-muted); font-size: 0.9rem;">No matching worksheets found.</p>`;
@@ -1367,25 +1381,25 @@ class App {
       if (!meta) return;
 
       if (meta.target === 'mindfulness') {
-        import('./modules/wiseMind.js?v=65').then(m => {
+        import('./modules/wiseMind.js?v=66').then(m => {
           m.WiseMindModule.showDetailModal(item);
         });
       } else if (meta.target === 'interpersonal') {
-        import('./modules/dearman.js?v=65').then(m => {
+        import('./modules/dearman.js?v=66').then(m => {
           m.DearManModule.showDetailModal(item);
         });
       } else if (meta.target === 'emotion-regulation') {
         if (type === 'model_of_emotions' || type === 'check_facts_ws5' || type === 'opposite_action_ws7') {
-          import('./modules/modelOfEmotions.js?v=65').then(m => {
+          import('./modules/modelOfEmotions.js?v=66').then(m => {
             m.ModelOfEmotionsModule.showDetailModal(item);
           });
         } else {
-          import('./modules/abcPlease.js?v=65').then(m => {
+          import('./modules/abcPlease.js?v=66').then(m => {
             m.AbcPleaseModule.showDetailModal(item);
           });
         }
       } else if (meta.target === 'distress-tolerance') {
-        import('./modules/chainAnalysis.js?v=65').then(m => {
+        import('./modules/chainAnalysis.js?v=66').then(m => {
           m.ChainAnalysisModule.showDetailModal(item);
         });
       }

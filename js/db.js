@@ -53,8 +53,19 @@ class DBTStorage {
   }
 
   // Worksheets CRUD
-  async saveWorksheet(entry) {
+  async saveWorksheet(entry, isBackupImport = false) {
     await this.initPromise;
+
+    let finalTitle = entry.title || 'Worksheet';
+
+    if (entry.type !== 'diary_card' && !isBackupImport) {
+      const customTitle = prompt('Enter a name/title for this saved log:', finalTitle);
+      if (customTitle === null) {
+        return Promise.reject(new Error('USER_CANCELLED'));
+      }
+      finalTitle = customTitle.trim() || finalTitle;
+    }
+
     return new Promise((resolve, reject) => {
       const transaction = this.db.transaction(['worksheets'], 'readwrite');
       const store = transaction.objectStore('worksheets');
@@ -62,7 +73,7 @@ class DBTStorage {
       const record = {
         id: entry.id || 'ws_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
         type: entry.type,
-        title: entry.title,
+        title: finalTitle,
         data: entry.data,
         createdAt: entry.createdAt || new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -155,7 +166,7 @@ class DBTStorage {
       const data = JSON.parse(jsonString);
       if (data.worksheets && Array.isArray(data.worksheets)) {
         for (const ws of data.worksheets) {
-          await this.saveWorksheet(ws);
+          await this.saveWorksheet(ws, true);
         }
         return true;
       }
