@@ -484,9 +484,17 @@ export const DearManModule = {
           </form>
         </div>
       </div>
+
+      <div class="card" style="margin-top: 1.5rem;">
+        <h3 class="card-title" style="margin-bottom: 1rem;">Saved Interpersonal Effectiveness & Validation Logs</h3>
+        <div id="ie-saved-list">
+          <p style="color: var(--text-muted); font-size: 0.9rem;">No saved entries yet.</p>
+        </div>
+      </div>
     `;
 
     this.attachEvents(container);
+    this.loadSavedEntries(container);
   },
 
   attachEvents(container) {
@@ -514,6 +522,7 @@ export const DearManModule = {
       container.querySelector('#dm-ai-chat-thread').innerHTML = '';
       container.querySelector('#dm-ai-chat-input-container').style.display = 'none';
       container.querySelector('#btn-dm-ai-coach').style.display = 'block';
+      this.loadSavedEntries(container);
     });
 
     container.querySelector('#btn-copy-dm').addEventListener('click', () => {
@@ -529,6 +538,7 @@ export const DearManModule = {
       await db.saveWorksheet({ type: 'priorities_ws3', title: `Priorities WS3: ${new Date().toLocaleDateString()}`, data });
       alert('Clarifying Priorities Worksheet 3 saved!');
       prioForm.reset();
+      this.loadSavedEntries(container);
     });
 
     container.querySelector('#btn-copy-prio').addEventListener('click', () => {
@@ -543,6 +553,7 @@ export const DearManModule = {
       await db.saveWorksheet({ type: 'validation_others_ws12', title: `Validation WS12: ${data.Person}`, data });
       alert('Validating Others Worksheet 12 saved!');
       valForm.reset();
+      this.loadSavedEntries(container);
     });
 
     container.querySelector('#btn-copy-val').addEventListener('click', () => {
@@ -557,6 +568,7 @@ export const DearManModule = {
       await db.saveWorksheet({ type: 'self_validation_ws13', title: `Self-Validation WS13: ${new Date().toLocaleDateString()}`, data });
       alert('Self-Validation Worksheet 13 saved!');
       svalForm.reset();
+      this.loadSavedEntries(container);
     });
 
     container.querySelector('#btn-copy-sval').addEventListener('click', () => {
@@ -573,6 +585,7 @@ export const DearManModule = {
         await db.saveWorksheet({ type: 'tracking_ws5', title: `Tracking WS5: ${new Date().toLocaleDateString()}`, data });
         alert('Tracking Skills Use Worksheet 5 saved!');
         trackForm.reset();
+        this.loadSavedEntries(container);
       });
 
       container.querySelector('#btn-copy-track').addEventListener('click', () => {
@@ -590,6 +603,7 @@ export const DearManModule = {
         await db.saveWorksheet({ type: 'mindfulness_ws9', title: `Mindfulness WS9: ${data['Person']}`, data });
         alert('Mindfulness of Others Worksheet 9 saved!');
         mindForm.reset();
+        this.loadSavedEntries(container);
       });
 
       container.querySelector('#btn-copy-mind').addEventListener('click', () => {
@@ -607,6 +621,7 @@ export const DearManModule = {
         await db.saveWorksheet({ type: 'dialectics_ws11', title: `Dialectics WS11: ${new Date().toLocaleDateString()}`, data });
         alert('Practicing Dialectics Worksheet 11 saved!');
         dialForm.reset();
+        this.loadSavedEntries(container);
       });
 
       container.querySelector('#btn-copy-dial').addEventListener('click', () => {
@@ -847,6 +862,306 @@ export const DearManModule = {
       appendMessage('user', msg);
       callAI(msg);
     });
+
+    btnSend.addEventListener('click', () => {
+      const val = inputField.value.trim();
+      if (!val) return;
+      appendMessage('user', val);
+      callAI(val);
+    });
+
+    inputField.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        btnSend.click();
+      }
+    });
+  },
+
+  async loadSavedEntries(container) {
+    const listContainer = container.querySelector('#ie-saved-list');
+    if (!listContainer) return;
+    const entries = await db.getWorksheets();
+    
+    // Filter to Interpersonal Effectiveness types
+    const ieTypes = ['dear_man', 'priorities_ws3', 'validation_others_ws12', 'self_validation_ws13', 'tracking_ws5', 'mindfulness_ws9', 'dialectics_ws11'];
+    const ieEntries = entries.filter(x => ieTypes.includes(x.type));
+
+    if (!ieEntries.length) {
+      listContainer.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem;">No saved worksheets yet.</p>`;
+      return;
+    }
+
+    const typeLabels = {
+      'dear_man': 'DEAR MAN (WS 4)',
+      'priorities_ws3': 'Priorities (WS 3)',
+      'validation_others_ws12': 'Validating Others (WS 12)',
+      'self_validation_ws13': 'Self-Validation (WS 13)',
+      'tracking_ws5': 'Tracking Skills (WS 5)',
+      'mindfulness_ws9': 'Mindful of Others (WS 9)',
+      'dialectics_ws11': 'Dialectics (WS 11)'
+    };
+
+    listContainer.innerHTML = ieEntries.map(item => `
+      <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 0.85rem; border-radius: var(--radius-md); margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+        <div>
+          <span class="badge badge-blue" style="font-size: 0.7rem; margin-bottom: 0.25rem; display: inline-block;">${typeLabels[item.type] || 'Worksheet'}</span>
+          <strong style="color: var(--accent-blue); display: block; font-size: 0.9rem;">${item.title}</strong>
+          <span style="font-size: 0.75rem; color: var(--text-muted);">${new Date(item.createdAt).toLocaleString()}</span>
+        </div>
+        <div style="display: flex; gap: 0.4rem;">
+          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.viewSavedIE('${item.id}')">👁️ View</button>
+          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.copySavedIE('${item.id}')">📋 Copy</button>
+          <button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.printSavedIE('${item.id}')">🖨️ Print</button>
+          <button class="btn btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="window.deleteIE('${item.id}')">🗑️</button>
+        </div>
+      </div>
+    `).join('');
+
+    window.viewSavedIE = (id) => {
+      const item = ieEntries.find(x => x.id === id);
+      if (item) this.showDetailModal(item);
+    };
+
+    window.copySavedIE = (id) => {
+      const item = ieEntries.find(x => x.id === id);
+      if (item) Exports.copyForPortal(item.title, item.createdAt, item.data);
+    };
+
+    window.printSavedIE = (id) => {
+      const item = ieEntries.find(x => x.id === id);
+      if (item) Exports.printWorksheet(item.title, item.createdAt, item.data);
+    };
+
+    window.deleteIE = async (id) => {
+      if (confirm('Delete this worksheet entry?')) {
+        await db.deleteWorksheet(id);
+        this.loadSavedEntries(container);
+      }
+    };
+  },
+
+  showDetailModal(item) {
+    let modal = document.getElementById('ie-detail-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'ie-detail-modal';
+      modal.className = 'modal-overlay';
+      document.body.appendChild(modal);
+    }
+
+    let fieldsHTML = '';
+    let chatHTML = '';
+    for (const [key, value] of Object.entries(item.data)) {
+      if (key === 'chat_history') {
+        if (value && Array.isArray(value) && value.length > 0) {
+          chatHTML = `
+            <div style="margin-top: 1.25rem; border-top: 1px dashed var(--border-color); padding-top: 1rem;">
+              <strong style="color: var(--accent-purple); font-size: 0.9rem; display: block; margin-bottom: 0.5rem;">🤖 DBT AI Coach Chat History:</strong>
+              <div style="font-size: 0.8rem; line-height: 1.45; max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem; background: var(--bg-secondary); padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                ${value.map(msg => `<strong>${msg.role === 'user' ? 'You' : 'AI Coach'}:</strong> ${msg.parts[0].text.replace(/\n/g, '<br>')}`).join('<br><br>')}
+              </div>
+            </div>
+          `;
+        }
+        continue;
+      }
+      fieldsHTML += `
+        <div style="margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem;">
+          <strong style="color: var(--accent-blue); font-size: 0.8rem; text-transform: uppercase; display: block;">${key}</strong>
+          <div style="font-size: 0.85rem; color: var(--text-primary); white-space: pre-wrap; margin-top: 0.15rem;">${value || 'N/A'}</div>
+        </div>
+      `;
+    }
+
+    modal.innerHTML = `
+      <div class="modal-card" style="max-width: 600px; max-height: 85vh; display: flex; flex-direction: column; padding: 1.5rem; position: relative;">
+        <button type="button" class="modal-close-x" style="position: absolute; top: 0.75rem; right: 1rem; background: transparent; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; line-height: 1; padding: 0; z-index: 10;">&times;</button>
+        <h3 style="font-size: 1.15rem; margin-bottom: 0.25rem; color: var(--accent-blue); display: flex; align-items: center; gap: 0.4rem;">
+          📋 Saved Worksheet Details
+        </h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem;">
+          <strong>Title:</strong> ${item.title}<br>
+          <strong>Saved At:</strong> ${new Date(item.createdAt).toLocaleString()}
+        </p>
+
+        <div style="flex: 1; overflow-y: auto; padding-right: 0.25rem; margin-bottom: 1rem;">
+          ${fieldsHTML}
+          ${chatHTML}
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end; border-top: 1px solid var(--border-color); padding-top: 0.75rem;">
+          <button class="btn btn-secondary" id="btn-close-ie-modal">Close</button>
+          <button class="btn btn-secondary" id="btn-modal-copy">📋 Copy</button>
+          <button class="btn btn-secondary" id="btn-modal-print">🖨️ Print</button>
+          <button class="btn btn-primary" id="btn-modal-load">✏️ Edit / Load</button>
+        </div>
+      </div>
+    `;
+
+    modal.classList.add('active');
+
+    // Close buttons
+    const closeBtn = modal.querySelector('#btn-close-ie-modal');
+    const closeX = modal.querySelector('.modal-close-x');
+    const closeModal = () => modal.classList.remove('active');
+    closeBtn.addEventListener('click', closeModal);
+    closeX.addEventListener('click', closeModal);
+
+    // Copy & Print
+    modal.querySelector('#btn-modal-copy').addEventListener('click', () => {
+      Exports.copyForPortal(item.title, item.createdAt, item.data);
+    });
+    modal.querySelector('#btn-modal-print').addEventListener('click', () => {
+      Exports.printWorksheet(item.title, item.createdAt, item.data);
+    });
+
+    // Load back into form
+    modal.querySelector('#btn-modal-load').addEventListener('click', () => {
+      this.loadEntryIntoForm(item);
+      closeModal();
+    });
+  },
+
+  loadEntryIntoForm(item) {
+    // 1. Switch to the correct tab first
+    const typeTabMap = {
+      'dear_man': 'ie-dearman',
+      'priorities_ws3': 'ie-priorities',
+      'validation_others_ws12': 'ie-val-others',
+      'self_validation_ws13': 'ie-self-val',
+      'tracking_ws5': 'ie-tracking',
+      'mindfulness_ws9': 'ie-mindfulness',
+      'dialectics_ws11': 'ie-dialectics'
+    };
+    const tabKey = typeTabMap[item.type];
+    if (tabKey) {
+      const tabBtn = document.querySelector(`.nav-tabs .tab-btn[data-ietab="${tabKey}"]`);
+      if (tabBtn) tabBtn.click();
+    }
+
+    // 2. Populate the fields
+    if (item.type === 'dear_man') {
+      document.getElementById('dm-goal').value = item.data['Objectives'] || '';
+      document.getElementById('dm-rel-issue').value = item.data['Relationship Issue'] || '';
+      document.getElementById('dm-self-issue').value = item.data['Self-Respect Issue'] || '';
+      document.getElementById('dm-describe').value = item.data['Describe'] || '';
+      document.getElementById('dm-express').value = item.data['Express'] || '';
+      document.getElementById('dm-assert').value = item.data['Assert'] || '';
+      document.getElementById('dm-reinforce').value = item.data['Reinforce'] || '';
+      document.getElementById('dm-mindful').value = item.data['Mindful & Appear Confident'] || '';
+      document.getElementById('dm-negotiate').value = item.data['Negotiate'] || '';
+      document.getElementById('dm-validate').value = item.data['Validate (GIVE)'] || '';
+      document.getElementById('dm-easymanner').value = item.data['Easy Manner (GIVE)'] || '';
+      document.getElementById('dm-avoid').value = item.data['Avoid Actions/Sayings'] || '';
+      
+      // Load AI Chat history if present
+      if (item.data['chat_history']) {
+        this.dmChatHistory = JSON.parse(JSON.stringify(item.data['chat_history']));
+        const thread = document.getElementById('dm-ai-chat-thread');
+        if (thread) {
+          thread.innerHTML = '';
+          this.dmChatHistory.forEach(msg => {
+            const msgDiv = document.createElement('div');
+            msgDiv.style.padding = '0.75rem';
+            msgDiv.style.borderRadius = 'var(--radius-md)';
+            msgDiv.style.fontSize = '0.9rem';
+            if (msg.role === 'user') {
+              msgDiv.style.background = 'var(--bg-secondary)';
+              msgDiv.style.alignSelf = 'flex-end';
+              msgDiv.style.border = '1px solid var(--border-color)';
+              msgDiv.innerHTML = '<strong>You:</strong><br>' + msg.parts[0].text;
+            } else {
+              msgDiv.style.background = 'rgba(156, 39, 176, 0.1)';
+              msgDiv.style.alignSelf = 'flex-start';
+              msgDiv.style.border = '1px solid rgba(156, 39, 176, 0.2)';
+              msgDiv.innerHTML = '<strong>🤖 AI Coach:</strong><br>' + msg.parts[0].text.replace(/\n/g, '<br>');
+            }
+            thread.appendChild(msgDiv);
+          });
+          document.getElementById('dm-ai-chat-input-container').style.display = 'flex';
+          document.getElementById('btn-dm-ai-coach').style.display = 'none';
+        }
+      }
+    } else if (item.type === 'priorities_ws3') {
+      document.getElementById('prio-prompting').value = item.data['Prompting Event'] || '';
+      document.getElementById('prio-objectives').value = item.data['Objectives Desires'] || '';
+      document.getElementById('prio-relationship').value = item.data['Relationship Desires'] || '';
+      document.getElementById('prio-selfrespect').value = item.data['Self-Respect Desires'] || '';
+      document.getElementById('prio-rate-obj').value = item.data['Objectives Priority'] || '1';
+      document.getElementById('prio-rate-rel').value = item.data['Relationship Priority'] || '2';
+      document.getElementById('prio-rate-self').value = item.data['Self-Respect Priority'] || '3';
+      document.getElementById('prio-conflicts').value = item.data['Priority Conflicts'] || '';
+    } else if (item.type === 'validation_others_ws12') {
+      document.getElementById('val-who').value = item.data['Person'] || '';
+      document.getElementById('val-statements').value = item.data['Statements Made'] || '';
+      document.getElementById('val-situation').value = item.data['Situation'] || '';
+      document.getElementById('val-action').value = item.data['Action Taken'] || '';
+      document.getElementById('val-outcome').value = item.data['Outcome'] || '';
+      document.getElementById('val-feelings').value = item.data['Feelings'] || '';
+      document.getElementById('val-nonjudgmental').value = item.data['Nonjudgmental Situation'] || '';
+      document.getElementById('val-differently').value = item.data['Do Differently'] || '';
+      
+      const strategies = (item.data['Strategies Used'] || '').split(', ');
+      document.querySelectorAll('.val-check').forEach(chk => {
+        chk.checked = strategies.includes(chk.value);
+      });
+    } else if (item.type === 'self_validation_ws13') {
+      document.getElementById('sval-statements').value = item.data['Statements Made'] || '';
+      document.getElementById('sval-situation').value = item.data['Situation'] || '';
+      document.getElementById('sval-outcome').value = item.data['Outcome'] || '';
+      document.getElementById('sval-pastweek').value = item.data['Felt Invalidated Past Week'] || '';
+      document.getElementById('sval-grieve').value = item.data['Grieved Traumatic Invalidation'] || '';
+      document.getElementById('sval-radical').value = item.data['Radical Acceptance'] || '';
+      
+      const strategies = (item.data['Strategies Used'] || '').split(', ');
+      document.querySelectorAll('.sval-check').forEach(chk => {
+        chk.checked = strategies.includes(chk.value);
+      });
+    } else if (item.type === 'tracking_ws5') {
+      document.getElementById('track-prompting').value = item.data['Prompting Event'] || '';
+      document.getElementById('track-obj').value = item.data['Objectives'] || '';
+      document.getElementById('track-rel').value = item.data['Relationship Issue'] || '';
+      document.getElementById('track-self').value = item.data['Self-Respect Issue'] || '';
+      document.getElementById('track-priorities').value = item.data['Priorities'] || '';
+      document.getElementById('track-imbalances').value = item.data['Imbalances'] || '';
+      document.getElementById('track-effectiveness').value = item.data['Effectiveness'] || '';
+      
+      const skills = (item.data['Skills Used'] || '').split(', ');
+      document.querySelectorAll('.track-check').forEach(chk => {
+        chk.checked = skills.includes(chk.value);
+      });
+    } else if (item.type === 'mindfulness_ws9') {
+      document.getElementById('mind-who').value = item.data['Person'] || '';
+      document.getElementById('mind-situation').value = item.data['Situation'] || '';
+      document.getElementById('mind-how').value = item.data['How Practiced'] || '';
+      document.getElementById('mind-outcome').value = item.data['Outcome'] || '';
+      document.getElementById('mind-feel').value = item.data['Feelings'] || '';
+      document.getElementById('mind-diff').value = item.data['Difference Made'] || '';
+      
+      const practices = (item.data['Practices Used'] || '').split(', ');
+      document.querySelectorAll('.mind-check').forEach(chk => {
+        chk.checked = practices.includes(chk.value);
+      });
+    } else if (item.type === 'dialectics_ws11') {
+      document.getElementById('dial-sit1').value = item.data['Situation 1'] || '';
+      document.getElementById('dial-skills1').value = item.data['Sit1 Skills'] || '';
+      document.getElementById('dial-sit2').value = item.data['Situation 2'] || '';
+      document.getElementById('dial-skills2').value = item.data['Sit2 Skills'] || '';
+      
+      const check1 = (item.data['Sit1 Practices'] || '').split(', ');
+      document.querySelectorAll('.dial-check1').forEach(chk => chk.checked = check1.includes(chk.value));
+      
+      const out1 = (item.data['Sit1 Outcomes'] || '').split(', ');
+      document.querySelectorAll('.dial-out1').forEach(chk => chk.checked = out1.includes(chk.value));
+      
+      const check2 = (item.data['Sit2 Practices'] || '').split(', ');
+      document.querySelectorAll('.dial-check2').forEach(chk => chk.checked = check2.includes(chk.value));
+      
+      const out2 = (item.data['Sit2 Outcomes'] || '').split(', ');
+      document.querySelectorAll('.dial-out2').forEach(chk => chk.checked = out2.includes(chk.value));
+    }
+  }
 
     btnSend.addEventListener('click', () => {
       const val = inputField.value.trim();

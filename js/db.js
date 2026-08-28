@@ -99,6 +99,10 @@ class DBTStorage {
     });
   }
 
+  async getWorksheets() {
+    return this.getAllWorksheets();
+  }
+
   async deleteWorksheet(id) {
     await this.initPromise;
     return new Promise((resolve, reject) => {
