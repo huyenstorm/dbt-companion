@@ -170,6 +170,7 @@ class App {
       tile.addEventListener('click', () => {
         const targetView = tile.dataset.dashboardTile;
         const targetDeckBtn = tile.dataset.sub;
+        alert('Click tile clicked. Target view: ' + targetView);
 
         if (targetDeckBtn) {
           this.switchView(targetView, true);
@@ -190,6 +191,7 @@ class App {
   }
 
   switchView(viewName, isPopState = false) {
+    alert('switchView called for: ' + viewName);
     const sections = document.querySelectorAll('.view-section');
     const mobileBtns = document.querySelectorAll('.mobile-nav-btn');
 
@@ -197,6 +199,7 @@ class App {
     mobileBtns.forEach(b => b.classList.remove('active'));
 
     const activeSection = document.getElementById(`view-${viewName}`);
+    alert('Found active section ' + `view-${viewName}` + ': ' + !!activeSection);
     if (activeSection) activeSection.classList.add('active');
 
     const activeMobileBtn = document.querySelector(`.mobile-nav-btn[data-view="${viewName}"]`);
