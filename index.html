@@ -3,23 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <script>
-    // Developer Force Cache Reset Hook
+    // Programmatic URL ?reset=true support and Developer Force Cache Reset Hook
     (function() {
+      const hasResetParam = window.location.search.includes('reset=true');
       const resetKey = 'dbt_cache_reset_v64';
-      if (!localStorage.getItem(resetKey)) {
+      
+      if (hasResetParam || !localStorage.getItem(resetKey)) {
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.getRegistrations().then(regs => {
-            for (let reg of regs) reg.unregister();
+            for (let reg of regs) {
+              reg.unregister();
+            }
           });
         }
         if ('caches' in window) {
           caches.keys().then(names => {
-            for (let name of names) caches.delete(name);
+            for (let name of names) {
+              caches.delete(name);
+            }
           });
         }
         localStorage.setItem(resetKey, 'true');
-        console.log('[Dev] Wiped local service worker caches, auto-reloaded.');
-        setTimeout(() => { location.reload(); }, 500);
+        console.log('[Dev] Clearing local PWA cache. Reloading page...');
+        
+        if (hasResetParam) {
+          // Clear query params to prevent reload loop
+          const cleanUrl = window.location.origin + window.location.pathname + window.location.hash;
+          window.history.replaceState({}, document.title, cleanUrl);
+        }
+        
+        setTimeout(() => { location.reload(true); }, 300);
       }
     })();
   </script>
