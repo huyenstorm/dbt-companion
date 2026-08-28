@@ -1,5 +1,6 @@
 /* Main Application Router & Controller (Fully Clickable Tiles & 2-Column Sidebar Selectors) */
 import { db } from './db.js';
+import { Exports } from './exports.js';
 import { ModelOfEmotionsModule } from './modules/modelOfEmotions.js';
 import { ChainAnalysisModule } from './modules/chainAnalysis.js';
 import { WiseMindModule } from './modules/wiseMind.js';
@@ -214,6 +215,10 @@ class App {
 
     if (viewName === 'visual-directory' && typeof this.renderLibrary === 'function') {
       this.renderLibrary();
+    }
+
+    if (viewName === 'dashboard') {
+      this.loadRecentSavedWorksheets();
     }
   }
 
@@ -1244,6 +1249,121 @@ class App {
 
     // 5. Diary Card
     DiaryCardModule.render(document.getElementById('view-diary-card'));
+  }
+
+  async loadRecentSavedWorksheets() {
+    const listContainer = document.getElementById('dashboard-recent-saved-list');
+    if (!listContainer) return;
+
+    const entries = await db.getWorksheets();
+    const worksheets = entries.filter(x => x.type !== 'diary_card');
+
+    if (!worksheets.length) {
+      listContainer.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem;">No saved worksheets yet.</p>`;
+      return;
+    }
+
+    const recent = worksheets.slice(0, 5);
+
+    const typeMeta = {
+      'wise_mind': { label: 'Wise Mind Alignment', target: 'mindfulness', color: 'var(--accent-teal)' },
+      'wise_mind_practice_ws3': { label: 'Wise Mind (WS 3)', target: 'mindfulness', color: 'var(--accent-teal)' },
+      'what_skills_ws4': { label: 'WHAT Skills (WS 4)', target: 'mindfulness', color: 'var(--accent-teal)' },
+      'how_skills_ws5': { label: 'HOW Skills (WS 5)', target: 'mindfulness', color: 'var(--accent-teal)' },
+      'mindfulness_emotion_ws15': { label: 'Mindfulness Emotion (WS 15)', target: 'mindfulness', color: 'var(--accent-teal)' },
+      'problem_solving_handout12': { label: 'Problem Solving', target: 'mindfulness', color: 'var(--accent-teal)' },
+
+      'dear_man': { label: 'DEAR MAN (WS 4)', target: 'interpersonal', color: 'var(--accent-blue)' },
+      'priorities_ws3': { label: 'Priorities (WS 3)', target: 'interpersonal', color: 'var(--accent-blue)' },
+      'validation_others_ws12': { label: 'Val Others (WS 12)', target: 'interpersonal', color: 'var(--accent-blue)' },
+      'self_validation_ws13': { label: 'Self-Val (WS 13)', target: 'interpersonal', color: 'var(--accent-blue)' },
+      'tracking_ws5': { label: 'Tracking (WS 5)', target: 'interpersonal', color: 'var(--accent-blue)' },
+      'mindfulness_ws9': { label: 'Mindful Others (WS 9)', target: 'interpersonal', color: 'var(--accent-blue)' },
+      'dialectics_ws11': { label: 'Dialectics (WS 11)', target: 'interpersonal', color: 'var(--accent-blue)' },
+
+      'model_of_emotions': { label: 'Model of Emotions (WS 4)', target: 'emotion-regulation', color: 'var(--accent-purple)' },
+      'check_facts_ws5': { label: 'Check Facts (WS 5)', target: 'emotion-regulation', color: 'var(--accent-purple)' },
+      'opposite_action_ws7': { label: 'Opposite Action (WS 7)', target: 'emotion-regulation', color: 'var(--accent-purple)' },
+      'values_to_actions_ws11': { label: 'Values to Actions (WS 11)', target: 'emotion-regulation', color: 'var(--accent-purple)' },
+      'reduce_vuln_ws9': { label: 'Reduce Vuln (WS 9)', target: 'emotion-regulation', color: 'var(--accent-purple)' },
+      'pleasant_events_ws10': { label: 'Pleasant Events (WS 10)', target: 'emotion-regulation', color: 'var(--accent-purple)' },
+      'mastery_ws12': { label: 'Mastery (WS 12)', target: 'emotion-regulation', color: 'var(--accent-purple)' },
+      'please_ws14': { label: 'PLEASE Log (WS 14)', target: 'emotion-regulation', color: 'var(--accent-purple)' },
+
+      'chain_analysis': { label: 'Chain Analysis (WS 2)', target: 'distress-tolerance', color: 'var(--accent-rose)' },
+      'stop_ws2': { label: 'STOP (WS 4)', target: 'distress-tolerance', color: 'var(--accent-rose)' },
+      'pros_cons_ws3': { label: 'Pros & Cons (WS 3)', target: 'distress-tolerance', color: 'var(--accent-rose)' },
+      'tip_ws4': { label: 'TIPP (WS 4)', target: 'distress-tolerance', color: 'var(--accent-rose)' },
+      'accepts_ws5': { label: 'ACCEPTS (WS 5)', target: 'distress-tolerance', color: 'var(--accent-rose)' },
+      'soothe_ws6': { label: 'Self-Soothe (WS 6)', target: 'distress-tolerance', color: 'var(--accent-rose)' },
+      'improve_ws7': { label: 'IMPROVE (WS 7)', target: 'distress-tolerance', color: 'var(--accent-rose)' },
+      'radical_acc_ws9': { label: 'Radical Acc (WS 9)', target: 'distress-tolerance', color: 'var(--accent-rose)' },
+      'turning_mind_ws10': { label: 'Turning Mind (WS 10)', target: 'distress-tolerance', color: 'var(--accent-rose)' },
+      'half_smile_ws11': { label: 'Half-Smile (WS 11)', target: 'distress-tolerance', color: 'var(--accent-rose)' },
+      'mindful_thoughts_ws12': { label: 'Mindful Thoughts (WS 12)', target: 'distress-tolerance', color: 'var(--accent-rose)' }
+    };
+
+    listContainer.innerHTML = recent.map(item => {
+      const meta = typeMeta[item.type] || { label: 'Worksheet', color: 'var(--text-muted)' };
+      return `
+        <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 0.75rem 1rem; border-radius: var(--radius-md); margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; font-size: 0.85rem;">
+          <div>
+            <span class="badge" style="background: transparent; border: 1px solid ${meta.color}; color: ${meta.color}; font-size: 0.7rem; margin-bottom: 0.15rem; display: inline-block;">${meta.label}</span>
+            <strong style="color: var(--text-primary); display: block;">${item.title}</strong>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">${new Date(item.createdAt).toLocaleString()}</span>
+          </div>
+          <div style="display: flex; gap: 0.35rem;">
+            <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="window.dashboardViewSaved('${item.id}', '${item.type}')">👁️ View</button>
+            <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="window.dashboardCopySaved('${item.id}')">📋 Copy</button>
+            <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="window.dashboardDeleteSaved('${item.id}')">🗑️</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    window.dashboardViewSaved = (id, type) => {
+      const item = worksheets.find(x => x.id === id);
+      if (!item) return;
+
+      const meta = typeMeta[type];
+      if (!meta) return;
+
+      if (meta.target === 'mindfulness') {
+        import('./modules/wiseMind.js').then(m => {
+          m.WiseMindModule.showDetailModal(item);
+        });
+      } else if (meta.target === 'interpersonal') {
+        import('./modules/dearman.js').then(m => {
+          m.DearManModule.showDetailModal(item);
+        });
+      } else if (meta.target === 'emotion-regulation') {
+        if (type === 'model_of_emotions' || type === 'check_facts_ws5' || type === 'opposite_action_ws7') {
+          import('./modules/modelOfEmotions.js').then(m => {
+            m.ModelOfEmotionsModule.showDetailModal(item);
+          });
+        } else {
+          import('./modules/abcPlease.js').then(m => {
+            m.AbcPleaseModule.showDetailModal(item);
+          });
+        }
+      } else if (meta.target === 'distress-tolerance') {
+        import('./modules/chainAnalysis.js').then(m => {
+          m.ChainAnalysisModule.showDetailModal(item);
+        });
+      }
+    };
+
+    window.dashboardCopySaved = (id) => {
+      const item = worksheets.find(x => x.id === id);
+      if (item) Exports.copyForPortal(item.title, item.createdAt, item.data);
+    };
+
+    window.dashboardDeleteSaved = async (id) => {
+      if (confirm('Delete this worksheet entry?')) {
+        await db.deleteWorksheet(id);
+        this.loadRecentSavedWorksheets();
+      }
+    };
   }
 }
 

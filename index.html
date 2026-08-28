@@ -5,7 +5,7 @@
   <script>
     // Developer Force Cache Reset Hook
     (function() {
-      const resetKey = 'dbt_cache_reset_v62';
+      const resetKey = 'dbt_cache_reset_v63';
       if (!localStorage.getItem(resetKey)) {
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.getRegistrations().then(regs => {
@@ -37,8 +37,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="./styles/main.css?v=62">
-  <link rel="stylesheet" href="./styles/print.css?v=62" media="print">
+  <link rel="stylesheet" href="./styles/main.css?v=63">
+  <link rel="stylesheet" href="./styles/print.css?v=63" media="print">
 </head>
 <body>
 
@@ -164,6 +164,17 @@
           <div id="search-results" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-secondary); border: 2px solid var(--border-color); border-radius: var(--radius-md); max-height: 250px; overflow-y: auto; z-index: 1000 !important; box-shadow: var(--shadow-lg); padding: 0.5rem 0;">
             <!-- Populated dynamically via JS -->
           </div>
+        </div>
+      </div>
+
+      <!-- Recent Saved Worksheets & Logs History Widget -->
+      <div class="card" style="margin-bottom: 1.5rem; border: 1px solid var(--border-color);">
+        <h3 style="font-size: 1.05rem; color: var(--text-primary); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
+          <span>📋</span> Recent Saved Worksheets & Homework
+        </h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.0rem;">Quickly view, print, copy, or resume editing your recently saved logs:</p>
+        <div id="dashboard-recent-saved-list">
+          <p style="color: var(--text-muted); font-size: 0.85rem;">No saved worksheets yet.</p>
         </div>
       </div>
 
@@ -717,6 +728,6 @@
   </script>
 
   <!-- Application Entry Script -->
-  <script type="module" src="./js/app.js?v=62"></script>
+  <script type="module" src="./js/app.js?v=63"></script>
 </body>
 </html>
